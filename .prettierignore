@@ -3,5 +3,4 @@ node_modules
 dist
 build
 coverage
-public/**/*.min.* 
-public/**/*.svg
+pnpm-lock.yaml

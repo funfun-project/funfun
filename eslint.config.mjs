@@ -1,77 +1,61 @@
 // eslint.config.mjs
-import js from '@eslint/js';
-import globals from 'globals';
+import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
-import nextPlugin from '@next/eslint-plugin-next';
+import globals from 'globals';
 import prettier from 'eslint-config-prettier';
-import prettierPlugin from 'eslint-plugin-prettier';
+import { FlatCompat } from '@eslint/eslintrc';
 
-const eslintConfig = [
-  // 0) 무시 경로(ESLint v9 flat config는 파일 안에서 지정)
+const compat = new FlatCompat({ baseDirectory: import.meta.dirname });
+
+export default tseslint.config(
+  // 0) 무시할 파일/폴더 (설정 파일은 린트 대상 제외)
   {
-    ignores: ['node_modules/**', '.next/**', 'dist/**', 'build/**', 'coverage/**']
+    ignores: [
+      'eslint.config.*',
+      '**/postcss.config.*',
+      '**/tailwind.config.*',
+      '**/next.config.*',
+      '**/vite.config.*',
+      '**/vitest.config.*',
+      'node_modules/**',
+      '.next/**',
+      'dist/**',
+      'build/**',
+      'coverage/**',
+    ],
   },
 
-  // 1) JS 기본 권장
-  js.configs.recommended,
+  // 1) JS 권장
+  eslint.configs.recommended,
 
-  // 2) TypeScript 권장 (필요 시 타입체크 규칙으로 강화 가능)
-  ...tseslint.configs.recommended,
-  // 타입 정보 활용한 규칙을 쓰려면 위 대신 다음을 사용:
-  // ...tseslint.configs.recommendedTypeChecked,
-  // 그리고 files/ languageOptions.parserOptions.project 설정 추가(아래 참고)
+  // 2) TS 권장(타입체크 모드)
+  tseslint.configs.recommendedTypeChecked,
 
-  // 3) Next.js 권장(+ Core Web Vitals)
-  nextPlugin.configs.recommended,
-  nextPlugin.configs['core-web-vitals'],
+  // 3) TS 타입 정보 제공 방식 (projectService 사용)
+  {
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
 
-  // 4) Prettier와 충돌하는 규칙 끄기
-  prettier,
+  // 4) Next 권장 + Core Web Vitals (FlatCompat로 공식 공유설정 확장)
+  ...compat.config({ extends: ['next/core-web-vitals'] }),
 
-  // 5) 공통 옵션/규칙
+  // 5) 공통 옵션/규칙 + Prettier 에러화
   {
     languageOptions: {
       ecmaVersion: 2023,
       sourceType: 'module',
-      globals: {
-        ...globals.browser,
-        ...globals.node
-      }
-    },
-    plugins: {
-      prettier: prettierPlugin
+      globals: { ...globals.browser, ...globals.node },
     },
     rules: {
-      // Prettier 결과를 ESLint 에러로 보이기
-      'prettier/prettier': [
-        'error',
-        {
-          semi: true,
-          singleQuote: true,
-          printWidth: 100,
-          tabWidth: 2,
-          useTabs: false,
-          trailingComma: 'es5',
-          bracketSpacing: true,
-          arrowParens: 'always',
-          endOfLine: 'lf'
-        }
-      ],
-
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }]
-    }
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    },
   },
 
-  // 6) TypeScript 전용(선택: 타입체크 규칙 사용 시에만 필요)
-  // {
-  //   files: ['**/*.{ts,tsx}'],
-  //   languageOptions: {
-  //     parserOptions: {
-  //       project: ['./tsconfig.json'],
-  //       tsconfigRootDir: import.meta.dirname
-  //     }
-  //   }
-  // }
-];
-
-export default eslintConfig;
+  // 6) 항상 마지막: 충돌 규칙 끄기
+  prettier,
+);
