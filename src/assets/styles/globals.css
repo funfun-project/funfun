@@ -1,0 +1,10 @@
+@import './colors.css';
+
+html,
+body {
+  background-color: var(--color-bg-main);
+}
+
+button {
+  cursor: pointer;
+}
