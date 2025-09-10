@@ -1,7 +1,6 @@
-@import 'tailwindcss';
-
 @theme {
   /* colors */
+  --color-main: #ff5126;
 
   /*text*/
   --color-text-default: #f6f6f6;
@@ -18,6 +17,7 @@
   --color-bg-input: #292929;
   --color-bg-button: #292929;
   --color-bg-board: #1f1f1f;
+  --color-bg-nav: #1a1a1a;
 
   /* border */
   --color-border: #292929;
