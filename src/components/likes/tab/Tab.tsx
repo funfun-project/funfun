@@ -13,7 +13,7 @@ const tabs: { id: TabType; label: string }[] = [
 
 export default function Tab({ activeTab, onTabChange }: TabProps) {
   return (
-    <nav className="flex border-b border-gray-700">
+    <nav className="border-text-disabled flex border-b">
       {tabs.map((tab) => (
         <button
           key={tab.id}

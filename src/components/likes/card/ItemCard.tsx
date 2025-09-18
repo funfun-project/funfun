@@ -28,8 +28,8 @@ export default function ItemCard({ item }: ItemCardProps) {
       </div>
       <div className="flex flex-grow flex-col gap-1">
         <p className="m-0 text-base font-semibold">{item.title}</p>
-        {item.location && <p className="m-0 text-sm text-gray-400">{item.location}</p>}
-        {item.date && <p className="m-0 text-sm text-gray-400">{item.date}</p>}
+        {item.location && <p className="text-body4 text-text-support m-0">{item.location}</p>}
+        {item.date && <p className="text-body4 text-text-support m-0">{item.date}</p>}
       </div>
       <div className="ml-4 flex-shrink-0">
         <Heart size={24} color="#FF432A" fill="#FF432A" />
