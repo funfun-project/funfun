@@ -1,4 +1,7 @@
+import SimilarEvents from '@/components/common/SimilarEvents';
 import PopularClubList from '../ui/PopularClubList';
+import { eventItem, placeItem } from '@/data/data';
+import PlacesNearby from '@/components/common/PlacesNearby';
 
 export default function HomeContainer() {
   return (
@@ -26,31 +29,8 @@ export default function HomeContainer() {
           </div>
         </section>
         <div className="bg-bg-board mb-[40px] h-[10px] w-full"></div>
-        <section className="mb-[60px] px-[15px] md:mb-[70px]">
-          <h1 className="text-h2 text-text-default mb-[30px] font-semibold">지금 주목 받는 행사</h1>
-          {/* 공통 컴포넌트 */}
-          <div className="bg-bg-input h-[400px] w-full rounded-[15px]"></div>
-        </section>
-        <section className="mb-[40px] px-[15px]">
-          {/* 케러셀 */}
-          <div className="bg-bg-input mb-[15px] h-[140px] w-full rounded-[10px] px-[10px] py-[15px] md:h-[285px] md:p-[20px]">
-            <p className="text-body2 md:text-body1 text-text-default mb-[10px]">경운사</p>
-            <p className="text-body3 md:text-body4 text-text-default">
-              서울 특별시 강남구 24번길 32
-            </p>
-          </div>
-          {/* 페이지네이션 */}
-          <div className="flex justify-center">
-            <div className="flex gap-[10px]">
-              <button>
-                <div className="bg-main h-[10px] w-[10px] rounded-full"></div>
-              </button>
-              <button>
-                <div className="h-[10px] w-[10px] rounded-full bg-[#313131]"></div>
-              </button>
-            </div>
-          </div>
-        </section>
+        <SimilarEvents items={eventItem} />
+        <PlacesNearby items={placeItem} />
         <nav className="bg-bg-nav h-[64px] w-full"></nav>
       </main>
     </>
