@@ -1,4 +1,4 @@
-import LikesContainer from '@/components/likes/container/LikesContainer';
+import LikesContainer from '@/features/likes/container/LikesContainer';
 
 export default function LikesPage() {
   return <LikesContainer />;
