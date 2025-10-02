@@ -1,4 +1,5 @@
 import { Search } from 'lucide-react';
+import { LocateFixed } from 'lucide-react';
 
 export default function Map() {
   return (
@@ -28,6 +29,10 @@ export default function Map() {
           </div>
           {/* 지도 */}
           <div className="bg-bg-white h-full w-full"></div>
+          {/* GPS 버튼 */}
+          <button className="bg-bg-white absolute h-[46px] w-[46px] rounded-full shadow-[0_0_2px_rgba(0,0,0,0.4)]">
+            <LocateFixed size={32} strokeWidth={3} color="#ff5126" />
+          </button>
         </div>
         {/* 보드 */}
         <div className="bg-bg-main absolute bottom-[64px] left-0 min-h-[210px] w-full rounded-t-[20px] px-[15px] pt-[17px]">
@@ -48,6 +53,7 @@ export default function Map() {
           {/* 결과 리스트 */}
           <div className="bg-bg-input h-[74px] w-full"></div>
         </div>
+        {/* 하단 나브바 */}
         <nav className="bg-bg-nav absolute bottom-0 left-0 h-[64px] w-full"></nav>
       </main>
     </>
