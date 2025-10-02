@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ignore-pattern 'eslint.config.*'",
+    "lint": "eslint . --ignore-pattern 'eslint.config.*' --cache --cache-location node_modules/.cache/.eslintcache",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:write": "prettier --check .",
