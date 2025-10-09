@@ -85,7 +85,6 @@ export default function FollowerContainer() {
   const [activeTab, setActiveTab] = useState('followers'); // 'followers' or 'following'
   return (
     <>
-      {' '}
       <div className="mx-auto min-h-screen max-w-[750px] text-white">
         <div className="mx-auto max-w-[750px]">
           {/* 탭 네비게이션 */}

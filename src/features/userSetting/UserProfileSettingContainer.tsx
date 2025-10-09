@@ -1,4 +1,4 @@
-import { ChevronLeft, Settings, Settings2 } from 'lucide-react';
+import { ChevronLeft, Settings } from 'lucide-react';
 import Image from 'next/image';
 
 // 취향 분석 데이터 (변경 없음)
