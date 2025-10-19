@@ -1,5 +1,6 @@
 import { ChevronLeft, Settings } from 'lucide-react';
 import Image from 'next/image';
+import UserSettingHeader from './components/UserSettingHeader';
 
 // 취향 분석 데이터 (변경 없음)
 const preferenceData = [
@@ -28,14 +29,7 @@ export default function UserProfileSettingContainer() {
     <>
       <div className="min-h-screen text-white">
         <div className="mx-auto max-w-[750px]">
-          {/* Header */}
-          <header className="relative flex items-center justify-center p-4">
-            <button className="absolute left-4">
-              {/* FiArrowLeft를 ArrowLeft로 변경 */}
-              <ChevronLeft size={24} />
-            </button>
-            <h1 className="text-body1">프로필 변경</h1>
-          </header>
+          <UserSettingHeader title="프로필 변경" />
 
           <main className="flex flex-col items-center p-4">
             {/* Profile Picture Section */}
