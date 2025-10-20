@@ -1,7 +1,7 @@
-import Map from '@/features/map/Map';
-// import MapClient from '@/features/map/components/MapClient';
+import Map from '@/views/map/Map';
+// import MapClient from '@/views/map/components/MapClient';
 import Script from 'next/script';
-// import Test from '@/features/map/Test';
+// import Test from '@/views/map/Test';
 
 export default function page() {
   return (

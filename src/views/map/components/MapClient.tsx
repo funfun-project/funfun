@@ -6,7 +6,7 @@ const waitForNaverMaps = () =>
   new Promise<void>((resolve) => {
     const tick = () => {
       if (typeof naver !== 'undefined' && naver.maps) resolve();
-      else requestAnimationFrame(tick); // 에러 대신 다음 프레임에 재시도
+      else requestAnimationFrame(tick);
     };
     tick();
   });
@@ -32,9 +32,9 @@ export default function MapClient() {
         map,
         icon: {
           content: makePinHTML('/images/place.jpg', '#FF5126'),
-          // 기준점(anchor): 꼬리 끝이 좌표에 닿도록 설정
-          anchor: new naver.maps.Point(30, 69), // x=가운데(60/2), y=헤드60 + 꼬리 약9
-          size: new naver.maps.Size(60, 69), // 히트 영역(대략)
+
+          anchor: new naver.maps.Point(30, 69),
+          size: new naver.maps.Size(60, 69),
         } as naver.maps.HtmlIcon,
       });
       markerRef.current = marker;

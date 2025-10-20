@@ -1,6 +1,6 @@
 import { Search } from 'lucide-react';
 import { LocateFixed } from 'lucide-react';
-import MapClient from '@/features/map/components/MapClient';
+import MapClient from '@/views/map/components/MapClient';
 
 export default function Map() {
   return (
