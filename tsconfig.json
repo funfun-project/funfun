@@ -18,6 +18,9 @@
     "jsx": "preserve", // ⬅ Next 권장 (SWC가 변환)
     "incremental": true,
 
+    "types": ["node", "navermaps"],
+    "typeRoots": ["./types", "./node_modules/@types"],
+
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
