@@ -1,5 +1,8 @@
+'use client';
+
 import Image from 'next/image';
 import { MoreVertical } from 'lucide-react';
+import { useState } from 'react';
 
 // Mock data for members
 const members = [
@@ -14,6 +17,12 @@ const members = [
 ];
 
 export default function ToggleBarPage() {
+  const [openMenuIndex, setOpenMenuIndex] = useState<number | null>(null);
+
+  const handleMenuToggle = (index: number) => {
+    setOpenMenuIndex(openMenuIndex === index ? null : index);
+  };
+
   return (
     <div className="flex h-full w-full flex-col text-[var(--color-text-default)]">
       {/* Profile Section */}
@@ -43,7 +52,7 @@ export default function ToggleBarPage() {
       <section className="flex-grow overflow-y-auto rounded-t-2xl bg-[var(--color-bg-board)] p-7">
         <div className="mb-4 flex items-center">
           <h2 className="mr-2 font-medium text-[var(--text-body2)]">회원 목록</h2>
-          <span className="font-medium text-[var(--color-text-support)] text-[var(--text-body3)]">
+          <span className="text-body3 font-medium text-[var(--color-text-support)]">
             {members.length}명
           </span>
         </div>
@@ -61,11 +70,20 @@ export default function ToggleBarPage() {
                 />
                 <span className="font-medium text-[var(--text-body2)]">{member.name}</span>
               </div>
-              {member.name !== '본인 프로필' && (
-                <button>
-                  <MoreVertical size={20} className="text-[var(--color-text-support)]" />
-                </button>
-              )}
+              <div className="relative">
+                {member.name !== '본인 프로필' && (
+                  <button onClick={() => handleMenuToggle(index)}>
+                    <MoreVertical size={20} className="text-[var(--color-text-support)]" />
+                  </button>
+                )}
+                {openMenuIndex === index && (
+                  <div className="border- border-border absolute right-0 z-50 w-[80px] rounded-md border bg-[#262626] px-3 py-2 text-center">
+                    <button className="text-body2 text-text-default">메세지</button>
+                    <button className="text-body2 text-text-default mt-3">팔로잉</button>
+                    <button className="text-body2 text-text-default mt-3">추방</button>
+                  </div>
+                )}
+              </div>
             </li>
           ))}
         </ul>
