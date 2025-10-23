@@ -1,4 +1,4 @@
-import { ChevronLeft, Settings } from 'lucide-react';
+import { Settings } from 'lucide-react';
 import Image from 'next/image';
 import UserSettingHeader from './components/UserSettingHeader';
 

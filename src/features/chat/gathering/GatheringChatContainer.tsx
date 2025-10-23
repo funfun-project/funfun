@@ -1,23 +1,30 @@
 'use client';
 
 import { ChevronLeft, MoreVertical, Send } from 'lucide-react';
+import Image from 'next/image';
 import { useState } from 'react';
+import ToggleBarPage from './ToggleBarPage';
 
 export default function GatheringChatContainer() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isToggleBarOpen, setIsToggleBarOpen] = useState(false);
 
   return (
     <div className="flex min-h-screen justify-center bg-[#121212] font-sans text-white">
       <div className="relative flex w-full max-w-[750px] flex-col">
         {/* Header */}
         <header className="flex items-center justify-between p-4">
-          <button>
+          <button onClick={() => (isToggleBarOpen ? setIsToggleBarOpen(false) : {})}>
             <ChevronLeft size={20} />
           </button>
           <h1 className="text-body1">베이스 치는 사람들</h1>
-          <button onClick={() => setIsModalOpen(true)}>
-            <MoreVertical size={20} />
-          </button>
+          {isToggleBarOpen ? (
+            <div className="w-5" /> // Placeholder for spacing
+          ) : (
+            <button onClick={() => setIsModalOpen(true)}>
+              <MoreVertical size={20} />
+            </button>
+          )}
         </header>
 
         {isModalOpen && (
@@ -26,6 +33,15 @@ export default function GatheringChatContainer() {
             onClick={() => setIsModalOpen(false)}
           >
             <div className="rounded-lg bg-[#393939] shadow-lg" onClick={(e) => e.stopPropagation()}>
+              <button
+                className="text-text-default block w-full px-5 py-2"
+                onClick={() => {
+                  setIsToggleBarOpen(true);
+                  setIsModalOpen(false);
+                }}
+              >
+                멤버 목록
+              </button>
               <button
                 className="text-text-default block w-full px-5 py-2"
                 onClick={() => setIsModalOpen(false)}
@@ -42,31 +58,36 @@ export default function GatheringChatContainer() {
           </div>
         )}
 
-        {/* Chat Area */}
+        {isToggleBarOpen ? (
+          <ToggleBarPage />
+        ) : (
+          <>
+            {/* Chat Area */}
+            <main className="flex-grow space-y-6 overflow-y-auto p-4">
+              {messages.map((msg) =>
+                msg.type === 'incoming' ? (
+                  <IncomingMessage key={msg.id} msg={msg} />
+                ) : (
+                  <OutgoingMessage key={msg.id} msg={msg} />
+                ),
+              )}
+            </main>
 
-        <main className="flex-grow space-y-6 overflow-y-auto p-4">
-          {messages.map((msg) =>
-            msg.type === 'incoming' ? (
-              <IncomingMessage key={msg.id} msg={msg} />
-            ) : (
-              <OutgoingMessage key={msg.id} msg={msg} />
-            ),
-          )}
-        </main>
-
-        {/* Message Input Footer */}
-        <footer className="p-4">
-          <div className="relative flex items-center">
-            <input
-              type="text"
-              placeholder="메시지를 입력하세요"
-              className="focus:border-text-active text-text-default placeholder:text-text-disabled text-body3 border-border w-full rounded-full border bg-transparent py-5 pr-12 pl-5 transition focus:outline-none"
-            />
-            <button className="hover:text-icon-active text-text-disabled absolute right-4">
-              <Send size={22} />
-            </button>
-          </div>
-        </footer>
+            {/* Message Input Footer */}
+            <footer className="p-4">
+              <div className="relative flex items-center">
+                <input
+                  type="text"
+                  placeholder="메시지를 입력하세요"
+                  className="focus:border-text-active text-text-default placeholder:text-text-disabled text-body3 border-border w-full rounded-full border bg-transparent py-5 pr-12 pl-5 transition focus:outline-none"
+                />
+                <button className="hover:text-icon-active text-text-disabled absolute right-4">
+                  <Send size={22} />
+                </button>
+              </div>
+            </footer>
+          </>
+        )}
       </div>
     </div>
   );
@@ -104,7 +125,15 @@ const messages: Message[] = [
 
 const IncomingMessage = ({ msg }: { msg: Message }) => (
   <div className="flex items-center space-x-3">
-    <img src={msg.avatar} alt={msg.sender} className="h-10 w-10 rounded-full" />
+    {msg.avatar && (
+      <Image
+        src={msg.avatar}
+        alt={msg.sender || 'avatar'}
+        width={40}
+        height={40}
+        className="rounded-full"
+      />
+    )}
     <div>
       <span className="text-text-default text-body3">{msg.sender}</span>
       <div className="flex items-end space-x-2">
