@@ -23,7 +23,7 @@ export default function MapClient() {
       if (!mapRef.current) return;
 
       const center = new naver.maps.LatLng(37.5665, 126.978);
-      map = new naver.maps.Map(mapRef.current, { center, zoom: 14 });
+      map = new naver.maps.Map(mapRef.current, { center, zoom: 14, scaleControl: false });
 
       const pos = new naver.maps.LatLng(37.5665, 126.978);
 
