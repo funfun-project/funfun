@@ -1,7 +1,7 @@
-import Map from '@/views/map/Map';
+// import Map from '@/views/map/Map';
 // import MapClient from '@/views/map/components/MapClient';
 import Script from 'next/script';
-// import Test from '@/views/map/Test';
+import DatetimePicker from '@/views/datetimePicker/DatetimePicker';
 
 export default function page() {
   return (
@@ -12,8 +12,8 @@ export default function page() {
         strategy="afterInteractive"
       />
       {/* <MapClient /> */}
-      <Map />
-      {/* <Test /> */}
+      {/* <Map /> */}
+      <DatetimePicker />
     </>
   );
 }
