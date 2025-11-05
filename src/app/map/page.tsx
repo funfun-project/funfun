@@ -3,7 +3,10 @@
 import Script from 'next/script';
 import DatetimePicker from '@/views/datetimePicker/DatetimePicker';
 
-export default function page() {
+// export default function page() {
+
+export default async function Page({ params }: { params: Promise<{ gatheringId: string }> }) {
+  const { gatheringId } = await params;
   return (
     <>
       <Script
