@@ -3,10 +3,10 @@
 import Script from 'next/script';
 import DatetimePicker from '@/views/datetimePicker/DatetimePicker';
 
-// export default function page() {
-
-export default async function Page({ params }: { params: Promise<{ gatheringId: string }> }) {
-  const { gatheringId } = await params;
+// 동적 라우트   세그먼트 가져오기
+// export default async function Page({ params }: { params: Promise<{ gatheringId: string }> }) {
+//   const { gatheringId } = await params;
+export default function page() {
   return (
     <>
       <Script

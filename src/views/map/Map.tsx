@@ -1,8 +1,14 @@
+'use client';
+
 import { Search } from 'lucide-react';
 import { LocateFixed } from 'lucide-react';
 import MapClient from '@/views/map/components/MapClient';
+import { useState } from 'react';
 
 export default function Map() {
+  const [startTime, setStartTime] = useState<string | null>(null);
+  const [endTime, setEndTime] = useState<string | null>(null);
+
   return (
     <>
       <main className="bg-bg-white relative h-screen w-[375px] overflow-hidden">
