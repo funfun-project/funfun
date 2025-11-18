@@ -1,14 +1,22 @@
-'use client';
-
-import { Search } from 'lucide-react';
-import { LocateFixed } from 'lucide-react';
+import { Search, LocateFixed } from 'lucide-react';
 import MapClient from '@/views/map/components/MapClient';
-import { useState } from 'react';
+import { Button } from './components/Button';
+
+type ButtonConfig = {
+  type: 'icon' | 'filter';
+  icon?: React.ReactNode;
+  label?: string;
+};
+
+const buttons: ButtonConfig[] = [
+  { type: 'icon', icon: <Search size={16} strokeWidth={3} /> },
+  { type: 'icon', label: 'Ai' },
+  { type: 'filter', label: '위치' },
+  { type: 'filter', label: '행사 / 장소' },
+  { type: 'filter', label: '모임' },
+];
 
 export default function Map() {
-  const [startTime, setStartTime] = useState<string | null>(null);
-  const [endTime, setEndTime] = useState<string | null>(null);
-
   return (
     <>
       <main className="bg-bg-white relative h-screen w-[375px] overflow-hidden">
@@ -16,24 +24,11 @@ export default function Map() {
           <div className="bg-bg-white relative h-[calc(100%-249px)]">
             {/* 지도 위 버튼 */}
             <div className="absolute z-10 flex w-full justify-around px-[5px] pt-[10px]">
-              <button className="bg-bg-white flex h-[30px] w-[30px] items-center justify-center rounded-full shadow-[0_0_2px_rgba(0,0,0,0.4)]">
-                <Search size={16} strokeWidth={3} />
-              </button>
-              <button className="bg-bg-white text-body3 flex h-[30px] w-[30px] items-center justify-center rounded-full font-semibold shadow-[0_0_2px_rgba(0,0,0,0.4)]">
-                Ai
-              </button>
-              <button className="bg-bg-white text-body3 rounded-[20px] px-[17px] py-[5px] font-semibold shadow-[0_0_2px_rgba(0,0,0,0.4)]">
-                위치
-              </button>
-              <button className="bg-bg-white text-body3 rounded-[20px] px-[17px] py-[5px] font-semibold shadow-[0_0_2px_rgba(0,0,0,0.4)]">
-                장소
-              </button>
-              <button className="bg-bg-white text-body3 rounded-[20px] px-[17px] py-[5px] font-semibold shadow-[0_0_2px_rgba(0,0,0,0.4)]">
-                행사
-              </button>
-              <button className="bg-bg-white text-body3 rounded-[20px] px-[17px] py-[5px] font-semibold shadow-[0_0_2px_rgba(0,0,0,0.4)]">
-                모임
-              </button>
+              {buttons.map((button, i) => (
+                <Button key={i} type={button.type} icon={button.icon}>
+                  {button.label}
+                </Button>
+              ))}
             </div>
             {/* 지도 */}
             <div className="bg-bg-white h-full w-full">
@@ -47,7 +42,6 @@ export default function Map() {
           {/* 보드 */}
           <div className="bg-bg-main absolute bottom-[64px] left-0 z-50 min-h-[210px] w-full rounded-t-[20px] px-[15px] pt-[17px]">
             <div className="bg-input-active absolute top-[17px] left-1/2 h-[4px] w-[40px] -translate-x-1/2 cursor-pointer rounded-[10px]"></div>
-
             <div className="flex gap-[5px]">
               <span className="text-text-default text-body4 bg-main rounded-[20px] px-[10px] py-[2px]">
                 행사
