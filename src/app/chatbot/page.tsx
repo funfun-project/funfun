@@ -1,4 +1,4 @@
-import Chatbot from '@/features/chatbot/Chatbot';
+import Chatbot from '@/views/chatbot/Chatbot';
 
 export default function page() {
   return (
