@@ -2,15 +2,15 @@
 import { useState, useEffect } from 'react';
 import Calendar from './components/Calendar';
 import TimeWheel from './components/TimeWheel';
-import { nowTime } from '@/lib/utils/wheelDate';
+import { getNowTime } from '@/lib/utils/wheelDate';
 
 export default function DatetimePicker() {
   const [selectDate, setSelectDate] = useState<SelectDate>(new Date());
   const [startTime, setStartTime] = useState<PickerValue>({
-    time: nowTime,
+    time: getNowTime(),
   });
   const [endTime, setEndTime] = useState<PickerValue>({
-    time: nowTime,
+    time: getNowTime(),
   });
 
   useEffect(() => {

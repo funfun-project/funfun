@@ -4,7 +4,7 @@ import { useMemo, useState, useEffect } from 'react';
 import Picker from 'react-mobile-picker';
 import '../../../assets/styles/wheel.css';
 import throttle from 'lodash.throttle';
-import timeList from '@/lib/utils/wheelDate';
+import timeList, { timeConversion } from '@/lib/utils/wheelDate';
 
 type PickerValue = { time: string };
 
@@ -20,10 +20,7 @@ function createThrottledSetter<T>(setter: (value: T) => void, wait = 80): (value
 export default function TimeWheel({ value, setValue }: DatePickerProp) {
   const baseTimeList = timeList;
 
-  const options = useMemo(
-    () => baseTimeList.map((label, index) => ({ label, value: String(index) })),
-    [baseTimeList],
-  );
+  const options = baseTimeList.map((label, index) => ({ label, value: String(index) }));
 
   const getInitialIndex = () => {
     const idx = baseTimeList.indexOf(value.time);
@@ -53,8 +50,10 @@ export default function TimeWheel({ value, setValue }: DatePickerProp) {
     const label = baseTimeList[index];
     if (!label) return;
 
+    const dateValue = timeConversion(label);
+
     setPickerValue(selected);
-    throttledSetValue({ time: label });
+    throttledSetValue(dateValue);
   };
 
   return (
