@@ -21,7 +21,7 @@ export function useNotifications() {
   const readOneMutation = useMutation({
     mutationFn: (id: number) => patchNotificationRead(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications'] });
+      void queryClient.invalidateQueries({ queryKey: ['notifications'] });
     },
   });
 
@@ -29,7 +29,7 @@ export function useNotifications() {
   const readAllMutation = useMutation({
     mutationFn: () => patchNotificationReadAll(),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications'] });
+      void queryClient.invalidateQueries({ queryKey: ['notifications'] });
     },
   });
 
@@ -37,7 +37,7 @@ export function useNotifications() {
   const readSelectedMutation = useMutation({
     mutationFn: (ids: number[]) => patchNotificationReadSelected(ids),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications'] });
+      void queryClient.invalidateQueries({ queryKey: ['notifications'] });
     },
   });
 
