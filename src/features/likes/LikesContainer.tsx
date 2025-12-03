@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Tab, { TabType } from './components/tab/Tab';
 import ContentList from './components/list/ContentList';
-import SkeletonCard from './components/skeleton/SkeletonCard';
+import SkeletonCard from '@/components/SkeletonCard';
 import { Item } from './components/card/ItemCard';
 
 // Mock data based on the provided images
