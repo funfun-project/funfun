@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Tab, { TabType } from '../tab/Tab';
-import ContentList from '../list/ContentList';
-import { Item } from '../card/ItemCard';
-import SkeletonCard from '../skeleton/SkeletonCard';
+import Tab, { TabType } from './components/tab/Tab';
+import ContentList from './components/list/ContentList';
+import SkeletonCard from './components/skeleton/SkeletonCard';
+import { Item } from './components/card/ItemCard';
 
 // Mock data based on the provided images
 const mockData: Record<TabType, Item[]> = {
