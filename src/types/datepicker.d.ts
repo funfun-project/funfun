@@ -10,7 +10,7 @@ declare global {
   type ColumnName = keyof Selections;
 
   type PickerValue = {
-    [K in ColumnName]: Date;
+    [K in ColumnName]: string;
   };
 
   type DatePickerProp = {

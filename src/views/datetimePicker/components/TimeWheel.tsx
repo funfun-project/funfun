@@ -4,7 +4,7 @@ import { useMemo, useState, useEffect } from 'react';
 import Picker from 'react-mobile-picker';
 import '../../../assets/styles/wheel.css';
 import throttle from 'lodash.throttle';
-import timeList, { timeConversion } from '@/lib/utils/wheelDate';
+import timeList from '@/lib/utils/wheelDate';
 
 type PickerValue = { time: string };
 
@@ -50,10 +50,8 @@ export default function TimeWheel({ value, setValue }: DatePickerProp) {
     const label = baseTimeList[index];
     if (!label) return;
 
-    const dateValue = timeConversion(label);
-
     setPickerValue(selected);
-    throttledSetValue(dateValue);
+    throttledSetValue({ time: label });
   };
 
   return (
