@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import Calendar from './components/Calendar';
 import TimeWheel from './components/TimeWheel';
+import Button from './components/Button';
 import { getNowTime } from '@/lib/utils/wheelDate';
 
 export default function DatetimePicker() {
@@ -39,9 +40,7 @@ export default function DatetimePicker() {
             <TimeWheel value={endTime} setValue={setEndTime} />
           </div>
         </div>
-        <button className="text-text-default bg-main h-[52px] w-full rounded-[3px] text-center text-[18px] leading-[52px] font-semibold">
-          완료
-        </button>
+        <Button startTime={startTime} endTime={endTime} />
       </div>
     </div>
   );
