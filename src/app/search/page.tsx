@@ -1,4 +1,4 @@
-import SearchContainer from '@/components/search/container/SearchContainer';
+import SearchContainer from '@/features/search/container/SearchContainer';
 export default function page() {
   return (
     <>
