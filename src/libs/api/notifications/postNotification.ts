@@ -11,5 +11,5 @@ export async function postNotification(data: {
     body: JSON.stringify(data),
   });
   if (!res.ok) throw new Error('알림 생성 실패');
-  return res.json();
+  return (await res.json()) as unknown;
 }
