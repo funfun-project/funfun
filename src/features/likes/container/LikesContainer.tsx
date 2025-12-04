@@ -5,7 +5,6 @@ import Tab, { TabType } from '../tab/Tab';
 import ContentList from '../list/ContentList';
 import { Item } from '../card/ItemCard';
 import SkeletonCard from '../skeleton/SkeletonCard';
-import styles from './LikesContainer.module.css';
 
 // Mock data based on the provided images
 const mockData: Record<TabType, Item[]> = {
@@ -98,7 +97,7 @@ export default function LikesContainer() {
   const renderContent = () => {
     if (isLoading) {
       return (
-        <div className={styles.skeletonList}>
+        <div className="px-5">
           <SkeletonCard />
           <SkeletonCard />
           <SkeletonCard />
@@ -110,7 +109,7 @@ export default function LikesContainer() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className="min-h-screen bg-gray-900 text-white">
       <Tab activeTab={activeTab} onTabChange={setActiveTab} />
       {renderContent()}
     </div>

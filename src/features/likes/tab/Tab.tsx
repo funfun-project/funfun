@@ -1,5 +1,3 @@
-import styles from './Tab.module.css';
-
 export type TabType = 'event' | 'gathering' | 'place';
 
 interface TabProps {
@@ -15,14 +13,19 @@ const tabs: { id: TabType; label: string }[] = [
 
 export default function Tab({ activeTab, onTabChange }: TabProps) {
   return (
-    <nav className={styles.nav}>
+    <nav className="border-text-disabled flex border-b">
       {tabs.map((tab) => (
         <button
           key={tab.id}
-          className={`${styles.tab} ${activeTab === tab.id ? styles.active : ''}`}
+          className={`relative flex-1 cursor-pointer border-none bg-transparent py-3.5 text-base font-medium text-gray-500 transition-colors ease-in-out hover:text-white ${
+            activeTab === tab.id ? 'font-bold text-white' : ''
+          }`}
           onClick={() => onTabChange(tab.id)}
         >
           {tab.label}
+          {activeTab === tab.id && (
+            <span className="bg-icon-active absolute right-0 bottom-[-1px] left-0 h-0.5" />
+          )}
         </button>
       ))}
     </nav>
