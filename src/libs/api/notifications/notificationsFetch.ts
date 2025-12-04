@@ -1,6 +1,6 @@
-export type FetchOptions = {
+export type FetchOptions<TBody = unknown> = {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
-  body?: any;
+  body?: TBody;
   headers?: Record<string, string>;
   credentials?: RequestCredentials;
 };
@@ -23,8 +23,8 @@ export async function notificationsFetch<T>(
 
   if (!res.ok) {
     const text = await res.text();
-    throw new Error(`❌ [${res.status}] ${endpoint} 실패: ${text}`);
+    throw new Error(`[${res.status}] ${endpoint} 실패: ${text}`);
   }
 
-  return res.json();
+  return (await res.json()) as T;
 }
