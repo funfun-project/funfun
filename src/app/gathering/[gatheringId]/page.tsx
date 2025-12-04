@@ -1,3 +1,8 @@
-export default function GatheringDetailPage({ params }: { params: { gatheringId: string } }) {
-  return <div>Gathering Detail Page for {params.gatheringId}</div>;
+export default async function GatheringDetailPage({
+  params,
+}: {
+  params: Promise<{ gatheringId: string }>;
+}) {
+  const { gatheringId } = await params;
+  return <div>Gathering Detail Page for {gatheringId}</div>;
 }

@@ -3,7 +3,7 @@ export async function patchNotificationRead(id: number) {
     method: 'PATCH',
   });
   if (!res.ok) throw new Error('읽음 처리 실패');
-  return res.json();
+  return (await res.json()) as unknown;
 }
 
 export async function patchNotificationReadAll() {
@@ -11,7 +11,7 @@ export async function patchNotificationReadAll() {
     method: 'PATCH',
   });
   if (!res.ok) throw new Error('전체 읽음 처리 실패');
-  return res.json();
+  return (await res.json()) as unknown;
 }
 
 export async function patchNotificationReadSelected(ids: number[]) {
@@ -21,5 +21,5 @@ export async function patchNotificationReadSelected(ids: number[]) {
     body: JSON.stringify({ ids }),
   });
   if (!res.ok) throw new Error('선택 읽음 처리 실패');
-  return res.json();
+  return (await res.json()) as unknown;
 }

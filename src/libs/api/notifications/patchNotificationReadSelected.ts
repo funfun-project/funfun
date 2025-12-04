@@ -5,5 +5,5 @@ export async function patchNotificationReadSelected(ids: number[]) {
     body: JSON.stringify({ ids }),
   });
   if (!res.ok) throw new Error('선택 알림 읽음 처리 실패');
-  return res.json();
+  return (await res.json()) as unknown;
 }

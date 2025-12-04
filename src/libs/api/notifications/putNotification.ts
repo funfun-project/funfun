@@ -5,5 +5,5 @@ export async function putNotification(id: number, data: { title?: string; messag
     body: JSON.stringify(data),
   });
   if (!res.ok) throw new Error('알림 수정 실패');
-  return res.json();
+  return (await res.json()) as unknown;
 }
