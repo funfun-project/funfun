@@ -6,7 +6,7 @@ import '../../assets/styles/calendar.css';
 import '../../assets/styles/wheel.css';
 import Picker from 'react-mobile-picker';
 
-import timeList, { getNowTime } from '@/lib/utils/wheelDate';
+import timeList, { getNowTime } from '@/libs/utils/wheelDate';
 
 type ValuePiece = Date | null;
 

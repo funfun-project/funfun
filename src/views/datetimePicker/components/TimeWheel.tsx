@@ -4,7 +4,7 @@ import { useMemo, useState, useEffect } from 'react';
 import Picker from 'react-mobile-picker';
 import '../../../assets/styles/wheel.css';
 import throttle from 'lodash.throttle';
-import timeList from '@/lib/utils/wheelDate';
+import timeList from '@/libs/utils/wheelDate';
 
 type PickerValue = { time: string };
 

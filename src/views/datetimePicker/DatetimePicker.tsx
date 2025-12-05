@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Calendar from './components/Calendar';
 import TimeWheel from './components/TimeWheel';
 import Button from './components/Button';
-import { getNowTime } from '@/lib/utils/wheelDate';
+import { getNowTime } from '@/libs/utils/wheelDate';
 
 export default function DatetimePicker() {
   const [selectDate, setSelectDate] = useState<SelectDate>(new Date());

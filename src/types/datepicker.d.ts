@@ -1,4 +1,4 @@
-import timeList from '@/lib/utils/wheelDate';
+import timeList from '@/libs/utils/wheelDate';
 
 export {};
 

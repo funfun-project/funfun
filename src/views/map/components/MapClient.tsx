@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef } from 'react';
-import makePinHTML from '@/lib/utils/mapMarker';
+import makePinHTML from '@/libs/utils/mapMarkers';
 
 const waitForNaverMaps = () =>
   new Promise<void>((resolve) => {
