@@ -1,15 +1,35 @@
 import { create } from 'zustand';
 
-type MapStore = {
-  location: null | string;
-  eventType: null | string;
-  // startTimeUpdate: (time: string) => void;
-  // endTimeUpdate: (time: string) => void;
-  // locationUpdate: () => void;
-  // eventTypeUpdate: () => void;
+type Coordinates = {
+  longitude: null | number;
+  latitude: null | number;
 };
 
-export const useMapStore = create<MapStore>((set, get) => ({
-  location: null,
+type LocationUpdateAction = (longitude: number | null, latitude: number | null) => void;
+type EventTypeUpdateAction = (type: string) => void;
+
+type MapStore = {
+  location: Coordinates;
+  eventType: null | string;
+  locationUpdate: LocationUpdateAction;
+  eventTypeUpdate: EventTypeUpdateAction;
+};
+
+export const useMapStore = create<MapStore>((set) => ({
+  location: {
+    longitude: null,
+    latitude: null,
+  },
   eventType: null,
+  locationUpdate: (newLongitude, newLatitude) => {
+    set(() => ({
+      location: {
+        longitude: newLongitude,
+        latitude: newLatitude,
+      },
+    }));
+  },
+  eventTypeUpdate: (type) => {
+    set(() => ({ eventType: type }));
+  },
 }));

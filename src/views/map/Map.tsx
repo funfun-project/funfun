@@ -2,18 +2,24 @@ import { Search, LocateFixed } from 'lucide-react';
 import MapClient from '@/views/map/components/MapClient';
 import { Button } from './components/Button';
 
-type ButtonConfig = {
-  type: 'icon' | 'filter';
+type ButtonType = 'icon' | 'filter';
+type BindTarget = 'eventType' | 'location' | undefined;
+
+interface ButtonConfig {
+  type: ButtonType;
   icon?: React.ReactNode;
   label?: string;
-};
+  value?: string; // eventType용 값
+  bindTo?: BindTarget; // 어떤 전역 상태에 묶일지
+  className?: string;
+}
 
 const buttons: ButtonConfig[] = [
   { type: 'icon', icon: <Search size={16} strokeWidth={3} /> },
   { type: 'icon', label: 'Ai' },
-  { type: 'filter', label: '위치' },
-  { type: 'filter', label: '행사 / 장소' },
-  { type: 'filter', label: '모임' },
+  { type: 'filter', label: '위치', bindTo: 'location' },
+  { type: 'filter', label: '행사 / 장소', value: '행사 / 장소', bindTo: 'eventType' },
+  { type: 'filter', label: '모임', value: '모임', bindTo: 'eventType' },
 ];
 
 export default function Map() {
@@ -24,10 +30,8 @@ export default function Map() {
           <div className="bg-bg-white relative h-[calc(100%-249px)]">
             {/* 지도 위 버튼 */}
             <div className="absolute z-10 flex w-full justify-around px-[5px] pt-[10px]">
-              {buttons.map((button, i) => (
-                <Button key={i} type={button.type} icon={button.icon}>
-                  {button.label}
-                </Button>
+              {buttons.map((btn, idx) => (
+                <Button key={idx} {...btn} />
               ))}
             </div>
             {/* 지도 */}
