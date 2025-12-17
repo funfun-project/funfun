@@ -10,7 +10,7 @@ interface ButtonConfig {
   icon?: React.ReactNode;
   label?: string;
   value?: string; // eventType용 값
-  bindTo?: BindTarget; // 어떤 전역 상태에 묶일지
+  bindTo?: BindTarget;
   className?: string;
 }
 

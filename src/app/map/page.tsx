@@ -1,7 +1,8 @@
 // import Map from '@/views/map/Map';
 // import MapClient from '@/views/map/components/MapClient';
+import LocationSelect from '@/views/map/components/locationSelect/LocationSelect';
 import Script from 'next/script';
-import DatetimePicker from '@/views/datetimePicker/DatetimePicker';
+// import DatetimePicker from '@/views/datetimePicker/DatetimePicker';
 
 // 동적 라우트   세그먼트 가져오기
 // export default async function Page({ params }: { params: Promise<{ gatheringId: string }> }) {
@@ -16,7 +17,8 @@ export default function page() {
       />
       {/* <MapClient /> */}
       {/* <Map /> */}
-      <DatetimePicker />
+      {/* <DatetimePicker /> */}
+      <LocationSelect />
     </>
   );
 }
