@@ -21,11 +21,14 @@ export default function Button({ location }: { location: string }) {
           throw new Error(`Invalid district name: ${location}`);
         }
 
+        console.log(district.lon, district.lat);
+
         locationUpdate(district.lon, district.lat);
         return;
       }
 
       const { x, y } = result.addresses[0] as GeocodeType;
+      console.log(x, y, result);
       locationUpdate(Number(x), Number(y));
     } catch (error) {
       if (error instanceof Error) {
@@ -40,7 +43,7 @@ export default function Button({ location }: { location: string }) {
     <>
       <button
         onClick={() => void submitHandler(location)}
-        className="text-text-default bg-main h-[52px] w-full rounded-[3px] text-center text-[18px] leading-[52px] font-semibold"
+        className="text-text-default bg-main mt-[18px] h-[52px] w-[calc(100%-30px)] rounded-[3px] text-center text-[18px] leading-[52px] font-semibold"
       >
         완료
       </button>

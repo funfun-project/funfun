@@ -1,3 +1,5 @@
+'use client';
+
 import { cn } from '@/libs/utils/twMerge';
 import { useMapStore } from '@/stores/mapStore';
 
@@ -11,11 +13,9 @@ interface ButtonProps {
 }
 
 export function Button({ type, icon, label, value, bindTo, className, ...props }: ButtonProps) {
-  const { eventType, location, eventTypeUpdate } = useMapStore((state) => ({
-    eventType: state.eventType,
-    location: state.location,
-    eventTypeUpdate: state.eventTypeUpdate,
-  }));
+  const eventType = useMapStore((state) => state.eventType);
+  const location = useMapStore((state) => state.location);
+  const eventTypeUpdate = useMapStore((state) => state.eventTypeUpdate);
 
   const isCircle = type === 'icon';
 
