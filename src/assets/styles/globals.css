@@ -13,15 +13,38 @@ body {
 button {
   cursor: pointer;
 }
+/* map 컴포넌트 buttons */
+button[data-active='true'] {
+  background: var(--color-main);
+  color: white;
+}
+/* map 컴포넌트 buttons */
+button[data-active='false'] {
+  background: var(--color-white);
+}
 
-/* 스크롤바의 폭 너비 */
+.scrollbar {
+  scrollbar-gutter: stable;
+  scroll-behavior: smooth;
+}
+
 .scrollbar::-webkit-scrollbar {
   width: 3px;
+  cursor: pointer;
+  display: none;
+}
+
+.scrollbar:hover::-webkit-scrollbar {
+  display: block;
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(#888);
-  border-radius: 10px;
+  background-color: transparent;
+  border-radius: 9999px;
+}
+
+.scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: #888;
 }
 
 .scrollbar::-webkit-scrollbar-track {

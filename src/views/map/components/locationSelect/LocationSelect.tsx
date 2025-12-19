@@ -9,7 +9,7 @@ export default function LocationSelect() {
   return (
     <>
       <section className="relative h-screen w-full max-w-[375px] overflow-hidden">
-        <div className="bg-bg-board absolute bottom-0 left-0 z-50 flex h-[calc(100%-82px)] w-full flex-col items-center overflow-hidden rounded-t-[20px] pb-[18px]">
+        <div className="bg-bg-board absolute bottom-0 left-0 z-50 flex h-[calc(100%-82px)] w-full flex-col items-center rounded-t-[20px] px-[15px] pb-[18px]">
           <div className="flex h-[42px] w-full items-center justify-center">
             <div className="bg-input-active h-[4px] w-[40px] cursor-pointer rounded-[10px]"></div>
           </div>

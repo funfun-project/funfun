@@ -38,10 +38,10 @@ export function Button({ type, icon, label, value, bindTo, className, ...props }
       {...props}
       className={cn(
         'text-body3 flex items-center justify-center font-semibold shadow-[0_0_2px_rgba(0,0,0,0.4)]',
-        isCircle ? 'h-[30px] w-[30px] rounded-full' : 'rounded-[20px] px-[17px] py-[5px]',
-        isActive ? 'bg-main' : 'bg-bg-white',
+        isCircle ? 'h-[30px] w-[30px] rounded-full' : 'rounded-[20px] px-[14px] py-[3px]',
         className,
       )}
+      data-active={isActive}
     >
       {icon ?? label}
     </button>

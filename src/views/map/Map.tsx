@@ -1,6 +1,7 @@
-import { Search, LocateFixed } from 'lucide-react';
+import { Search } from 'lucide-react';
 import MapClient from '@/views/map/components/MapClient';
 import { Button } from './components/Button';
+import GpsButton from './components/GpsButton';
 
 type ButtonType = 'icon' | 'filter';
 type BindTarget = 'eventType' | 'location' | undefined;
@@ -39,9 +40,7 @@ export default function Map() {
               <MapClient />
             </div>
             {/* GPS 버튼 */}
-            <button className="bg-bg-white absolute right-[20px] bottom-[40px] flex h-[46px] w-[46px] items-center justify-center rounded-full shadow-[0_0_2px_rgba(0,0,0,0.4)]">
-              <LocateFixed size={32} strokeWidth={2} color="#ff5126" />
-            </button>
+            <GpsButton />
           </div>
           {/* 보드 */}
           <div className="bg-bg-main absolute bottom-[64px] left-0 z-50 min-h-[210px] w-full rounded-t-[20px] px-[15px] pt-[17px]">

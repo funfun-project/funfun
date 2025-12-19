@@ -1,6 +1,6 @@
-// import Map from '@/views/map/Map';
+import Map from '@/views/map/Map';
 // import MapClient from '@/views/map/components/MapClient';
-import LocationSelect from '@/views/map/components/locationSelect/LocationSelect';
+// import LocationSelect from '@/views/map/components/locationSelect/LocationSelect';
 import Script from 'next/script';
 // import DatetimePicker from '@/views/datetimePicker/DatetimePicker';
 
@@ -16,9 +16,9 @@ export default function page() {
         strategy="afterInteractive"
       />
       {/* <MapClient /> */}
-      {/* <Map /> */}
+      <Map />
       {/* <DatetimePicker /> */}
-      <LocationSelect />
+      {/* <LocationSelect /> */}
     </>
   );
 }

@@ -18,7 +18,8 @@ export const waitForNaverMaps = (timeout = 5000) => {
         return;
       }
       if (performance.now() - start > timeout) {
-        reject(new Error('네이버 지도 api를 불러오는대 시간이 초과 됐습니다.'));
+        naverReadyPromise = null;
+        reject(new Error('네이버 지도 SDK 로딩 타임아웃'));
         return;
       }
       requestAnimationFrame(tick);
@@ -43,5 +44,32 @@ export function getGeocode(address: string): Promise<naver.maps.Service.GeocodeR
       }
       resolve(response.v2);
     });
+  });
+}
+
+export function searchCoordinateToAddress(lat: number, lng: number): Promise<string> {
+  return new Promise((resolve, reject) => {
+    if (!window.naver?.maps?.Service) {
+      reject(new Error('Naver Maps API not loaded'));
+      return;
+    }
+
+    naver.maps.Service.reverseGeocode(
+      {
+        coords: new naver.maps.LatLng(lat, lng),
+        orders: 'roadaddr,addr',
+      },
+      (status, response) => {
+        if (status !== naver.maps.Service.Status.OK) {
+          reject(new Error('ReverseGeocode failed'));
+          return;
+        }
+
+        const address = response.v2.address;
+        const result = address.roadAddress || address.jibunAddress;
+
+        resolve(result);
+      },
+    );
   });
 }
