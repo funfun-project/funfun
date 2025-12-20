@@ -26,3 +26,9 @@ export const seoulDistrictList = [
   { name: '중구', lon: 126.997, lat: 37.5641 },
   { name: '중랑구', lon: 127.0927, lat: 37.6065 },
 ];
+
+export function extractDistrict(address: string) {
+  return (address.match(/[가-힣]+구/)?.[0] ??
+    address.match(/[가-힣]+군/)?.[0] ??
+    address.match(/[가-힣]+시/)?.[0]) as string;
+}

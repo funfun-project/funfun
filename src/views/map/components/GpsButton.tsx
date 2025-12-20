@@ -2,6 +2,7 @@
 import { useMapStore } from '@/stores/mapStore';
 import { LocateFixed } from 'lucide-react';
 import { searchCoordinateToAddress } from '@/libs/utils/naverMap';
+import { extractDistrict } from '@/libs/utils/locationSelect';
 
 export default function GpsButton() {
   const locationUpdate = useMapStore((state) => state.locationUpdate);
@@ -20,8 +21,8 @@ export default function GpsButton() {
     async function handlePosition(position: GeolocationPosition) {
       const { latitude, longitude } = position.coords;
       const address = await searchCoordinateToAddress(latitude, longitude);
-      console.log(address);
-      locationUpdate(address, longitude, latitude);
+      const district = extractDistrict(address);
+      locationUpdate(district, longitude, latitude);
     }
 
     navigator.geolocation.getCurrentPosition(
