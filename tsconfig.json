@@ -6,16 +6,16 @@
     "moduleResolution": "Bundler",
 
     "strict": true,
-    "noUncheckedIndexedAccess": true, // (선택) 타입 안정성 강화
+    "noUncheckedIndexedAccess": true,
     "skipLibCheck": true,
 
-    "allowJs": false, // .js 파일도 타입체크하려면 true
-    "noEmit": true, // Next가 빌드 처리
+    "allowJs": false,
+    "noEmit": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "isolatedModules": true, // SWC/Bundler와 궁합 좋음
-    "jsx": "preserve", // ⬅ Next 권장 (SWC가 변환)
+    "isolatedModules": true,
+    "jsx": "preserve",
     "incremental": true,
 
     "types": ["node", "navermaps"],
@@ -25,13 +25,8 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "plugins": [{ "name": "next" }] // ⬅ Next 전용 TS 플러그인 유지
+    "plugins": [{ "name": "next" }]
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts" // ⬅ Next 타입 포함
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

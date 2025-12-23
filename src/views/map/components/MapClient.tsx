@@ -1,15 +1,7 @@
 'use client';
 import { useEffect, useRef } from 'react';
-import makePinHTML from '@/lib/utils/mapMarker';
-
-const waitForNaverMaps = () =>
-  new Promise<void>((resolve) => {
-    const tick = () => {
-      if (typeof naver !== 'undefined' && naver.maps) resolve();
-      else requestAnimationFrame(tick);
-    };
-    tick();
-  });
+import makePinHTML from '@/libs/utils/mapMarkers';
+import { waitForNaverMaps } from '@/libs/utils/naverMap';
 
 export default function MapClient() {
   const mapRef = useRef<HTMLDivElement>(null);

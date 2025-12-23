@@ -6,7 +6,7 @@ import '../../assets/styles/calendar.css';
 import '../../assets/styles/wheel.css';
 import Picker from 'react-mobile-picker';
 
-import timeList, { nowTime } from '@/lib/utils/wheelDate';
+import timeList, { getNowTime } from '@/libs/utils/wheelDate';
 
 type ValuePiece = Date | null;
 
@@ -23,7 +23,7 @@ export default function Test() {
   const [value, onChange] = useState<Value>(new Date());
 
   const [pickerValue, setPickerValue] = useState<PickerValue>({
-    time: nowTime,
+    time: getNowTime(),
   });
 
   return (
