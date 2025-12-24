@@ -3,6 +3,7 @@ import MapClient from '@/views/map/components/MapClient';
 import { Button } from './components/Button';
 import GpsButton from './components/GpsButton';
 import Tags from './components/Tags';
+import LocationSelect from './components/locationSelect/LocationSelect';
 import ListCard from './components/ListCard';
 
 type ButtonType = 'icon' | 'filter';
@@ -45,7 +46,7 @@ export default function Map() {
             <GpsButton />
           </div>
           {/* 보드 */}
-          <div className="bg-bg-main absolute bottom-[64px] left-0 z-50 min-h-[210px] w-full rounded-t-[20px] px-[15px] pt-[40px]">
+          <div className="bg-bg-main absolute bottom-[64px] left-0 z-20 min-h-[210px] w-full rounded-t-[20px] px-[15px] pt-[40px]">
             <div className="bg-input-active absolute top-[17px] left-1/2 h-[4px] w-[40px] -translate-x-1/2 cursor-pointer rounded-[10px]"></div>
             <Tags />
             <div className="text-text-default text-body3 mt-[20px] mb-[30px] font-semibold">
@@ -57,10 +58,11 @@ export default function Map() {
           {/* 하단 나브바 */}
           <nav className="bg-bg-nav absolute bottom-0 left-0 h-[64px] w-full"></nav>
         </div>
-        <div className="h-full w-full">
+        {/* <LocationSelect /> */}
+        {/* <div className="h-full w-full">
           <div></div>
           <div></div>
-        </div>
+        </div> */}
       </main>
     </>
   );

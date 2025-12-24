@@ -14,21 +14,21 @@ interface ButtonProps {
 
 export function Button({ type, icon, label, value, bindTo, className, ...props }: ButtonProps) {
   const eventType = useMapStore((state) => state.eventType);
-  const location = useMapStore((state) => state.location);
-  const eventTypeUpdate = useMapStore((state) => state.eventTypeUpdate);
+  const placeName = useMapStore((state) => state.placeName);
+  const updateEventType = useMapStore((state) => state.updateEventType);
 
   const isCircle = type === 'icon';
 
   const isActive =
     bindTo === 'location'
-      ? Boolean(location)
+      ? Boolean(placeName)
       : bindTo === 'eventType' && value
         ? eventType === value
         : false;
 
   function bgColorChangeHandler() {
     if (bindTo === 'eventType' && value) {
-      eventTypeUpdate(value);
+      updateEventType(value);
     }
   }
 

@@ -5,7 +5,7 @@ import { useShallow } from 'zustand/shallow';
 export default function Tags() {
   const tags = useMapStore(
     useShallow((state) =>
-      [state.location.location, state.eventType].filter((tag): tag is string => Boolean(tag)),
+      [state.placeName, state.eventType].filter((tag): tag is string => Boolean(tag)),
     ),
   );
 
