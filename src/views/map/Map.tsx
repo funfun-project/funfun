@@ -1,3 +1,5 @@
+'use client';
+
 import { Search } from 'lucide-react';
 import MapClient from '@/views/map/components/MapClient';
 import { Button } from './components/Button';
@@ -5,12 +7,14 @@ import GpsButton from './components/GpsButton';
 import Tags from './components/Tags';
 import LocationSelect from './components/locationSelect/LocationSelect';
 import ListCard from './components/ListCard';
+import { useState } from 'react';
+import { useMapStore } from '@/stores/mapStore';
 
 type ButtonType = 'icon' | 'filter';
 type BindTarget = 'eventType' | 'location' | undefined;
 
 interface ButtonConfig {
-  type: ButtonType;
+  variant: ButtonType;
   icon?: React.ReactNode;
   label?: string;
   value?: string; // eventType용 값
@@ -19,14 +23,34 @@ interface ButtonConfig {
 }
 
 const buttons: ButtonConfig[] = [
-  { type: 'icon', icon: <Search size={16} strokeWidth={3} /> },
-  { type: 'icon', label: 'Ai' },
-  { type: 'filter', label: '위치', bindTo: 'location' },
-  { type: 'filter', label: '행사', value: '행사', bindTo: 'eventType' },
-  { type: 'filter', label: '모임', value: '모임', bindTo: 'eventType' },
+  { variant: 'icon', icon: <Search size={16} strokeWidth={3} /> },
+  { variant: 'icon', label: 'Ai' },
+  { variant: 'filter', label: '위치', bindTo: 'location' },
+  { variant: 'filter', label: '행사', value: '행사', bindTo: 'eventType' },
+  { variant: 'filter', label: '모임', value: '모임', bindTo: 'eventType' },
 ];
 
 export default function Map() {
+  const [locationSelector, setLocationSelector] = useState(false);
+
+  const eventType = useMapStore((state) => state.eventType);
+  const placeName = useMapStore((state) => state.placeName);
+  const updateEventType = useMapStore((state) => state.updateEventType);
+
+  const locationSelectorToggle = () => {
+    setLocationSelector((prev) => !prev);
+  };
+
+  const handleFilterClick = (btn: ButtonConfig) => {
+    if (btn.bindTo === 'location') {
+      locationSelectorToggle();
+      return;
+    }
+
+    if (btn.bindTo === 'eventType' && btn.value) {
+      updateEventType(btn.value);
+    }
+  };
   return (
     <>
       <main className="bg-bg-white relative h-screen w-[375px] overflow-hidden">
@@ -34,9 +58,25 @@ export default function Map() {
           <div className="bg-bg-white relative h-[calc(100%-249px)]">
             {/* 지도 위 버튼 */}
             <div className="absolute z-10 flex w-full gap-[10px] px-[5px] pt-[10px]">
-              {buttons.map((btn, idx) => (
-                <Button key={idx} {...btn} />
-              ))}
+              {buttons.map((btn, idx) => {
+                const isActive =
+                  btn.bindTo === 'location'
+                    ? Boolean(placeName)
+                    : btn.bindTo === 'eventType'
+                      ? eventType === btn.value
+                      : false;
+
+                return (
+                  <Button
+                    key={idx}
+                    variant={btn.variant}
+                    icon={btn.icon}
+                    label={btn.label}
+                    isActive={isActive}
+                    onClick={btn.variant === 'filter' ? () => handleFilterClick(btn) : undefined}
+                  />
+                );
+              })}
             </div>
             {/* 지도 */}
             <div className="bg-bg-white h-full w-full">
@@ -58,7 +98,7 @@ export default function Map() {
           {/* 하단 나브바 */}
           <nav className="bg-bg-nav absolute bottom-0 left-0 h-[64px] w-full"></nav>
         </div>
-        {/* <LocationSelect /> */}
+        <LocationSelect show={locationSelector} onClick={locationSelectorToggle} />
         {/* <div className="h-full w-full">
           <div></div>
           <div></div>

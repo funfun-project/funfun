@@ -6,7 +6,7 @@ type GeocodeType = {
   x: string;
   y: string;
 };
-export default function Button({ location }: { location: string }) {
+export default function Button({ location, onClick }: { location: string; onClick: () => void }) {
   const updateCoordinate = useMapStore((state) => state.updateCoordinate);
   const updatePlaceName = useMapStore((state) => state.updatePlaceName);
 
@@ -32,6 +32,7 @@ export default function Button({ location }: { location: string }) {
       const { x, y } = result.addresses[0] as GeocodeType;
       updatePlaceName(location);
       updateCoordinate(Number(x), Number(y));
+      onClick();
     } catch (error) {
       if (error instanceof Error) {
         console.error('표준 에러:', error.message);
