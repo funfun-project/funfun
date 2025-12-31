@@ -6,8 +6,9 @@ type GeocodeType = {
   x: string;
   y: string;
 };
-export default function Button({ location }: { location: string }) {
-  const locationUpdate = useMapStore((state) => state.locationUpdate);
+export default function Button({ location, onClick }: { location: string; onClick: () => void }) {
+  const updateCoordinate = useMapStore((state) => state.updateCoordinate);
+  const updatePlaceName = useMapStore((state) => state.updatePlaceName);
 
   async function submitHandler(address: string) {
     try {
@@ -23,13 +24,15 @@ export default function Button({ location }: { location: string }) {
 
         console.log(district.lon, district.lat);
 
-        locationUpdate(location, district.lon, district.lat);
+        updatePlaceName(location);
+        updateCoordinate(district.lon, district.lat);
         return;
       }
 
       const { x, y } = result.addresses[0] as GeocodeType;
-      console.log(x, y, result);
-      locationUpdate(location, Number(x), Number(y));
+      updatePlaceName(location);
+      updateCoordinate(Number(x), Number(y));
+      onClick();
     } catch (error) {
       if (error instanceof Error) {
         console.error('표준 에러:', error.message);

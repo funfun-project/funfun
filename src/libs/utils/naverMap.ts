@@ -47,7 +47,7 @@ export function getGeocode(address: string): Promise<naver.maps.Service.GeocodeR
   });
 }
 
-export function searchCoordinateToAddress(lat: number, lng: number): Promise<string> {
+export function searchCoordinateToAddress(lng: number, lat: number): Promise<string> {
   return new Promise((resolve, reject) => {
     if (!window.naver?.maps?.Service) {
       reject(new Error('Naver Maps API not loaded'));

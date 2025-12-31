@@ -1,42 +1,44 @@
 import { create } from 'zustand';
 
-type Coordinates = {
-  location: null | string;
-  longitude: null | number;
-  latitude: null | number;
+type Coordinate = {
+  longitude: number | null;
+  latitude: number | null;
 };
 
-type LocationUpdateAction = (
-  nweLocation: string | null,
-  longitude: number | null,
-  latitude: number | null,
-) => void;
-type EventTypeUpdateAction = (type: string) => void;
+type PlaceName = string | null;
+
+type UpdatePlaceNameAction = (name: PlaceName) => void;
+
+type UpdateCoordinateAction = (longitude: number | null, latitude: number | null) => void;
+
+type UpdateEventTypeAction = (type: string) => void;
 
 type MapStore = {
-  location: Coordinates;
-  eventType: null | string;
-  locationUpdate: LocationUpdateAction;
-  eventTypeUpdate: EventTypeUpdateAction;
+  placeName: PlaceName;
+  coordinate: Coordinate;
+  eventType: string | null;
+
+  updatePlaceName: UpdatePlaceNameAction;
+  updateCoordinate: UpdateCoordinateAction;
+  updateEventType: UpdateEventTypeAction;
 };
 
 export const useMapStore = create<MapStore>((set) => ({
-  location: {
-    location: null,
+  placeName: null,
+
+  coordinate: {
     longitude: null,
     latitude: null,
   },
+
   eventType: null,
-  locationUpdate: (nweLocation, newLongitude, newLatitude) => {
+
+  updatePlaceName: (name) => set(() => ({ placeName: name })),
+
+  updateCoordinate: (longitude, latitude) =>
     set(() => ({
-      location: {
-        location: nweLocation,
-        longitude: newLongitude,
-        latitude: newLatitude,
-      },
-    }));
-  },
-  eventTypeUpdate: (type) => {
-    set(() => ({ eventType: type }));
-  },
+      coordinate: { longitude, latitude },
+    })),
+
+  updateEventType: (type) => set(() => ({ eventType: type })),
 }));

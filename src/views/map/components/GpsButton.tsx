@@ -5,7 +5,8 @@ import { searchCoordinateToAddress } from '@/libs/utils/naverMap';
 import { extractDistrict } from '@/libs/utils/locationSelect';
 
 export default function GpsButton() {
-  const locationUpdate = useMapStore((state) => state.locationUpdate);
+  const updateCoordinate = useMapStore((state) => state.updateCoordinate);
+  const updatePlaceName = useMapStore((state) => state.updatePlaceName);
 
   function getCurrentLocation() {
     if (!('geolocation' in navigator)) {
@@ -20,9 +21,10 @@ export default function GpsButton() {
 
     async function handlePosition(position: GeolocationPosition) {
       const { latitude, longitude } = position.coords;
-      const address = await searchCoordinateToAddress(latitude, longitude);
+      const address = await searchCoordinateToAddress(longitude, latitude);
       const district = extractDistrict(address);
-      locationUpdate(district, longitude, latitude);
+      updatePlaceName(district);
+      updateCoordinate(longitude, latitude);
     }
 
     navigator.geolocation.getCurrentPosition(

@@ -23,6 +23,81 @@ button[data-active='false'] {
   background: var(--color-white);
 }
 
+/* location selector 바텀 시트 */
+.bottomSheetBase {
+  transform: translate3d(0, 100%, 0);
+  will-change: transform;
+}
+
+.bottomSheetDown {
+  pointer-events: none;
+  animation: sheetOut 400ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.bottomSheetUp {
+  pointer-events: auto;
+  animation: sheetIn 400ms cubic-bezier(0.32, 0, 0.67, 0) forwards;
+}
+
+.backdrop {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.backdropOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@keyframes sheetIn {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes sheetOut {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop {
+    transition: none !important;
+  }
+  .bottomSheetDown,
+  .bottomSheetUp {
+    animation: none !important;
+  }
+  .bottomSheetDown {
+    transform: translate3d(0, 100%, 0);
+  }
+  .bottomSheetUp {
+    transform: translate3d(0, 0, 0);
+  }
+  .bottomSheetDown,
+  .bottomSheetUp {
+    animation: none !important;
+  }
+
+  .bottomSheetDown {
+    transform: translate3d(0, 100%, 0);
+    opacity: 0;
+  }
+
+  .bottomSheetUp {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
 .scrollbar {
   scrollbar-gutter: stable;
   scroll-behavior: smooth;

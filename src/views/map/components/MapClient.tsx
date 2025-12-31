@@ -1,11 +1,15 @@
 'use client';
 import { useEffect, useRef } from 'react';
 import makePinHTML from '@/libs/utils/mapMarkers';
-import { waitForNaverMaps } from '@/libs/utils/naverMap';
+import { searchCoordinateToAddress, waitForNaverMaps } from '@/libs/utils/naverMap';
+import { useMapStore } from '@/stores/mapStore';
+import { extractDistrict } from '@/libs/utils/locationSelect';
 
 export default function MapClient() {
   const mapRef = useRef<HTMLDivElement>(null);
   const markerRef = useRef<naver.maps.Marker | null>(null);
+  const updateCoordinate = useMapStore((state) => state.updateCoordinate);
+  const updatePlaceName = useMapStore((state) => state.updatePlaceName);
 
   useEffect(() => {
     let map: naver.maps.Map | undefined;
@@ -30,6 +34,19 @@ export default function MapClient() {
         } as naver.maps.HtmlIcon,
       });
       markerRef.current = marker;
+
+      naver.maps.Event.addListener(map, 'dragend', async () => {
+        //지도 드래그 해서 위치 이동시 x,y 값 가져오기
+        const { x, y } = map!.getCenter();
+        const address = await searchCoordinateToAddress(x, y);
+        const district = extractDistrict(address);
+        //전역 상태 업데이트
+        updatePlaceName(district);
+        updateCoordinate(x, y);
+        //해당 위치의 event 가져오기
+
+        // marker.setPosition(c);
+      });
     };
 
     void init();
@@ -48,7 +65,7 @@ export default function MapClient() {
         console.log(error);
       }
     };
-  }, []);
+  }, [updatePlaceName, updateCoordinate]);
 
   return <div ref={mapRef} className="h-[100%] w-[100%]" />;
 }
