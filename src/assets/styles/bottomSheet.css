@@ -2,7 +2,7 @@
 :root {
   --sheet-radius: 16px;
   --sheet-shadow: 0 -12px 32px rgba(0, 0, 0, 0.18);
-  --sheet-backdrop: rgba(0, 0, 0, 0.45);
+  --sheet-backdrop: rgba(12, 12, 12, 0.3);
 
   --motion-duration: 260ms;
   --motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -10,6 +10,13 @@
 }
 
 /* 오버레이(배경) */
+.sheetContainer {
+  position: fixed;
+  inset: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 500;
+}
 .overlay {
   position: fixed;
   inset: 0;
@@ -72,7 +79,7 @@
   padding: 0 16px 16px;
 }
 
-/* keyframes */
+/* sheet keyframes */
 @keyframes sheetIn {
   from {
     transform: translate3d(0, 100%, 0);
