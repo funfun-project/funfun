@@ -1,4 +1,4 @@
-import { Heart } from 'lucide-react';
+import HeartButton from '@/common/HeartButton';
 export default function ListCard() {
   return (
     <>
@@ -12,9 +12,7 @@ export default function ListCard() {
               <p className="text-[12px]">2025.07.29 - 2025.08.03</p>
             </div>
             <div className="flex items-center">
-              <button>
-                <Heart color="#888" size={25} />
-              </button>
+              <HeartButton />
             </div>
           </div>
         </div>

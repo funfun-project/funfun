@@ -1,0 +1,14 @@
+.action {
+  animation: heartbeat 600ms linear forwards;
+}
+@keyframes heartbeat {
+  0% {
+    transform: scale(1) rotate(0turn);
+  }
+  50% {
+    transform: scale(1.5) rotate(-0.05turn);
+  }
+  100% {
+    transform: scale(1) rotate(0turn);
+  }
+}
