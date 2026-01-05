@@ -18,7 +18,7 @@
     "jsx": "preserve",
     "incremental": true,
 
-    "types": ["node", "navermaps"],
+    "types": ["node"],
     "typeRoots": ["./types", "./node_modules/@types"],
 
     "baseUrl": ".",
