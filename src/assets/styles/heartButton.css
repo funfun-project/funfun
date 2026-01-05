@@ -1,14 +1,17 @@
-.action {
-  animation: heartbeat 600ms linear forwards;
+.unlike svg {
+  animation: heartbeat 500ms linear forwards;
 }
 @keyframes heartbeat {
   0% {
-    transform: scale(1) rotate(0turn);
+    transform: scale(0.8);
   }
-  50% {
-    transform: scale(1.5) rotate(-0.05turn);
+  30% {
+    transform: scale(0.5);
+  }
+  60% {
+    transform: scale(0.8);
   }
   100% {
-    transform: scale(1) rotate(0turn);
+    transform: scale(1);
   }
 }
