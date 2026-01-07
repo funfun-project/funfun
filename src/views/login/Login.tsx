@@ -22,7 +22,6 @@ export default function LoginPage() {
       {
         email,
         password: pw,
-        rememberMe: true,
       },
       {
         onSuccess: () => {
