@@ -1,15 +1,15 @@
 import { create } from 'zustand';
 
 type Coordinate = {
-  longitude: number | null;
-  latitude: number | null;
+  longitude: number;
+  latitude: number;
 };
 
 type PlaceName = string | null;
 
 type UpdatePlaceNameAction = (name: PlaceName) => void;
 
-type UpdateCoordinateAction = (longitude: number | null, latitude: number | null) => void;
+type UpdateCoordinateAction = (longitude: number, latitude: number) => void;
 
 type UpdateEventTypeAction = (type: string) => void;
 
@@ -25,10 +25,10 @@ type MapStore = {
 
 export const useMapStore = create<MapStore>((set) => ({
   placeName: null,
-
+  // 37.5665, 126.978
   coordinate: {
-    longitude: null,
-    latitude: null,
+    longitude: 126.978,
+    latitude: 37.5665,
   },
 
   eventType: null,
