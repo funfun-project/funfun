@@ -27,7 +27,7 @@ export default function MapClient() {
         position: pos,
         map,
         icon: {
-          content: makePinHTML('/images/place.jpg', '#FF5126'),
+          content: makePinHTML('/place.jpg', '#FF5126'),
 
           anchor: new naver.maps.Point(30, 69),
           size: new naver.maps.Size(60, 69),
