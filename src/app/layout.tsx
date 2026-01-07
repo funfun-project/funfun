@@ -2,6 +2,12 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import '../assets/styles/globals.css';
 
+import QueryProvider from '@/shared/components/query-provider';
+import { Toaster } from 'react-hot-toast';
+import { MantineProvider } from '@mantine/core';
+import Header from '@/common/header/Header';
+import Footer from '@/common/footer/Footer';
+
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -23,8 +29,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} mx-auto max-w-[750px] antialiased`}
+      >
+        <QueryProvider>
+          <MantineProvider>
+            <Header />
+            {children} <Footer />
+          </MantineProvider>
+        </QueryProvider>
+        <Toaster
+          position="bottom-center"
+          reverseOrder={false}
+          toastOptions={{
+            duration: 1200,
+          }}
+        />
+      </body>
     </html>
   );
 }
