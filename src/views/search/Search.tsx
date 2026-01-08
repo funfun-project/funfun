@@ -1,23 +1,29 @@
 import { ChevronLeft } from 'lucide-react';
-import { Search } from 'lucide-react';
+import { Search as SearchIcon } from 'lucide-react';
+import { SlidersHorizontal } from 'lucide-react';
 
-export default function SearchContainer() {
+export default function Search() {
   return (
     <>
       <main className="bg-bg-main relative h-screen max-w-[750px]">
         {/* 검색창 */}
-        <section className="border-border flex h-[56px] w-full items-center gap-[20px] border-b px-[15px]">
+        <section className="flex h-[66px] w-full items-center gap-[20px] border-b border-[#292929] px-[15px]">
           <button>
             <ChevronLeft className="text-text-default" />
           </button>
           <div className="relative h-[40px] grow">
             <input
-              className="border-border placeholder-text-disabled focus:border-main text-text-default caret-main h-full w-full rounded-[5px] border bg-transparent pl-[10px] focus-visible:outline-none"
+              className="text-text-default placeholder-text-disabled caret-main focus:border-main h-full w-full rounded-[5px] border border-[#292929] bg-transparent pl-[10px] focus:outline-none"
               placeholder="주변의 키워드를 검색하세요."
             ></input>
-            <button>
-              <Search className="text-text-default absolute top-[10px] right-[10px]" size={20} />
-            </button>
+            <div className="absolute top-[10px] right-[10px] flex gap-[10px]">
+              <button>
+                <SlidersHorizontal color="#999" size={20} />
+              </button>
+              <button>
+                <SearchIcon color="#f6f6f6" size={20} />
+              </button>
+            </div>
           </div>
         </section>
 
