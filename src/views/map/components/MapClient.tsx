@@ -19,20 +19,25 @@ const markers: markerItem[] = [
 export default function MapClient() {
   const mapRef = useRef<HTMLDivElement>(null);
   const markersRef = useRef<naver.maps.Marker[] | null>([]);
+  const coordinate = useMapStore((state) => state.coordinate);
   const updateCoordinate = useMapStore((state) => state.updateCoordinate);
   const updatePlaceName = useMapStore((state) => state.updatePlaceName);
 
   useEffect(() => {
     let map: naver.maps.Map | undefined;
+    //37.5665, 126.978
+    const { longitude, latitude } = coordinate;
 
     const init = async () => {
       await waitForNaverMaps(); // ← 전역 준비 보장
       if (!mapRef.current) return;
 
-      const center = new naver.maps.LatLng(37.5665, 126.978);
+      const center = new naver.maps.LatLng(latitude, longitude);
       map = new naver.maps.Map(mapRef.current, { center, zoom: 14, scaleControl: false });
 
       const createdMarkers = renderMarkers(map, markers);
+
+      markersRef.current = createdMarkers;
 
       markersRef.current = createdMarkers;
 
@@ -68,7 +73,7 @@ export default function MapClient() {
         console.log(error);
       }
     };
-  }, [updatePlaceName, updateCoordinate]);
+  }, [updatePlaceName, updateCoordinate, coordinate]);
 
   return <div ref={mapRef} className="h-[100%] w-[100%]" />;
 }
