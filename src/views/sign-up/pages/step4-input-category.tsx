@@ -64,38 +64,6 @@ export default function StepInputCategory() {
             onChange={(selected) => setForm({ joinCategory: selected })}
             inputStyle={inputStyle}
           />
-          {/* <FormControl sx={{ width: "100%", ...inputStyle }}>
-            <InputLabel id="join-category-label">카테고리</InputLabel>
-
-            <Select
-              labelId="join-category-label"
-              id="join-category"
-              multiple
-              value={form.joinCategory || []}
-              onChange={(e) => {
-                const value = e.target.value;
-                const selected =
-                  typeof value === "string" ? value.split(",") : value;
-
-                if (selected.length > 3) {
-                  toast.error("최대 3개까지만 선택 가능합니다.");
-                  console.log("지금 선택한 값:", selected);
-                  return;
-                }
-
-                setForm({ joinCategory: selected });
-              }}
-              input={<OutlinedInput label="카테고리" />}
-              MenuProps={MenuProps}
-              sx={{ color: "white" }}
-            >
-              {joinCategoryList.map((category, index) => (
-                <MenuItem key={index} value={category}>
-                  {category}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl> */}
         </div>
         {isCategorySelect && (
           <SignUpMultiSelect
@@ -106,39 +74,6 @@ export default function StepInputCategory() {
             inputStyle={inputStyle}
           />
         )}
-        {/* {isCategorySelect && (
-          <FormControl sx={{ width: "100%", ...inputStyle, mt: 3 }}>
-            <InputLabel id="want-category-label">관심 카테고리</InputLabel>
-
-            <Select
-              labelId="want-category-label"
-              id="want-category"
-              multiple
-              value={form.wantCategory || []}
-              onChange={(e) => {
-                const value = e.target.value;
-                const selected =
-                  typeof value === "string" ? value.split(",") : value;
-
-                if (selected.length > 3) {
-                  toast.error("최대 3개까지만 선택 가능합니다.");
-                  console.log("지금 선택한 값:", selected);
-                  return;
-                }
-                setForm({ wantCategory: selected });
-              }}
-              input={<OutlinedInput label="관심 카테고리" />}
-              MenuProps={MenuProps}
-              sx={{ color: "white" }}
-            >
-              {wantCategoryList.map((category, index) => (
-                <MenuItem key={index} value={category}>
-                  {category}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        )} */}
       </div>
 
       <div className="mt-4 space-y-2">
@@ -169,24 +104,3 @@ export default function StepInputCategory() {
     </>
   );
 }
-// const MenuProps = {
-//   PaperProps: {
-//     sx: {
-//       bgcolor: "gr",
-//       color: "gray",
-//       "& .MuiMenuItem-root": {
-//         color: "gray",
-//       },
-
-//       "& .MuiMenuItem-root:hover": {
-//         color: "white",
-//         bgcolor: "#FF5126",
-//       },
-//       "& .Mui-selected": {
-//         color: "white",
-//         bgcolor: "#333 !important",
-//         fontWeight: "bold",
-//       },
-//     },
-//   },
-// };
