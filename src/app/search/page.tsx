@@ -1,8 +1,8 @@
-import SearchContainer from '@/features/search/container/SearchContainer';
+import Search from '@/views/search/Search';
 export default function page() {
   return (
     <>
-      <SearchContainer />
+      <Search />
     </>
   );
 }

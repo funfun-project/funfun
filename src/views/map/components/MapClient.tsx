@@ -1,19 +1,31 @@
 'use client';
 import { useEffect, useRef } from 'react';
-import makePinHTML from '@/libs/utils/mapMarkers';
+import { renderMarkers } from '@/libs/utils/mapMarkers';
 import { searchCoordinateToAddress, waitForNaverMaps } from '@/libs/utils/naverMap';
 import { useMapStore } from '@/stores/mapStore';
 import { extractDistrict } from '@/libs/utils/locationSelect';
 
+const markers: markerItem[] = [
+  { id: 'group1-1', lat: 37.5665, lng: 126.978 },
+  { id: 'group1-2', lat: 37.56655, lng: 126.9781 },
+  { id: 'group1-3', lat: 37.56645, lng: 126.97805 },
+  { id: 'group2-1', lat: 37.5658, lng: 126.9751 },
+  { id: 'group2-2', lat: 37.56585, lng: 126.97515 },
+  { id: 'group3-1', lat: 37.566, lng: 126.9772 },
+  { id: 'group3-2', lat: 37.56605, lng: 126.97725 },
+  { id: 'group3-3', lat: 37.56595, lng: 126.97715 },
+];
+
 export default function MapClient() {
   const mapRef = useRef<HTMLDivElement>(null);
-  const markerRef = useRef<naver.maps.Marker | null>(null);
+  const markersRef = useRef<naver.maps.Marker[] | null>([]);
   const coordinate = useMapStore((state) => state.coordinate);
   const updateCoordinate = useMapStore((state) => state.updateCoordinate);
   const updatePlaceName = useMapStore((state) => state.updatePlaceName);
 
   useEffect(() => {
     let map: naver.maps.Map | undefined;
+    //37.5665, 126.978
     const { longitude, latitude } = coordinate;
 
     const init = async () => {
@@ -23,20 +35,11 @@ export default function MapClient() {
       const center = new naver.maps.LatLng(latitude, longitude);
       map = new naver.maps.Map(mapRef.current, { center, zoom: 14, scaleControl: false });
 
-      //37.5665, 126.978
-      const pos = new naver.maps.LatLng(latitude, longitude);
+      const createdMarkers = renderMarkers(map, markers);
 
-      const marker = new naver.maps.Marker({
-        position: pos,
-        map,
-        icon: {
-          content: makePinHTML('/place.jpg', '#FF5126'),
+      markersRef.current = createdMarkers;
 
-          anchor: new naver.maps.Point(30, 69),
-          size: new naver.maps.Size(60, 69),
-        } as naver.maps.HtmlIcon,
-      });
-      markerRef.current = marker;
+      markersRef.current = createdMarkers;
 
       naver.maps.Event.addListener(map, 'dragend', async () => {
         //지도 드래그 해서 위치 이동시 x,y 값 가져오기
@@ -56,10 +59,12 @@ export default function MapClient() {
 
     return () => {
       try {
-        if (markerRef.current) {
-          naver.maps.Event.clearInstanceListeners(markerRef.current);
-          markerRef.current.setMap(null);
-          markerRef.current = null;
+        if (markersRef.current !== null && markersRef.current.length > 0) {
+          markersRef.current.forEach((marker) => {
+            naver.maps.Event.clearInstanceListeners(marker);
+            marker.setMap(null);
+          });
+          markersRef.current = [];
         }
         if (map) {
           naver.maps.Event.clearInstanceListeners(map);

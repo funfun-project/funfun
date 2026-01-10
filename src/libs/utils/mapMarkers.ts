@@ -9,3 +9,28 @@ export default function makePinHTML(imgUrl: string, color = '#F25A2B') {
          style="background:${color}"></div>
   </div>`;
 }
+
+export function renderMarkers(map: naver.maps.Map, places: markerItem[]) {
+  const markers = places.map((p) => {
+    const marker = new naver.maps.Marker({
+      position: new naver.maps.LatLng(p.lat, p.lng),
+      map,
+      icon: {
+        content: makePinHTML('/images/place.jpg', '#FF5126'),
+
+        anchor: new naver.maps.Point(30, 69),
+        size: new naver.maps.Size(60, 69),
+      } as naver.maps.HtmlIcon,
+    });
+
+    // 클릭 이벤트로 card 아이템 바텀 시트에 뿌리기
+    // naver.maps.Event.addListener(marker, 'click', () => {
+    //   console.log('clicked:', p.id);
+    // });
+
+    return marker;
+  });
+
+  //나중에 지우거나 갱신하려면 꼭 저장
+  return markers;
+}
