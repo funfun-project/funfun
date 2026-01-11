@@ -1,8 +1,16 @@
 import { ChevronLeft } from 'lucide-react';
 import { Search as SearchIcon } from 'lucide-react';
 import { SlidersHorizontal } from 'lucide-react';
+import { useState } from 'react';
+import ButtomSheet from './components/filterButtomSheet/ButtomSheet';
 
 export default function Search() {
+  const [filterAction, setFilterAction] = useState(false);
+
+  const buttomSheetToggle = () => {
+    setFilterAction((prev) => !prev);
+  };
+
   return (
     <>
       <main className="bg-bg-main relative h-screen max-w-[750px]">
@@ -17,8 +25,8 @@ export default function Search() {
               placeholder="주변의 키워드를 검색하세요."
             ></input>
             <div className="absolute top-[10px] right-[10px] flex gap-[10px]">
-              <button>
-                <SlidersHorizontal color="#999" size={20} />
+              <button onClick={() => setFilterAction((prev) => !prev)}>
+                <SlidersHorizontal color={filterAction ? '#999999' : '#FF5126'} size={20} />
               </button>
               <button>
                 <SearchIcon color="#f6f6f6" size={20} />
@@ -37,6 +45,7 @@ export default function Search() {
         </section>
         {/* 나브 */}
         <nav className="bg-bg-nav absolute bottom-0 left-0 h-[64px] w-full max-w-[750px]"></nav>
+        <ButtomSheet show={filterAction} onClick={buttomSheetToggle} />
       </main>
     </>
   );

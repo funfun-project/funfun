@@ -51,6 +51,7 @@ export default function Map() {
       updateEventType(btn.value);
     }
   };
+
   return (
     <>
       <main className="bg-bg-white relative h-screen w-[375px] overflow-hidden">
@@ -99,10 +100,6 @@ export default function Map() {
           <nav className="bg-bg-nav absolute bottom-0 left-0 h-[64px] w-full"></nav>
         </div>
         <LocationSelect show={locationSelector} onClick={locationSelectorToggle} />
-        {/* <div className="h-full w-full">
-          <div></div>
-          <div></div>
-        </div> */}
       </main>
     </>
   );
