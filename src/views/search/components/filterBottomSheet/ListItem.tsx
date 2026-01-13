@@ -8,10 +8,12 @@ type Props = {
   name: string;
   toggle?: null | string;
   setToggle?: Dispatch<SetStateAction<string>>;
+  categoryToggle?: Dispatch<SetStateAction<string>>;
 };
 
-export default function ListItem({ name, toggle, setToggle }: Props) {
+export default function ListItem({ name, toggle, setToggle, categoryToggle }: Props) {
   const handleClick = () => {
+    if (toggle === '행사') categoryToggle?.('');
     if (toggle === name) {
       setToggle?.('');
       return;

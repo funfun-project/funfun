@@ -4,10 +4,12 @@ import { ChevronLeft } from 'lucide-react';
 import { Search as SearchIcon } from 'lucide-react';
 import { SlidersHorizontal } from 'lucide-react';
 import { useState } from 'react';
-import ButtomSheet from './components/filterButtomSheet/ButtomSheet';
+import BottomSheet from './components/filterBottomSheet/BottomSheet';
+import Tags from './components/Tags';
 
 export default function Search() {
   const [filterAction, setFilterAction] = useState(false);
+  const [filterTag, setFilterTag] = useState<string[]>([]);
 
   const buttomSheetToggle = () => {
     setFilterAction((prev) => !prev);
@@ -38,8 +40,13 @@ export default function Search() {
         </section>
 
         {/* 콘텐츠 */}
-        <section className="flex justify-center px-[15px] pt-[30px]">
-          <p className="text-text-disabled text-body3 mt-[50px] cursor-default">
+        <section className="px-[15px] pt-[15px]">
+          <div className="flex gap-[15px] pt-[10px]">
+            {filterTag.map((name) => {
+              return <Tags key={name} name={name} />;
+            })}
+          </div>
+          <p className="text-text-disabled text-body3 mt-[50px] flex w-full cursor-default justify-center">
             검색 된 키워드가 존재하지 않습니다.
           </p>
           {/* 공통 컴포넌트 사용 */}
@@ -47,7 +54,7 @@ export default function Search() {
         </section>
         {/* 나브 */}
         <nav className="bg-bg-nav absolute bottom-0 left-0 h-[64px] w-full max-w-[750px]"></nav>
-        <ButtomSheet show={filterAction} onClick={buttomSheetToggle} />
+        <BottomSheet show={filterAction} onToggle={buttomSheetToggle} setFilterTag={setFilterTag} />
       </main>
     </>
   );
