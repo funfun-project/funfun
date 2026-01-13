@@ -1,26 +1,31 @@
-import { cn } from '@/libs/utils/twMerge';
+'use client';
 
-export default function ListItem({ name, location, setLocation }: ListItemProps) {
+import { Dispatch, SetStateAction } from 'react';
+import { cn } from '@/libs/utils/twMerge';
+import { Check } from 'lucide-react';
+
+type Props = {
+  name: string;
+  toggle?: null | string;
+  setToggle?: Dispatch<SetStateAction<string>>;
+};
+
+export default function ListItem({ name, toggle, setToggle }: Props) {
+  const handleClick = () => {
+    if (toggle === name) {
+      setToggle?.('');
+      return;
+    }
+    setToggle?.(name);
+  };
   return (
     <>
-      <li
-        onClick={() => setLocation(name)}
-        className={'box-border cursor-pointer py-[9px] pl-[15px] transition-all'}
-      >
-        <button
-          className={cn(
-            'text-h1 relative px-[2px] py-[4px] font-semibold text-gray-400 transition-colors',
-            location === name && 'text-white',
-          )}
-        >
-          {name}
-          {/* span은 해당 list를 클릭 할 때 나오는 요소 */}
-          <span
-            className={cn(
-              'bg-main absolute right-0 -bottom-[2px] left-0 h-[3px] rounded-full transition-opacity',
-              location === name ? 'opacity-100' : 'opacity-0',
-            )}
-          />
+      <li onClick={handleClick} className="w-full border-b border-b-[#292929]">
+        <button className="flex w-full justify-between px-[10px] py-[9px]">
+          <span className={cn('text-body2', name === toggle ? 'text-[#FF5126]' : 'text-[#f6f6f6]')}>
+            {name}
+          </span>
+          <Check size={20} color={name === toggle ? '#FF5126' : '#535353'} />
         </button>
       </li>
     </>

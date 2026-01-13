@@ -1,3 +1,5 @@
+'use client';
+
 import { ChevronLeft } from 'lucide-react';
 import { Search as SearchIcon } from 'lucide-react';
 import { SlidersHorizontal } from 'lucide-react';
@@ -26,7 +28,7 @@ export default function Search() {
             ></input>
             <div className="absolute top-[10px] right-[10px] flex gap-[10px]">
               <button onClick={() => setFilterAction((prev) => !prev)}>
-                <SlidersHorizontal color={filterAction ? '#999999' : '#FF5126'} size={20} />
+                <SlidersHorizontal color={filterAction ? '#FF5126' : '#999999'} size={20} />
               </button>
               <button>
                 <SearchIcon color="#f6f6f6" size={20} />

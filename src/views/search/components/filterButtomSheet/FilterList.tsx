@@ -1,14 +1,18 @@
-import { seoulDistrictList } from '@/libs/utils/locationSelect';
+import { Dispatch, SetStateAction } from 'react';
 import ListItem from './ListItem';
 
-export default function LocationList({ location, setLocation }: LocationState) {
+type Props = {
+  items: string[];
+  toggle?: null | string;
+  setToggle?: Dispatch<SetStateAction<string>>;
+};
+
+export default function FilterList({ items, toggle, setToggle }: Props) {
   return (
     <>
-      <ul className="scrollbar h-[calc(100%-112px)] max-h-[calc(100%-70px)] w-full overflow-y-auto">
-        {seoulDistrictList.map((el) => {
-          return (
-            <ListItem key={el.name} name={el.name} location={location} setLocation={setLocation} />
-          );
+      <ul className="scrollbar w-full overflow-y-auto">
+        {items.map((el) => {
+          return <ListItem key={el} name={el} toggle={toggle} setToggle={setToggle} />;
         })}
       </ul>
     </>
