@@ -109,7 +109,7 @@ export default function LikesContainer() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen text-white">
       <Tab activeTab={activeTab} onTabChange={setActiveTab} />
       {renderContent()}
     </div>
