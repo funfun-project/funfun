@@ -35,7 +35,7 @@ export default function RootLayout({
       >
         <QueryProvider>
           <MantineProvider>
-            <Header />
+            {/* <Header /> */}
             {children} <Footer />
           </MantineProvider>
         </QueryProvider>
