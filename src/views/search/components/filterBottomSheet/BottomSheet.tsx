@@ -68,7 +68,7 @@ export default function ButtomSheet({ show, onToggle, setFilterTag }: Props) {
       <section className="sheetContainer max-w-187.5 overflow-hidden pb-3.75">
         <div
           className={cn(
-            'bg-bg-board bottomSheetBase absolute bottom-0 left-0 z-50 flex h-[calc(65%)] w-full flex-col items-center justify-between rounded-t-[20px] px-[15px] pb-[18px]',
+            'bg-bg-board bottomSheetBase absolute bottom-0 left-0 z-50 flex w-full flex-col items-center justify-between rounded-t-[20px] px-[15px] pb-[18px]',
             show ? 'bottomSheetUp' : 'bottomSheetDown',
           )}
           onAnimationEnd={onAnimationEnd}
