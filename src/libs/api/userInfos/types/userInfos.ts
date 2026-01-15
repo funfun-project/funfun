@@ -3,8 +3,10 @@ export interface UserInfo {
   email: string;
   nickname: string;
   profileImageUrl: string | null;
-  bio?: string;
+  introduction?: string;
   phoneNumber?: string;
+  followerCount?: number;
+  followingCount?: number;
 }
 
 export interface UpdateUserInfoPayload {

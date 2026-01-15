@@ -1,7 +1,4 @@
-import { userInfosFetch } from './userInfosFetch';
-import { UpdateUserInfoPayload, UserInfo } from './types/userInfos';
-
-import { userInfosFetch } from './userInfosFetch';
+import { client } from '../client';
 import { UpdateUserInfoPayload, UserInfo } from './types/userInfos';
 
 export async function putUserInfo(data: UpdateUserInfoPayload): Promise<UserInfo> {
@@ -13,8 +10,10 @@ export async function putUserInfo(data: UpdateUserInfoPayload): Promise<UserInfo
   if (data.introduction) formData.append('introduction', data.introduction);
   if (data.phoneNumber) formData.append('phoneNumber', data.phoneNumber);
 
-  return userInfosFetch<UserInfo>('/api/userInfos', {
-    method: 'PUT',
-    body: formData,
+  const response = await client.put<UserInfo>('/api/userInfos', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
   });
+  return response.data;
 }
