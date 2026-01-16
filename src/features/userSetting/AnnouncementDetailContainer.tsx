@@ -18,12 +18,12 @@ const announcement: Announcement = {
 
 const AnnouncementDetailContainer = () => {
   return (
-    <section className="flex min-h-screen flex-col bg-[var(--color-bg-main)] text-[var(--color-text-default)]">
+    <section className="bg-bg-main flex min-h-screen flex-col text-(--color-text-default)">
       <UserSettingHeader title="공지사항" />
-      <main className="flex-grow px-6 py-4">
-        <div className="border-b border-[var(--color-border)] pb-4">
+      <main className="grow px-6 py-4">
+        <div className="border-b border-(--color-border) pb-4">
           <h1 className="text-body2 font-medium">{announcement.title}</h1>
-          <p className="text-body4 mt-2 text-[var(--color-text-support)]">{announcement.date}</p>
+          <p className="text-body4 mt-2 text-(--color-text-support)">{announcement.date}</p>
         </div>
         <div className="text-body3 mt-6 leading-tight">
           <p>{announcement.content}</p>

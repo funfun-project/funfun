@@ -43,7 +43,7 @@ export default function UserSettingContainer() {
   return (
     <div className="text-text-default flex min-h-screen flex-col">
       {/* Main Content */}
-      <main className="flex-grow">
+      <main className="grow">
         {/* Menu Section 1 */}
         <section className="">
           <ul>

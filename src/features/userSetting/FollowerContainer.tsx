@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 // 사용자 목록 목업 데이터
 const followerData: User[] = [
   {
@@ -63,10 +64,12 @@ interface User {
 const UserItem = ({ user }: { user: User }) => (
   <div className="flex items-center justify-between py-3">
     <div className="flex items-center">
-      <img
+      <Image
         src={user.avatar}
         alt={user.name}
-        className="h-[32px] w-[32px] rounded-[10px] object-cover"
+        width={32}
+        height={32}
+        className="rounded-[10px] object-cover"
       />
       <span className="text-body2 ml-4">{user.name}</span>
     </div>

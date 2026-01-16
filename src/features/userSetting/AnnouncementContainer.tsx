@@ -56,9 +56,9 @@ const faqs: FaqItem[] = [
 
 const AnnouncementListItem = ({ item }: { item: AnnouncementItem }) => (
   <Link href={`/user-setting/announcement/${item.id}`}>
-    <div className="flex cursor-pointer justify-between border-b border-[var(--color-border)] py-4">
+    <div className="flex cursor-pointer justify-between border-b border-(--color-border) py-4">
       <p className="text-body1">{item.title}</p>
-      <span className="text-base text-[var(--color-text-support)]">{item.date}</span>
+      <span className="text-base text-(--color-text-support)">{item.date}</span>
     </div>
   </Link>
 );
@@ -72,15 +72,13 @@ const FaqListItem = ({
   isActive: boolean;
   onClick: () => void;
 }) => (
-  <div className="cursor-pointer border-b border-[var(--color-border)] py-4" onClick={onClick}>
+  <div className="cursor-pointer border-b border-(--color-border) py-4" onClick={onClick}>
     <div className="flex items-center justify-between">
-      <p className={`text-lg ${isActive ? 'text-[var(--color-text-active)]' : ''}`}>
-        {item.question}
-      </p>
-      <span className="text-base text-[var(--color-text-support)]">{item.date}</span>
+      <p className={`text-lg ${isActive ? 'text-(--color-text-active)' : ''}`}>{item.question}</p>
+      <span className="text-base text-(--color-text-support)">{item.date}</span>
     </div>
     {isActive && (
-      <div className="mt-4 rounded-md bg-[var(--color-bg-board)] p-4 text-[var(--color-text-support)]">
+      <div className="bg-bg-board mt-4 rounded-md p-4 text-(--color-text-support)">
         {item.answer}
       </div>
     )}
@@ -121,15 +119,15 @@ const AnnouncementContainer = () => {
   };
 
   return (
-    <section className="flex min-h-screen flex-col bg-[var(--color-bg-main)] text-[var(--color-text-default)]">
+    <section className="bg-bg-main flex min-h-screen flex-col text-(--color-text-default)">
       <UserSettingHeader title="공지사항" />
-      <div className="flex border-b border-[var(--color-border)]">
+      <div className="flex border-b border-(--color-border)">
         <button
           onClick={() => setActiveTab('announcements')}
           className={`flex-1 py-3 text-center ${
             activeTab === 'announcements'
-              ? 'border-b-2 border-[var(--color-main)] text-[var(--color-text-active)]'
-              : 'text-[var(--color-text-support)]'
+              ? 'border-b-2 border-(--color-main) text-(--color-text-active)'
+              : 'text-(--color-text-support)'
           }`}
         >
           공지사항
@@ -138,14 +136,14 @@ const AnnouncementContainer = () => {
           onClick={() => setActiveTab('faq')}
           className={`flex-1 py-3 text-center ${
             activeTab === 'faq'
-              ? 'border-b-2 border-[var(--color-main)] text-[var(--color-text-active)]'
-              : 'text-[var(--color-text-support)]'
+              ? 'border-b-2 border-(--color-main) text-(--color-text-active)'
+              : 'text-(--color-text-support)'
           }`}
         >
           FAQ
         </button>
       </div>
-      <main className="flex-grow px-6">{renderList()}</main>
+      <main className="grow px-6">{renderList()}</main>
     </section>
   );
 };

@@ -23,26 +23,26 @@ const inquiries: Inquiry[] = [
 ];
 
 const InquiryItem = ({ inquiry }: { inquiry: Inquiry }) => (
-  <div className="flex items-center justify-between border-b border-[var(--color-border)] py-4">
+  <div className="flex items-center justify-between border-b border-(--color-border) py-4">
     <div className="flex items-center space-x-4">
       <span
-        className={`text-body4 rounded-full px-3 py-1 text-[var(--color-text-default)] ${
-          inquiry.type === '문의' ? 'bg-[var(--color-bg-button)]' : 'bg-[var(--color-main)]'
+        className={`text-body4 rounded-full px-3 py-1 text-(--color-text-default) ${
+          inquiry.type === '문의' ? 'bg-(--color-bg-button)' : 'bg-(--color-main)'
         }`}
       >
         {inquiry.type}
       </span>
       <p className="text-body1">{inquiry.title}</p>
     </div>
-    <span className="text-body2 text-base text-[var(--color-text-support)]">{inquiry.date}</span>
+    <span className="text-body2 text-base text-(--color-text-support)">{inquiry.date}</span>
   </div>
 );
 
 const InquiryContainer = () => {
   return (
-    <section className="flex min-h-screen flex-col bg-[var(--color-bg-main)] text-[var(--color-text-default)]">
+    <section className="bg-bg-main flex min-h-screen flex-col text-(--color-text-default)">
       <UserSettingHeader title="문의 내역" />
-      <main className="flex-grow px-6">
+      <main className="grow px-6">
         {inquiries.length > 0 ? (
           <div>
             {inquiries.map((inquiry) => (
