@@ -6,6 +6,7 @@ import { SlidersHorizontal } from 'lucide-react';
 import { useState } from 'react';
 import BottomSheet from './components/filterBottomSheet/BottomSheet';
 import Tags from './components/Tags';
+import Spinner from '@/common/Spinner';
 
 export default function Search() {
   const [filterAction, setFilterAction] = useState(false);
