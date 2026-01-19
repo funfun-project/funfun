@@ -1,9 +1,41 @@
-import PopularClubList from './components/PopularClubList';
+'use client';
 
-export default function HomeContainer() {
+import { useEffect, useState } from 'react';
+import PopularClubList from './components/PopularClubList';
+import Splash from './components/Splash';
+import { cn } from '@/libs/utils/twMerge';
+
+export default function Home() {
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    const hasVisited = sessionStorage.getItem('hasVisited');
+
+    if (hasVisited) {
+      setShowSplash(false);
+    } else {
+      const timer = setTimeout(() => {
+        setShowSplash(false);
+        sessionStorage.setItem('hasVisited', 'true');
+      }, 1500);
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  // splash 동작 확인
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setShowSplash(false);
+  //   }, 1500);
+
+  //   return () => clearTimeout(timer);
+  // }, []);
+
   return (
     <>
-      <main className="max-w-[750px]">
+      {showSplash && <Splash />}
+      <main className={cn('max-w-187.5', showSplash ? 'hidden' : 'block')}>
         <header className="bg-bg-board mb-[20px] h-[66px] w-full"></header>
         <section className="mb-[30px] px-[15px] md:mb-[50px]">
           <h1 className="text-body2 text-text-default md:text-h2 mb-[10px] md:mb-[15px]">title</h1>
