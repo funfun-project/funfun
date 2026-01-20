@@ -1,9 +1,9 @@
-import HomeContainer from '@/components/home/container/HomeContainer';
+import Home from '@/views/home/Home';
 
-export default function Home() {
+export default function page() {
   return (
     <>
-      <HomeContainer />
+      <Home />
     </>
   );
 }
