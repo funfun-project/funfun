@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import './colors.css';
 @import 'tw-animate-css';
+@import './spinner.css';
 
 @custom-variant dark (&:is(.dark *));
 
