@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Tab, { TabType } from '../tab/Tab';
-import ContentList from '../list/ContentList';
-import { Item } from '../card/ItemCard';
-import SkeletonCard from '../skeleton/SkeletonCard';
+import Tab, { TabType } from './components/tab/Tab';
+import ContentList from './components/list/ContentList';
+import SkeletonCard from '@/components/SkeletonCard';
+import { Item } from './components/card/ItemCard';
 
 // Mock data based on the provided images
 const mockData: Record<TabType, Item[]> = {
@@ -109,7 +109,7 @@ export default function LikesContainer() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen text-white">
       <Tab activeTab={activeTab} onTabChange={setActiveTab} />
       {renderContent()}
     </div>
