@@ -5,9 +5,10 @@ import PopularClubList from './components/PopularClubList';
 import Splash from './components/Splash';
 import { cn } from '@/libs/utils/twMerge';
 import WriteFab from '@/common/WriteFab';
+import RecommendCardContainer from '@/common/RecommendCardContainer';
 
 export default function Home() {
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState<null | boolean>(null);
 
   // useEffect(() => {
   //   const hasVisited = sessionStorage.getItem('hasVisited');
@@ -63,7 +64,7 @@ export default function Home() {
         <section className="mb-[60px] px-[15px] md:mb-[70px]">
           <h1 className="text-h2 text-text-default mb-[30px] font-semibold">지금 주목 받는 행사</h1>
           {/* 공통 컴포넌트 */}
-          <div className="bg-bg-input h-[400px] w-full rounded-[15px]"></div>
+          <RecommendCardContainer />
         </section>
         <section className="mb-[40px] px-[15px]">
           {/* 케러셀 */}
