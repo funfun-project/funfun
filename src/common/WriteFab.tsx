@@ -13,7 +13,7 @@ export default function WriteFab() {
     <>
       <button
         onClick={goToWritePage}
-        className="bg-main flex h-[44px] w-[44px] items-center justify-center rounded-full"
+        className="bg-main fixed right-[max(15px,calc((100vw-800px)/2+15px))] bottom-20 z-9999 flex h-11 w-11 items-center justify-center rounded-full"
       >
         <Pencil size={22} color="#f6f6f6" />
       </button>

@@ -4,43 +4,46 @@ import { useEffect, useState } from 'react';
 import PopularClubList from './components/PopularClubList';
 import Splash from './components/Splash';
 import { cn } from '@/libs/utils/twMerge';
+import WriteFab from '@/common/WriteFab';
+import RecommendCardContainer from '@/common/RecommendCardContainer';
+import PlaceRecommendations from '@/common/placeRecommendations/PlaceRecommendations';
 
 export default function Home() {
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState<null | boolean>(null);
 
-  useEffect(() => {
-    const hasVisited = sessionStorage.getItem('hasVisited');
+  // useEffect(() => {
+  //   const hasVisited = sessionStorage.getItem('hasVisited');
 
-    if (hasVisited) {
-      setShowSplash(false);
-    } else {
-      const timer = setTimeout(() => {
-        setShowSplash(false);
-        sessionStorage.setItem('hasVisited', 'true');
-      }, 1500);
+  //   if (hasVisited) {
+  //     setShowSplash(false);
+  //   } else {
+  //     const timer = setTimeout(() => {
+  //       setShowSplash(false);
+  //       sessionStorage.setItem('hasVisited', 'true');
+  //     }, 1500);
 
-      return () => clearTimeout(timer);
-    }
-  }, []);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, []);
 
   // splash 동작 확인
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setShowSplash(false);
-  //   }, 1500);
 
-  //   return () => clearTimeout(timer);
-  // }, []);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <>
       {showSplash && <Splash />}
-      <main className={cn('max-w-187.5', showSplash ? 'hidden' : 'block')}>
-        <header className="bg-bg-board mb-[20px] h-[66px] w-full"></header>
-        <section className="mb-[30px] px-[15px] md:mb-[50px]">
+      <main className={cn('relative max-w-187.5', showSplash ? 'hidden' : 'block')}>
+        <section className="mt-[86px] mb-[30px] px-[15px] md:mb-12.5">
           <h1 className="text-body2 text-text-default md:text-h2 mb-[10px] md:mb-[15px]">title</h1>
           <p className="text-text-support text-body4 md:text-body2 mb-[20px]">장소</p>
-          <div className="text-text-default text-body4 md:text-body2 mb-[20px] flex h-[20px] w-[40px] items-center justify-center rounded-[20px] bg-[#313131] md:h-[26px] md:w-[50px]">
+          <div className="text-text-default text-body4 md:text-body2 mb-5 inline-block rounded-full bg-[#313131] px-2.25 py-0.5 md:px-3">
             태그
           </div>
           <div className="bg-bg-input h-[300px] w-full rounded-[15px]"></div>
@@ -61,28 +64,13 @@ export default function Home() {
         <section className="mb-[60px] px-[15px] md:mb-[70px]">
           <h1 className="text-h2 text-text-default mb-[30px] font-semibold">지금 주목 받는 행사</h1>
           {/* 공통 컴포넌트 */}
-          <div className="bg-bg-input h-[400px] w-full rounded-[15px]"></div>
+          <RecommendCardContainer />
         </section>
-        <section className="mb-[40px] px-[15px]">
+        <section className="mb-[120px] px-[15px]">
           {/* 케러셀 */}
-          <div className="bg-bg-input mb-[15px] h-[140px] w-full rounded-[10px] px-[10px] py-[15px] md:h-[285px] md:p-[20px]">
-            <p className="text-body2 md:text-body1 text-text-default mb-[10px]">경운사</p>
-            <p className="text-body3 md:text-body4 text-text-default">
-              서울 특별시 강남구 24번길 32
-            </p>
-          </div>
-          {/* 페이지네이션 */}
-          <div className="flex justify-center">
-            <div className="flex gap-[10px]">
-              <button>
-                <div className="bg-main h-[10px] w-[10px] rounded-full"></div>
-              </button>
-              <button>
-                <div className="h-[10px] w-[10px] rounded-full bg-[#313131]"></div>
-              </button>
-            </div>
-          </div>
+          <PlaceRecommendations />
         </section>
+        <WriteFab />
         <nav className="bg-bg-nav h-[64px] w-full"></nav>
       </main>
     </>
