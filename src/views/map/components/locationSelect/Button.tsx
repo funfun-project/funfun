@@ -1,5 +1,5 @@
 import { getGeocode } from '@/libs/utils/naverMap';
-import { useMapStore } from '@/stores/mapStore';
+import { useMapStore } from '@/stores/useMapStore';
 import { seoulDistrictList } from '@/libs/utils/locationSelect';
 
 type GeocodeType = {
@@ -7,8 +7,8 @@ type GeocodeType = {
   y: string;
 };
 export default function Button({ location, onClick }: { location: string; onClick: () => void }) {
-  const updateCoordinate = useMapStore((state) => state.updateCoordinate);
-  const updatePlaceName = useMapStore((state) => state.updatePlaceName);
+  const setCoordinate = useMapStore((state) => state.setCoordinate);
+  const setPlaceName = useMapStore((state) => state.setPlaceName);
 
   async function submitHandler(address: string) {
     try {
@@ -24,14 +24,14 @@ export default function Button({ location, onClick }: { location: string; onClic
 
         console.log(district.lon, district.lat);
 
-        updatePlaceName(location);
-        updateCoordinate(district.lon, district.lat);
+        setPlaceName(location);
+        setCoordinate(district.lon, district.lat);
         return;
       }
 
       const { x, y } = result.addresses[0] as GeocodeType;
-      updatePlaceName(location);
-      updateCoordinate(Number(x), Number(y));
+      setPlaceName(location);
+      setCoordinate(Number(x), Number(y));
       onClick();
     } catch (error) {
       if (error instanceof Error) {

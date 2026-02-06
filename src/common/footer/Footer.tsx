@@ -11,7 +11,7 @@ export default function Footer() {
 
   if (hiddenPaths.includes(pathname)) return null;
   return (
-    <div className="fixed bottom-0 z-50 box-border flex h-[66px] w-full max-w-[750px] items-center justify-around bg-[#121212] px-2 max-[650px]:px-3">
+    <div className="fixed bottom-0 z-[500] box-border flex h-[66px] w-full max-w-[750px] items-center justify-around bg-[#121212] px-2 max-[650px]:px-3">
       {footerIcons.map((item) => (
         <Link
           key={item.id}

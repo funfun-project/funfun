@@ -1,0 +1,13 @@
+.buttonParent {
+  overflow-x: auto;
+  /* overflow-y: hidden; */
+  scrollbar-width: none;
+  scroll-snap-align: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.buttonParent::-webkit-scrollbar {
+  display: none;
+}
+.filterButton {
+  scroll-snap-align: start;
+}

@@ -1,6 +1,6 @@
 'use client';
-import { useState, useEffect } from 'react';
-import Calendar from './components/Calendar';
+import { useState } from 'react';
+import Calendar from '../Calendar';
 import TimeWheel from './components/TimeWheel';
 import Button from './components/Button';
 import { getNowTime } from '@/libs/utils/wheelDate';
@@ -13,14 +13,6 @@ export default function DatetimePicker() {
   const [endTime, setEndTime] = useState<PickerValue>({
     time: getNowTime(),
   });
-
-  useEffect(() => {
-    console.log('⏱ startTime changed:', startTime.time);
-  }, [startTime]);
-
-  useEffect(() => {
-    console.log('⏱ endTime changed:', endTime.time);
-  }, [endTime]);
 
   return (
     <div className="bg-bg-main flex w-[375px] flex-col justify-center">
