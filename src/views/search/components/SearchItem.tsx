@@ -12,10 +12,10 @@ type Props = {
     startDate: string | null;
     endDate: string | null;
   };
-  address: string;
+  address?: string;
 };
 
-export default function ListCard({ id, title, poster, date, address }: Props) {
+export default function SearchItem({ id, title, poster, date, address }: Props) {
   const initialIsLiked = false;
   const dateValue = transitionDate(date?.startDate, date?.endDate);
   return (
@@ -34,17 +34,13 @@ export default function ListCard({ id, title, poster, date, address }: Props) {
             )}
           </div>
           <div className="flex grow justify-between">
-            <div className="flex flex-col justify-between py-1.25 text-[#888]">
+            <div className="flex flex-col justify-between py-2.75 text-[#888]">
               <h2 className="text-body2 font-semibold text-[#f6f6f6]">{title}</h2>
-              <p className="text-body4">{address}</p>
               <p className="text-body4">{dateValue}</p>
+              {!date?.endDate && address && <p className="text-body4">{address}</p>}
             </div>
             <div className="flex items-center">
-              <HeartButton
-                initialIsLiked={initialIsLiked ? true : false}
-                goToUrl={''}
-                itemId={id}
-              />
+              <HeartButton initialIsLiked={initialIsLiked ? true : false} goToUrl={''} itemId={1} />
             </div>
           </div>
         </div>

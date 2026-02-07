@@ -3,10 +3,10 @@ import { eventsAPI } from '@/libs/api/events/eventsAPI';
 import { groupsAPI } from '@/libs/api/groups/groupsAPI';
 import type { GroupSearchParams } from '@/libs/api/groups/groups.types';
 
-const eventsKey = (p: { page: number; size: number; sortBy: string; guname: string }) =>
+const searchEventsKey = (p: { page: number; size: number; sortBy: string; guname: string }) =>
   ['events', 'map', p.page, p.size, p.sortBy, p.guname] as const;
 
-const groupsKey = (p: {
+const searchGroupsKey = (p: {
   page: number;
   size: number;
   sortBy: string;
@@ -14,7 +14,7 @@ const groupsKey = (p: {
   keyword?: string;
 }) => ['groups', 'map', p.sortBy, p.page, p.size, p.category ?? '', p.keyword ?? ''] as const;
 
-export function useMapQueries(args: {
+export function useSearchQueries(args: {
   pageNo: number;
   placeName: string;
   groups?: Pick<GroupSearchParams, 'category' | 'keyword'>;
@@ -37,13 +37,13 @@ export function useMapQueries(args: {
   const [eventsQuery, groupsQuery] = useQueries({
     queries: [
       {
-        queryKey: eventsKey(eventsParams),
+        queryKey: searchEventsKey(eventsParams),
         queryFn: () => eventsAPI.getEvent(eventsParams),
         placeholderData: keepPreviousData,
-        enabled: !!args.placeName, // placeName 준비되면 호출
+        enabled: !!args.placeName,
       },
       {
-        queryKey: groupsKey({
+        queryKey: searchGroupsKey({
           page: groupsParams.page,
           size: groupsParams.size,
           sortBy: groupsParams.sortBy,

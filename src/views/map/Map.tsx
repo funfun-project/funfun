@@ -3,9 +3,9 @@
 import MapClient from '@/views/map/components/MapClient';
 import { useState, useEffect } from 'react';
 import { useMapStore } from '@/stores/useMapStore';
-import { useEventsQuery } from '@/libs/queries/useMapEventQuery';
-import { useGroupsSearchQuery } from '@/libs/queries/useMapGroupsQuery';
-import { useMapQueries } from '@/libs/queries/useMapQuerys';
+import { useMapEventsQuery } from '@/libs/queries/map/useMapEventsQuery';
+import { useMapGroupsQuery } from '@/libs/queries/map/useMapGroupsQuery';
+import { useMapQueries } from '@/libs/queries/map/useMapQuerys';
 import { Search } from 'lucide-react';
 import { Button } from './components/Button';
 import LocationSelect from './components/locationSelect/LocationSelect';
@@ -76,7 +76,7 @@ export default function Map() {
     isError,
     error,
     isFetching,
-  } = useEventsQuery({
+  } = useMapEventsQuery({
     page: pageNo,
     size: 20,
     sortBy: 'endDate',

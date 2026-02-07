@@ -6,10 +6,10 @@ import Tags from '../Tags';
 import ListCard from './ListCard';
 import GpsButton from '../GpsButton';
 import AiRecommendFloatingButton from '../AiRecommend/AiRecommendFloatingButton';
-import '@/assets/styles/bottomSheet.css';
 import { useBottomSheetResize } from '@/libs/hook/useBottomSheetResize';
 import AiComment from '../AiRecommend/AiComment';
 import { cn } from '@/libs/utils/twMerge';
+import '@/assets/styles/bottomSheet.css';
 
 type Props = {
   sheetState: boolean;
