@@ -11,13 +11,13 @@ import { useBottomSheetResize } from '@/libs/hook/useBottomSheetResize';
 import AiComment from '../AiRecommend/AiComment';
 import { cn } from '@/libs/utils/twMerge';
 
-export default function ListBottomSheet({
-  sheetState,
-  setSheet,
-}: {
+type Props = {
   sheetState: boolean;
   setSheet: Dispatch<SetStateAction<boolean>>;
-}) {
+  data: ContentItem[];
+};
+
+export default function ListBottomSheet({ sheetState, setSheet, data }: Props) {
   const [initHeight, setInitHeight] = useState(205);
   const eventType = useMapStore((state) => state.eventType);
 
@@ -83,23 +83,25 @@ export default function ListBottomSheet({
               sheetState ? 'mt-none' : 'mt-5',
             )}
           >
-            결과 3개
+            {`결과 ${data.length}개`}
           </div>
 
           {sheetState && <AiComment />}
 
           {/* 카드 리스트 */}
           <ul className="scrollbar-hidden min-h-0 flex-1 overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]">
-            <ListCard />
-            <ListCard />
-            <ListCard />
-            <ListCard />
-            <ListCard />
-            <ListCard />
-            <ListCard />
-            <ListCard />
-            <ListCard />
-            <ListCard />
+            {data.map((data) => {
+              return (
+                <ListCard
+                  key={data.id}
+                  id={data.id}
+                  title={data.contentTitle}
+                  poster={data.poster}
+                  date={{ startDate: data.startDate, endDate: data.endDate }}
+                  address={data.address}
+                />
+              );
+            })}
           </ul>
         </div>
       </div>

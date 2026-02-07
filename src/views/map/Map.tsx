@@ -5,12 +5,14 @@ import { useState, useEffect } from 'react';
 import { useMapStore } from '@/stores/useMapStore';
 import { useEventsQuery } from '@/libs/queries/useMapEventQuery';
 import { useGroupsSearchQuery } from '@/libs/queries/useMapGroupsQuery';
+import { useMapQueries } from '@/libs/queries/useMapQuerys';
 import { Search } from 'lucide-react';
 import { Button } from './components/Button';
 import LocationSelect from './components/locationSelect/LocationSelect';
 import ListBottomSheet from './components/listBottomSheet/ListBottomSheet';
-import '@/assets/styles/map.css';
 import EventDatePicker from './components/EventDatePicker';
+import '@/assets/styles/map.css';
+import DatetimePicker from '@/common/datetimePicker/DatetimePicker';
 
 type ButtonType = 'icon' | 'filter';
 type BindTarget = 'eventType' | 'location' | undefined;
@@ -81,6 +83,15 @@ export default function Map() {
     guname: placeName,
   });
 
+  // const { eventsPage, groupsPage, isLoading, isFetching, error } = useMapQueries({
+  //   pageNo,
+  //   placeName,
+  //   groups: {
+  //     category,
+  //     keyword,
+  //   },
+  // });
+
   // const { data, isLoading, isError, error, isFetching } = useGroupsSearchQuery({
   //   sortBy: 'distance',
   //   page: pageNo,
@@ -108,8 +119,6 @@ export default function Map() {
   // if (isLoading) return <div>스켈레톤(로딩중)…</div>;
   // if (isError) return console.log('에러 발생');
   // if (!page) return null;
-
-  // console.log(page?.content);
 
   return (
     <>
@@ -165,12 +174,13 @@ export default function Map() {
             </div>
           </section>
           {/* 보드 */}
-          <ListBottomSheet sheetState={sheet} setSheet={setSheet} />
+          <ListBottomSheet sheetState={sheet} setSheet={setSheet} data={page?.content ?? []} />
           {/* 하단 나브바 */}
           <nav className="bg-bg-nav absolute bottom-0 left-0 h-16 w-full"></nav>
         </div>
         <LocationSelect show={locationSelector} onClick={locationSelectorToggle} />
         <EventDatePicker showValue={eventSheetShow} />
+        <DatetimePicker />
       </main>
     </>
   );

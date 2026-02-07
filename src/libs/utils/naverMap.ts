@@ -73,3 +73,13 @@ export function searchCoordinateToAddress(lng: number, lat: number): Promise<str
     );
   });
 }
+
+export function transitionDate(startDate?: string | null, endDate?: string | null) {
+  const start = startDate?.trim().replace(/-/g, '.');
+  const end = endDate?.trim().replace(/-/g, '.');
+
+  if (start && end) return `${start} - ${end}`;
+  if (start) return start;
+  if (end) return end;
+  return '';
+}

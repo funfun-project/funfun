@@ -6,7 +6,7 @@ import { cn } from '@/libs/utils/twMerge';
 import '@/assets/styles/bottomSheet.css';
 
 export default function LocationSelect({ show, onClick }: { show: boolean; onClick: () => void }) {
-  const [location, setLocation] = useState('전체');
+  const [location, setLocation] = useState<string | null>(null);
 
   const [isVisible, setIsVisible] = useState(show);
   // 메모리 참조용 ref

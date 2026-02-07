@@ -18,6 +18,7 @@ export default function makePinHTML(imgUrl: string, color = '#F25A2B') {
 
 export async function renderMarkers(map: naver.maps.Map, places: ContentListProps) {
   const markerPromises = places.data.map(async (p) => {
+    // 나중에 x,y 값 내려주면 삭제
     const geocode = await getGeocode(p.address);
     const first = geocode.addresses?.[0];
 

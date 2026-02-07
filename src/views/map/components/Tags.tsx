@@ -18,7 +18,7 @@ export default function Tags() {
         {tags.map((tag, idx) => (
           <span
             key={`${tag}-${idx}`}
-            className="text-text-default text-body4 bg-main rounded-5 px-2.5 py-0.5"
+            className="text-text-default text-body4 bg-main rounded-[20px] px-2.5 py-0.5"
           >
             {tag}
           </span>

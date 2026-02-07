@@ -16,25 +16,31 @@ export default function MapClient(data: ContentListProps) {
   const setCoordinate = useMapStore((state) => state.setCoordinate);
   const setPlaceName = useMapStore((state) => state.setPlaceName);
 
+  const MIN_ZOOM = 12;
+
   useEffect(() => {
     let map: naver.maps.Map;
-    //37.5665, 126.978
     const { longitude, latitude } = coordinate;
 
     const init = async () => {
-      await waitForNaverMaps(); // ← 전역 준비 보장
+      await waitForNaverMaps();
       if (!mapRef.current) return;
 
       const center = new naver.maps.LatLng(latitude, longitude);
-      map = new naver.maps.Map(mapRef.current, { center, zoom: 14, scaleControl: false });
+      map = new naver.maps.Map(mapRef.current, {
+        center,
+        zoom: 14,
+        minZoom: MIN_ZOOM,
+        scaleControl: false,
+      });
 
       const createdMarkers = renderMarkers(map, data);
-
-      console.log(createdMarkers);
-
       markersRef.current = await createdMarkers;
 
-      markersRef.current = await createdMarkers;
+      naver.maps.Event.addListener(map, 'zoom_changed', () => {
+        const z = map.getZoom();
+        if (z < MIN_ZOOM) map.setZoom(MIN_ZOOM);
+      });
 
       naver.maps.Event.addListener(map, 'dragend', async () => {
         //지도 드래그 해서 위치 이동시 x,y 값 가져오기

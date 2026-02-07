@@ -3,8 +3,6 @@ import { eventsAPI } from '@/libs/api/events/eventsAPI';
 import { groupsAPI } from '@/libs/api/groups/groupsAPI';
 import type { GroupSearchParams } from '@/libs/api/groups/groups.types';
 
-// 너 프로젝트에 이미 있는 키 함수가 있다면 그걸 쓰고,
-// 없으면 여기처럼 간단히 만들어도 됨.
 const eventsKey = (p: { page: number; size: number; sortBy: string; guname: string }) =>
   ['events', 'map', p.page, p.size, p.sortBy, p.guname] as const;
 
@@ -58,7 +56,6 @@ export function useMapQueries(args: {
     ],
   });
 
-  // 컴포넌트에서 쓰기 좋게 “합쳐서” 리턴해주기
   const isLoading = eventsQuery.isLoading || groupsQuery.isLoading;
   const isFetching = eventsQuery.isFetching || groupsQuery.isFetching;
   const error =
@@ -70,7 +67,6 @@ export function useMapQueries(args: {
     isLoading,
     isFetching,
     error,
-    // 필요하면 개별 쿼리도 노출 가능
     eventsQuery,
     groupsQuery,
   };
