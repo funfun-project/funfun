@@ -1,9 +1,9 @@
-import Splash from '@/views/home/components/Splash';
+import GatheringCreate from '@/views/gathering/gathering-create/GatheringCreate';
 
 export default function page() {
   return (
     <>
-      <Splash />
+      <GatheringCreate />
     </>
   );
 }
