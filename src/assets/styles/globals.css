@@ -242,3 +242,25 @@ button[data-active='false'] {
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .scrollbar-hidden {
+    scrollbar-width: none;
+
+    -ms-overflow-style: none;
+  }
+
+  .scrollbar-hidden::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  .scrollbar-hidden::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-hidden::-webkit-scrollbar-thumb {
+    background: transparent;
+    border: none;
+  }
+}

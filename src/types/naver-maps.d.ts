@@ -1,7 +1,7 @@
+export {};
+
 declare global {
   interface Window {
-    naver: typeof naver;
+    naver: typeof globalThis.naver;
   }
 }
-
-export {};

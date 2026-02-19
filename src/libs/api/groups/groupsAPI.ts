@@ -1,4 +1,5 @@
 import { client } from '../client';
+import type { GroupSearchParams, GetGroupsSearchResponse, GroupsPage } from './groups.types';
 
 export interface Group {
   id: number;
@@ -20,5 +21,21 @@ export const groupsAPI = {
   leaveGroup: async (groupId: number) => {
     const response = await client.post<void>(`/api/participants/${groupId}/leave`);
     return response.data;
+  },
+  searchGroups: async (params: GroupSearchParams = {}): Promise<GroupsPage> => {
+    const res = await client.get<GetGroupsSearchResponse>('/api/groups/search', {
+      params: {
+        category: params.category ?? undefined,
+        keyword: params.keyword?.trim() || undefined,
+        sortBy: params.sortBy ?? 'distance',
+        page: params.page ?? 0,
+        size: params.size ?? 20,
+      },
+    });
+
+    if (res.data.code !== '0000') {
+      throw new Error(res.data.reason || res.data.message);
+    }
+    return res.data.data;
   },
 };
