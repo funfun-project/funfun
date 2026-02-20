@@ -13,16 +13,22 @@ const getheringCategory = ['문화', '운동', '푸드', '게임', '여행', '�
 
 type Props = {
   show: boolean;
-  onToggle: () => void;
   setFilterTag: Dispatch<SetStateAction<string[]>>;
+  setFilterAction: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function ButtomSheet({ show, onToggle, setFilterTag }: Props) {
+export default function ButtomSheet({ show, setFilterTag, setFilterAction }: Props) {
   const [isVisible, setIsVisible] = useState(show);
   const [filterToggle, setFilterToggle] = useState<string>('');
   const [categoryToggle, setCategoryToggle] = useState<string>('');
   // 메모리 참조용 ref
   const closingRef = useRef(false);
+
+  const buttomSheetToggle = () => {
+    setFilterAction((prev) => !prev);
+    setFilterToggle('');
+    setCategoryToggle('');
+  };
 
   useEffect(() => {
     if (show) {
@@ -76,7 +82,7 @@ export default function ButtomSheet({ show, onToggle, setFilterTag }: Props) {
           <div className="w-full">
             <div className="flex w-full items-center justify-between px-[9px] py-[25px]">
               <h2 className="text-body1 text-white">필터</h2>
-              <button onClick={onToggle}>
+              <button onClick={buttomSheetToggle}>
                 <X className="text-text-support hover:text-main" />
               </button>
             </div>
@@ -98,7 +104,7 @@ export default function ButtomSheet({ show, onToggle, setFilterTag }: Props) {
               </div>
             )}
           </div>
-          <SubmitButton onSubmit={onSubmit} onToggle={onToggle} />
+          <SubmitButton onSubmit={onSubmit} onToggle={buttomSheetToggle} />
         </div>
 
         <div
@@ -107,7 +113,7 @@ export default function ButtomSheet({ show, onToggle, setFilterTag }: Props) {
             'backdrop',
             show ? 'backdropOpen' : '',
           )}
-          onClick={onToggle}
+          onClick={buttomSheetToggle}
         />
       </section>
     </>

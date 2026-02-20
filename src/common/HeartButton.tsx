@@ -9,7 +9,7 @@ type Props = {
   //좋아요 안 된 상태에서 이동할 URL 날짜, 시간 선택 페이지
   goToUrl: string;
   //서버에 전달할 대상 ID
-  itemId: string;
+  itemId: number;
 };
 
 export default function HeartButton({ initialIsLiked, goToUrl, itemId }: Props) {

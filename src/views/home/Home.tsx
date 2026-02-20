@@ -50,7 +50,7 @@ export default function Home() {
         </section>
         <section className="mb-[40px] px-[15px]">
           <h1 className="text-h2 text-text-default mb-[20px] font-semibold md:mb-[30px]">
-            가장 인기있는 모임
+            현재 주목 받고 있는 모임
           </h1>
           <div className="flex flex-col gap-[15px] md:gap-[20px]">
             <PopularClubList />
