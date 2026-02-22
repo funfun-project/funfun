@@ -20,6 +20,7 @@
     "@mantine/hooks": "^8.3.10",
     "@mui/icons-material": "^7.3.6",
     "@mui/material": "^7.3.6",
+    "@supabase/supabase-js": "^2.97.0",
     "@tanstack/react-query": "^5.85.5",
     "axios": "^1.11.0",
     "class-variance-authority": "^0.7.1",
