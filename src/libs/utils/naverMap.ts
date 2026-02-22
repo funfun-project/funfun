@@ -31,7 +31,11 @@ export const waitForNaverMaps = (timeout = 5000) => {
   return naverReadyPromise;
 };
 
-export function getGeocode(address: string): Promise<naver.maps.Service.GeocodeResponse['v2']> {
+export async function getGeocode(
+  address: string,
+): Promise<naver.maps.Service.GeocodeResponse['v2']> {
+  await waitForNaverMaps();
+
   return new Promise((resolve, reject) => {
     if (!window.naver?.maps?.Service) {
       reject(new Error('Naver Maps API not loaded'));
@@ -52,7 +56,9 @@ export function getGeocode(address: string): Promise<naver.maps.Service.GeocodeR
   });
 }
 
-export function searchCoordinateToAddress(lng: number, lat: number): Promise<string> {
+export async function searchCoordinateToAddress(lng: number, lat: number): Promise<string> {
+  await waitForNaverMaps();
+
   return new Promise((resolve, reject) => {
     if (!window.naver?.maps?.Service) {
       reject(new Error('Naver Maps API not loaded'));
