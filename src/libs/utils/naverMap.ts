@@ -37,11 +37,16 @@ export function getGeocode(address: string): Promise<naver.maps.Service.GeocodeR
       reject(new Error('Naver Maps API not loaded'));
       return;
     }
+
     naver.maps.Service.geocode({ query: address }, (status, response) => {
+      console.log('[geocode] status:', status);
+      console.log('[geocode] response:', response);
+
       if (status !== naver.maps.Service.Status.OK) {
-        reject(new Error(`getGeocode의 정보를 불러오는데 실패 했습니다.: ${status}`));
+        reject(new Error(`getGeocode failed: ${status} / ${JSON.stringify(response)}`));
         return;
       }
+
       resolve(response.v2);
     });
   });
@@ -60,19 +65,63 @@ export function searchCoordinateToAddress(lng: number, lat: number): Promise<str
         orders: 'roadaddr,addr',
       },
       (status, response) => {
+        console.log('[reverseGeocode] status:', status);
+        console.log('[reverseGeocode] response:', response);
+
         if (status !== naver.maps.Service.Status.OK) {
-          reject(new Error('ReverseGeocode failed'));
+          reject(new Error(`reverseGeocode failed: ${status} / ${JSON.stringify(response)}`));
           return;
         }
 
         const address = response.v2.address;
-        const result = address.roadAddress || address.jibunAddress;
-
-        resolve(result);
+        resolve(address.roadAddress || address.jibunAddress);
       },
     );
   });
 }
+
+// export function getGeocode(address: string): Promise<naver.maps.Service.GeocodeResponse['v2']> {
+//   return new Promise((resolve, reject) => {
+//     if (!window.naver?.maps?.Service) {
+//       reject(new Error('Naver Maps API not loaded'));
+//       return;
+//     }
+//     naver.maps.Service.geocode({ query: address }, (status, response) => {
+//       if (status !== naver.maps.Service.Status.OK) {
+//         reject(new Error(`getGeocode의 정보를 불러오는데 실패 했습니다.: ${status}`));
+//         return;
+//       }
+//       resolve(response.v2);
+//     });
+//   });
+// }
+
+// export function searchCoordinateToAddress(lng: number, lat: number): Promise<string> {
+//   return new Promise((resolve, reject) => {
+//     if (!window.naver?.maps?.Service) {
+//       reject(new Error('Naver Maps API not loaded'));
+//       return;
+//     }
+
+//     naver.maps.Service.reverseGeocode(
+//       {
+//         coords: new naver.maps.LatLng(lat, lng),
+//         orders: 'roadaddr,addr',
+//       },
+//       (status, response) => {
+//         if (status !== naver.maps.Service.Status.OK) {
+//           reject(new Error('ReverseGeocode failed'));
+//           return;
+//         }
+
+//         const address = response.v2.address;
+//         const result = address.roadAddress || address.jibunAddress;
+
+//         resolve(result);
+//       },
+//     );
+//   });
+// }
 
 export function transitionDate(startDate?: string | null, endDate?: string | null) {
   const start = startDate?.trim().replace(/-/g, '.');

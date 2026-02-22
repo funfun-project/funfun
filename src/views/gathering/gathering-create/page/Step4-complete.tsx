@@ -1,13 +1,13 @@
 'use client';
 
-import { useCreateGatheringStore } from '@/stores/useCreateGatheringStore';
+// import { useCreateGatheringStore } from '@/stores/useCreateGatheringStore';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function Step4Complete() {
   const router = useRouter();
   const [rotate, setRotate] = useState(false);
-  const { form, reset } = useCreateGatheringStore();
+  // const { form, reset } = useCreateGatheringStore();
 
   return (
     <>

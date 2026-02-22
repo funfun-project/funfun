@@ -43,8 +43,9 @@ import Step2 from './page/Step2-input-date';
 import Step3 from './page/Step3-input-info';
 import Step4 from './page/Step4-complete';
 import { cn } from '@/libs/utils/twMerge';
-import { fetchLatLngFromAddress } from '@/libs/utils/geocode'; // 네가 분리해둔 util (없으면 기존 함수 그대로 넣어도 됨)
-import type { CommitFieldFn } from '@/libs/utils/createGathering';
+import { getGeocode } from '@/libs/utils/naverMap'; // 네가 분리해둔 util (없으면 기존 함수 그대로 넣어도 됨)
+import type { CommitFieldFn, FieldType, ValidationArg } from '@/libs/utils/createGathering';
+import { validationInput } from '@/libs/utils/createGathering';
 
 // =======================
 // 1) Form 타입 & 초기값
@@ -82,88 +83,6 @@ const initialForm: CreateGatheringForm = {
   hashTags: [],
   during: 0,
 };
-
-// =======================
-// 2) 너가 준 validation 타입/함수 (같은 파일에 둔다고 가정)
-// =======================
-export type FieldType =
-  | 'title'
-  | 'category'
-  | 'address'
-  | 'date'
-  | 'maxPeople'
-  | 'during'
-  | 'explain'
-  | 'image';
-
-export type FieldValueMap = {
-  title: string;
-  category: string;
-  address: string;
-  date: string;
-  maxPeople: number;
-  during: number;
-  explain: string;
-  image: File | null;
-};
-
-export type ValidationArg = {
-  [K in FieldType]: { type: K; value: FieldValueMap[K] };
-}[FieldType];
-
-export function validationInput(arg: ValidationArg): string | null {
-  switch (arg.type) {
-    case 'title': {
-      const regex = /^(?=.*[가-힣A-Za-z0-9])[가-힣A-Za-z0-9 ]{1,16}$/;
-      return regex.test(arg.value)
-        ? null
-        : '제목은 한글, 영문, 숫자만 사용해 1~16자로 입력해주세요.';
-    }
-
-    case 'category':
-      return arg.value ? null : '카테고리를 선택해 주세요.';
-
-    case 'address':
-      return arg.value ? null : '주소를 입력해주세요.';
-
-    case 'date': {
-      const now = new Date();
-      const target = new Date(arg.value);
-      if (isNaN(target.getTime())) return '유효한 날짜 형식이 아닙니다.';
-      if (target.getTime() <= now.getTime()) return '모임 날짜는 현재 시간 이후여야 합니다.';
-      return null;
-    }
-
-    case 'maxPeople': {
-      const num = arg.value;
-      if (!Number.isFinite(num)) return '모집 인원은 숫자로 입력해주세요.';
-      if (num <= 0) return '모집 인원은 1명 이상이어야 합니다.';
-      if (num > 30) return '모집 인원은 최대 30명까지 가능합니다.';
-      return null;
-    }
-
-    case 'during': {
-      const num = arg.value;
-      if (!Number.isFinite(num)) return '모임 시간은 숫자로 입력해주세요.';
-      if (num <= 0) return '모임 시간은 1시간 이상이어야 합니다.';
-      if (num > 24) return '모임 시간은 최대 24시간까지 가능합니다.';
-      return null;
-    }
-
-    case 'explain': {
-      const regex = /^(?=.*[가-힣A-Za-z0-9])[가-힣A-Za-z0-9 ]{1,100}$/;
-      return regex.test(arg.value)
-        ? null
-        : '설명은 한글, 영문, 숫자만 사용해 1~100자로 입력해주세요.';
-    }
-
-    case 'image':
-      return arg.value ? null : '대표 사진은 필수입니다.';
-
-    default:
-      return '알 수 없는 입력값입니다.';
-  }
-}
 
 type State = {
   step: number;
@@ -216,14 +135,10 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-// =======================
-// 4) GatheringCreate component
-// =======================
 export default function GatheringCreate() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { step, form, errors, isAddressLoading, addressError } = state;
 
-  // step 이동
   const setStep = useCallback((next: number) => dispatch({ type: 'SET_STEP', step: next }), []);
   const nextStep = useCallback(() => setStep(step + 1), [setStep, step]);
   const prevStep = useCallback(() => setStep(Math.max(1, step - 1)), [setStep, step]);
@@ -251,22 +166,24 @@ export default function GatheringCreate() {
       dispatch({ type: 'SET_FORM', patch: { address: trimmed } });
 
       try {
-        const geo = await fetchLatLngFromAddress(trimmed);
+        const geo = await getGeocode(trimmed);
+        console.log(geo);
 
-        if (!geo) {
-          dispatch({
-            type: 'SET_ADDRESS_STATUS',
-            loading: false,
-            error: '주소를 찾을 수 없어요. 다시 확인해주세요.',
-          });
-          dispatch({ type: 'SET_FORM', patch: { latitude: 0, longitude: 0 } });
-          return false;
-        }
+        // if (!geo) {
+        //   dispatch({
+        //     type: 'SET_ADDRESS_STATUS',
+        //     loading: false,
+        //     error: '주소를 찾을 수 없어요. 다시 확인해주세요.',
+        //   });
+        //   dispatch({ type: 'SET_FORM', patch: { latitude: 0, longitude: 0 } });
+        //   return false;
+        // }
 
-        dispatch({ type: 'SET_FORM', patch: { latitude: geo.latitude, longitude: geo.longitude } });
+        // dispatch({ type: 'SET_FORM', patch: { latitude: geo.latitude, longitude: geo.longitude } });
         return true;
       } catch (error) {
-        if (error instanceof Error && 'latitude' in error) {
+        console.log('실패');
+        if (error instanceof Error) {
           console.log(error);
         }
         dispatch({
