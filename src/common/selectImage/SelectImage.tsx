@@ -12,7 +12,7 @@ type Props = {
   className?: string;
 };
 
-export default function SelectImage({ value, onChange, error = null, className }: Props) {
+export default function SelectImage({ value, onChange, className }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
@@ -61,19 +61,14 @@ export default function SelectImage({ value, onChange, error = null, className }
       />
 
       {value === null || previewUrl === null ? (
-        <AddImage onClick={openFileDialog} />
+        <AddImage onClick={openFileDialog} className={className} />
       ) : (
         <EditImage
           previewUrl={previewUrl}
           onChangeClick={openFileDialog}
           onRemoveClick={removeImage} // ✅ Promise 아님
+          className={className}
         />
-      )}
-
-      {error && (
-        <p className="mt-1 text-sm text-[#FF5126]" role="alert">
-          {error}
-        </p>
       )}
     </div>
   );

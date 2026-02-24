@@ -1,62 +1,3 @@
-// 'use client';
-
-// import { useState, Dispatch, SetStateAction } from 'react';
-// import { useCreateGatheringStore } from '@/stores/useCreateGatheringStore';
-
-// import Input from '../../../../common/Input';
-// import { cn } from '@/libs/utils/twMerge';
-
-// type Props = {
-//   setStep: Dispatch<SetStateAction<number>>;
-// };
-
-// export default function Step2InputDate({ setStep }: Props) {
-//   const [showDatePicker, setShowDatePicker] = useState(false);
-//   const form = useCreateGatheringStore((state) => state.form);
-
-//   return (
-//     <>
-//       <div className="flex-1 space-y-3">
-//         <div className="text-white">
-//           <h1 className="text-h2">모임의 날짜를 정해주세요</h1>
-//         </div>
-//         <div>
-//           <h3 className="text-main mb-2.5">모임 위치</h3>
-//           <Input type="address" placeholder="모임 위치를 작성해 주세요." inputType="text" />
-//         </div>
-//         <div className="mt-2.5">
-//           <h3 className="text-main mb-2.5">모임 날짜</h3>
-//           <Input type="date" placeholder="모임 날짜를 선택해 주세요." inputType="text" />
-//         </div>
-//         <div className="mt-2.5">
-//           <h3 className="text-main mb-2.5">모임 인원</h3>
-//           <Input type="maxPeople" placeholder="최대 인원을 입력해 주세요." inputType="text" />
-//         </div>
-//         <div className="mt-2.5">
-//           <h3 className="text-main mb-2.5">모임 시간</h3>
-//           <Input type="during" placeholder="소요 시간을 입력해 주세요." inputType="text" />
-//         </div>
-//       </div>
-//       <div>
-//         <button
-//           className={cn(
-//             'bg-bg-button text-text-disabled mt-2.5 w-full rounded-[3px] py-3.5',
-//             form.address &&
-//               form.groupDate &&
-//               form.maxPeople &&
-//               form.during &&
-//               'bg-main text-text-default',
-//           )}
-//           disabled={!(form.address && form.groupDate && form.maxPeople && form.during)}
-//           onClick={() => setStep((prev) => (prev += 1))}
-//         >
-//           다음
-//         </button>
-//       </div>
-//     </>
-//   );
-// }
-
 'use client';
 
 import { cn } from '@/libs/utils/twMerge';
@@ -92,15 +33,15 @@ export default function Step2InputDate({
   // Step2 게이트(필요에 맞게 수정 가능)
   const canNext = Boolean(
     form.address.trim() &&
-      form.groupDate &&
-      Number(form.maxPeople) > 0 &&
-      Number(form.during) > 0 &&
-      !errors.address &&
-      !errors.date &&
-      !errors.maxPeople &&
-      !errors.during &&
-      !addressError &&
-      !isAddressLoading,
+    form.groupDate &&
+    Number(form.maxPeople) > 0 &&
+    Number(form.during) > 0 &&
+    !errors.address &&
+    !errors.date &&
+    !errors.maxPeople &&
+    !errors.during &&
+    !addressError &&
+    !isAddressLoading,
   );
 
   return (
@@ -125,7 +66,7 @@ export default function Step2InputDate({
             onBlur={() => void commitField('address', form.address)}
           />
           {isAddressLoading && (
-            <p className="mt-1 text-sm text-text-support">주소를 확인 중입니다...</p>
+            <p className="text-text-support mt-1 text-sm">주소를 확인 중입니다...</p>
           )}
         </div>
 

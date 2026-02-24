@@ -1,12 +1,14 @@
 'use client';
 
+import { cn } from '@/libs/utils/twMerge';
 import { Plus } from 'lucide-react';
 
 type Props = {
   onClick: () => void;
+  className?: string;
 };
 
-export default function AddImage({ onClick }: Props) {
+export default function AddImage({ onClick, className }: Props) {
   return (
     <div
       role="button"
@@ -15,7 +17,10 @@ export default function AddImage({ onClick }: Props) {
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') onClick();
       }}
-      className="bg-bg-input flex h-full w-full cursor-pointer flex-col items-center justify-center gap-2.5 rounded-[20px] border-1 border-[#4e4e4e]"
+      className={cn(
+        'bg-bg-input flex h-full w-full cursor-pointer flex-col items-center justify-center gap-2.5 rounded-[20px] border-1 border-[#4e4e4e]',
+        className,
+      )}
     >
       <p className="text-[#D6D6D6]">대표 사진을 추가해 주세요</p>
       <div className="rounded-full bg-[rgba(255,81,38,.3)] p-1.5">

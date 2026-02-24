@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { searchCoordinateToAddress } from '@/libs/utils/naverMap';
+import { searchCoordinateToAddress, waitForNaverMaps } from '@/libs/utils/naverMap';
 import { extractDistrict } from '@/libs/utils/locationSelect';
 
 type Coordinate = {
