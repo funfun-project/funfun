@@ -4,11 +4,12 @@ import { cn } from '@/libs/utils/twMerge';
 import { Plus } from 'lucide-react';
 
 type Props = {
+  mode?: 'gathering' | 'inquiry';
   onClick: () => void;
   className?: string;
 };
 
-export default function AddImage({ onClick, className }: Props) {
+export default function AddImage({ mode = 'gathering', onClick, className }: Props) {
   return (
     <div
       role="button"
@@ -22,7 +23,9 @@ export default function AddImage({ onClick, className }: Props) {
         className,
       )}
     >
-      <p className="text-[#D6D6D6]">대표 사진을 추가해 주세요</p>
+      <p className="text-[#D6D6D6]">
+        {mode === 'gathering' ? '대표 사진을 추가해 주세요' : '사진을 추가해 주세요'}
+      </p>
       <div className="rounded-full bg-[rgba(255,81,38,.3)] p-1.5">
         <Plus color="#FF5126" size={28} />
       </div>

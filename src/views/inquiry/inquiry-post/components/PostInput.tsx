@@ -65,8 +65,9 @@ export default function InquiryPost({ form, errors, setField, commitField, canNe
             />
           </div>
           <div>
-            <label className="text-main mb-2.5 block">대표 사진</label>
+            <label className="text-main mb-1.25 block">대표 사진</label>
             <SelectImage
+              mode="inquiry"
               value={form.image}
               onChange={(file) => {
                 void handleImageChange(file);
@@ -76,16 +77,18 @@ export default function InquiryPost({ form, errors, setField, commitField, canNe
             />
           </div>
           <div className="flex grow-1 flex-col">
-            <label className="text-main mb-2.5 block">내용 작성</label>
-            {/* <SelectImage
-              value={form.image}
-              onChange={(file) => {
-                void handleImageChange(file);
-              }}
-              error={errors.image ?? null}
+            <label htmlFor="inquiry" className="text-main mb-1.25 block">
+              내용 작성
+            </label>
+            <Textarea
+              id="inquiry"
+              value={form.inquiry}
+              placeholder="문의글을 작성해 주세요."
+              error={errors.inquiry ?? null}
+              onChange={(v) => setField('inquiry', v)}
+              onBlur={() => void commitField('inquiry', form.inquiry)}
               className="rounded-[3px]"
-            /> */}
-            <Textarea className="rounded-[3px]" placeholder="문의글을 작성해 주세요." />
+            />
           </div>
         </div>
         {/* 다음 버튼 */}

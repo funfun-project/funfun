@@ -12,7 +12,7 @@ export default function SelectBox({ items, className, onSelect }: Props) {
   return (
     <ul
       className={cn(
-        'bg-bg-input absolute flex w-full flex-col gap-2.5 rounded-[3px] px-3.5 py-2',
+        'bg-bg-input absolute z-20 flex w-full flex-col gap-2.5 rounded-[3px] px-3.5 py-2',
         className,
       )}
     >

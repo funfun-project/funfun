@@ -6,14 +6,14 @@ import PostInput from './components/PostInput';
 
 export interface CreateGatheringForm {
   title: string;
-  explain: string;
+  inquiry: string;
   category: string;
   image: File | null;
 }
 
 const initialForm: CreateGatheringForm = {
   title: '',
-  explain: '',
+  inquiry: '',
   category: '',
   image: null,
 };
@@ -77,8 +77,8 @@ export default function InquiryPost() {
   }, []);
 
   const canNext = useMemo(
-    () => Boolean(form.title && form.category && form.explain),
-    [form.title, form.category, form.explain],
+    () => Boolean(form.title && form.category && form.inquiry),
+    [form.title, form.category, form.inquiry],
   );
 
   return (

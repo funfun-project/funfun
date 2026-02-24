@@ -6,7 +6,8 @@ export type FieldType =
   | 'maxPeople'
   | 'during'
   | 'explain'
-  | 'image';
+  | 'image'
+  | 'inquiry';
 
 export type FieldValueMap = {
   title: string;
@@ -17,6 +18,7 @@ export type FieldValueMap = {
   during: number;
   explain: string;
   image: File | null;
+  inquiry: string;
 };
 
 export type ValidationArg = {
@@ -76,6 +78,11 @@ export function validationInput(arg: ValidationArg): string | null {
 
     case 'image':
       return arg.value ? null : '대표 사진은 필수입니다.';
+
+    case 'inquiry': {
+      const regex = /^(?=.*[가-힣A-Za-z0-9])[가-힣A-Za-z0-9 ]{1,200}$/;
+      return regex.test(arg.value) ? null : '문의 내용은 필수 항목 입니다.';
+    }
 
     default:
       return '알 수 없는 입력값입니다.';

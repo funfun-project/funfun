@@ -6,13 +6,14 @@ import EditImage from './EditImage';
 import { cn } from '@/libs/utils/twMerge';
 
 type Props = {
+  mode?: 'gathering' | 'inquiry';
   value: File | null;
   onChange: (file: File | null) => void;
   error?: string | null;
   className?: string;
 };
 
-export default function SelectImage({ value, onChange, className }: Props) {
+export default function SelectImage({ mode, value, onChange, className }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
@@ -61,7 +62,7 @@ export default function SelectImage({ value, onChange, className }: Props) {
       />
 
       {value === null || previewUrl === null ? (
-        <AddImage onClick={openFileDialog} className={className} />
+        <AddImage mode={mode} onClick={openFileDialog} className={className} />
       ) : (
         <EditImage
           previewUrl={previewUrl}
