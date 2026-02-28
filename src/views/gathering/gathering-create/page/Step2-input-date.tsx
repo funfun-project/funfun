@@ -53,7 +53,7 @@ export default function Step2InputDate({
 
         {/* 주소 */}
         <div>
-          <label htmlFor="gathering-address" className="text-main mb-2.5 block">
+          <label htmlFor="gathering-address" className="text-main mb-1.25 block">
             모임 위치
           </label>
           <Input
@@ -72,7 +72,7 @@ export default function Step2InputDate({
 
         {/* 날짜 */}
         <div className="mt-2.5">
-          <label htmlFor="gathering-date" className="text-main mb-2.5 block">
+          <label htmlFor="gathering-date" className="text-main mb-1.25 block">
             모임 날짜
           </label>
           <Input
@@ -87,7 +87,7 @@ export default function Step2InputDate({
 
         {/* 인원 */}
         <div className="mt-2.5">
-          <label htmlFor="gathering-maxPeople" className="text-main mb-2.5 block">
+          <label htmlFor="gathering-maxPeople" className="text-main mb-1.25 block">
             모임 인원
           </label>
           <Input
@@ -102,7 +102,7 @@ export default function Step2InputDate({
 
         {/* 시간 */}
         <div className="mt-2.5">
-          <label htmlFor="gathering-during" className="text-main mb-2.5 block">
+          <label htmlFor="gathering-during" className="text-main mb-1.25 block">
             모임 시간
           </label>
           <Input

@@ -5,6 +5,7 @@ import SelectImage from '../../../../common/selectImage/SelectImage';
 import { cn } from '@/libs/utils/twMerge';
 import type { CreateGatheringForm } from '../GatheringCreate'; // 경로 맞춰줘
 import type { CommitFieldFn, FieldType } from '@/libs/utils/createGathering';
+import Textarea from '@/common/Textarea';
 
 type Props = {
   form: CreateGatheringForm;
@@ -64,7 +65,6 @@ export default function Step3InputInfo({
 
   return (
     <div className="flex h-screen w-full flex-col">
-      {/* 요약 영역 */}
       <div className="p-4 pb-12.5 font-light">
         <h2 className="text-h2 mb-7.5 font-semibold text-white">{form.title || '제목 미입력'}</h2>
 
@@ -100,7 +100,6 @@ export default function Step3InputInfo({
       <div className="bg-bg-board flex grow-1 flex-col gap-7.5 px-4 pt-10 pb-5">
         {/* ✅ 대표 이미지 (필수) */}
         <div>
-          <label className="text-main mb-2.5 block">대표 사진</label>
           <SelectImage
             value={form.image}
             onChange={(file) => {
@@ -109,17 +108,16 @@ export default function Step3InputInfo({
             error={errors.image ?? null}
           />
         </div>
-
-        {/* ✅ “필수 공통 컴포넌트 자리”
-            지금은 영역만 있어도 되는데, 나중에 진짜 필수 입력이 들어오면
-            form 필드 + validation + commit + canNext 조건에 포함시키면 됨. */}
-        <div className="bg-bg-input cursor-pointer rounded-[20px] border-1 border-[#4e4e4e] py-11.5">
-          <div className="flex flex-col items-center justify-center gap-2.5">
-            <p className="text-[#D6D6D6]">필수 정보를 추가해 주세요</p>
-            <div className="rounded-full bg-[rgba(255,81,38,.3)] p-1.5">
-              <Plus color="#FF5126" size={28} />
-            </div>
-          </div>
+        <div>
+          <Textarea
+            id="inquiry"
+            value={form.explain}
+            placeholder="간단한 모임글을 작성해주세요,"
+            error={errors.explain ?? null}
+            onChange={(v) => setField('explain', v)}
+            onBlur={() => void commitField('inquiry', form.explain)}
+            className="h-40 grow-0"
+          />
         </div>
 
         {/* 버튼 */}

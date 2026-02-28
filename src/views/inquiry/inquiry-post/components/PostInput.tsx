@@ -37,7 +37,7 @@ export default function InquiryPost({ form, errors, setField, commitField, canNe
         {/* 컨텐츠 영역 */}
         <div className="flex grow-1 flex-col gap-2.25">
           <div>
-            <label htmlFor="title" className="text-main mb-1.25">
+            <label htmlFor="title" className="text-main mb-1.25 block">
               제목
             </label>
             <Input
@@ -50,7 +50,7 @@ export default function InquiryPost({ form, errors, setField, commitField, canNe
             />
           </div>
           <div>
-            <label htmlFor="category" className="text-main my-1.25">
+            <label htmlFor="category" className="text-main my-1.25 block">
               카테고리
             </label>
             <Input

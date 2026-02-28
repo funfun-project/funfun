@@ -7,13 +7,10 @@ import Step2 from './page/Step2-input-date';
 import Step3 from './page/Step3-input-info';
 import Step4 from './page/Step4-complete';
 import { cn } from '@/libs/utils/twMerge';
-import { getGeocode } from '@/libs/utils/naverMap'; // 네가 분리해둔 util (없으면 기존 함수 그대로 넣어도 됨)
+import { getGeocode } from '@/libs/utils/naverMap';
 import type { CommitFieldFn, FieldType, ValidationArg } from '@/libs/utils/createGathering';
 import { validationInput } from '@/libs/utils/createGathering';
 
-// =======================
-// 1) Form 타입 & 초기값
-// =======================
 export interface CreateGatheringForm {
   title: string;
   explain: string;
@@ -164,7 +161,6 @@ export default function GatheringCreate() {
     [state.addressError],
   );
 
-  // ✅ commitField (여기서 validationInput 사용)
   const commitField: CommitFieldFn = useCallback(
     async (fieldType, value) => {
       const msg = validationInput({ type: fieldType, value } as ValidationArg);
@@ -181,7 +177,6 @@ export default function GatheringCreate() {
     [resolveAddress],
   );
 
-  // step1 게이트 예시
   const canNextStep1 = useMemo(
     () => Boolean(form.title && form.category),
     [form.title, form.category],

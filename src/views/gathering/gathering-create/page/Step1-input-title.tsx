@@ -30,7 +30,7 @@ export default function Step1InputTitle({
         </div>
 
         <div>
-          <label htmlFor="title" className="text-main mb-1.25">
+          <label htmlFor="title" className="text-main mb-1.25 block">
             제목
           </label>
           <Input
@@ -44,7 +44,7 @@ export default function Step1InputTitle({
         </div>
 
         <div className="mt-2.5">
-          <label htmlFor="category" className="text-main my-1.25">
+          <label htmlFor="category" className="text-main my-1.25 block">
             카테고리
           </label>
           <Input
