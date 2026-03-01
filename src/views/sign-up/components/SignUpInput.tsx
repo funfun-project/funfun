@@ -1,45 +1,32 @@
 'use client';
 
 import { SignUpInputProps } from '@/types/signUp-input-types';
-import { TextField } from '@mui/material';
 
 export default function SignUpInput({
-  label,
   value,
   onChange,
   error,
   type = 'text',
   enterSubmit,
+  placeholder,
 }: SignUpInputProps) {
-  const inputStyle = {
-    input: { color: 'white' },
-    label: { color: 'gray' },
-    '& label.Mui-focused': {
-      color: '#ff5126',
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': { borderColor: 'gray' },
-      '&:hover fieldset': { borderColor: '#FF5126' },
-      '&.Mui-focused fieldset': { borderColor: '#FF5126' },
-    },
-  };
-
   return (
-    <div className="mt-5">
-      <TextField
-        fullWidth
-        label={label}
-        variant="outlined"
-        value={value}
+    <div className="mt-5 w-full">
+      <input
         type={type}
+        value={value}
+        placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
-        sx={inputStyle}
         onKeyDown={(e) => {
           if (e.key === 'Enter' && enterSubmit) {
             enterSubmit();
           }
         }}
+        className={`w-full rounded-md border bg-neutral-900 px-4 py-3 text-white placeholder-gray-500 transition outline-none ${
+          error ? 'border-[#FF5126]' : 'border-gray-600 focus:border-[#FF5126]'
+        } `}
       />
+
       {error && <p className="mt-1 text-sm text-[#FF5126]">{error}</p>}
     </div>
   );

@@ -4,10 +4,11 @@ import { useSignUpStore } from '@/stores/useSignUpStore';
 import { SelectChangeEvent } from '@mui/material';
 import React, { useState } from 'react';
 
-import toast from 'react-hot-toast';
 import SignUpInput from '../components/SignUpInput';
 import SignUpSelect from '../components/SignUpSelect';
 import AddressSearch from '@/common/AddressSearch';
+import FormSectionHeader from '../components/FormSectionHeader';
+import { showToast } from '@/views/toast/showToast';
 
 export default function StepInputProfile() {
   const { step, setStep, setForm, form } = useSignUpStore();
@@ -20,19 +21,10 @@ export default function StepInputProfile() {
   const [gender, setGender] = useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
-    //    setGender(event.target.value);
     const value = event.target.value;
     if (value === '남성' || value === '여성') {
       setForm({ gender: value });
     }
-  };
-
-  const toastStyle = {
-    width: '100%',
-    backgroundColor: '#333',
-    color: '#fff',
-    fontSize: '16px',
-    marginBottom: '80px',
   };
 
   const handleCheckBirth = () => {
@@ -41,14 +33,10 @@ export default function StepInputProfile() {
 
     if (!birthRegex.test(birth)) {
       setBirthError('YYYYMMDD 형식에 맞춰 입력해 주세요');
-      toast.error('생년월일 형식을 확인해주세요.', {
-        position: 'bottom-center',
-        style: toastStyle,
-      });
+      showToast('생년월일 형식을 확인해 주세요');
       return;
     }
 
-    //birth 확인
     const year = Number(birth.slice(0, 4));
     const month = Number(birth.slice(4, 6));
     const day = Number(birth.slice(6, 8));
@@ -59,40 +47,25 @@ export default function StepInputProfile() {
 
     if (!isValidDate) {
       setBirthError('유효하지 않은 날짜입니다. 다시 확인해 주세요.');
-      toast.error('올바른 생년월일을 입력해주세요.', {
-        position: 'bottom-center',
-        style: toastStyle,
-      });
+      showToast('생년월일 형식을 확인해 주세요');
       return;
     }
-    setBirthError('');
-    toast.success('생년월일이 확인되었습니다.', {
-      position: 'bottom-center',
-      style: toastStyle,
-    });
 
+    setBirthError('');
     setIsBirthInput(true);
     setIsGenderSelect(true);
   };
-
-  //주소확인
 
   const handleCheckAdress = () => {
     const adress = form.adress;
 
     if (!adress || adress.trim() === '') {
       setAdressError('주소를 입력해주세요');
-      toast.error('주소를 입력해주세요', {
-        position: 'bottom-center',
-        style: toastStyle,
-      });
+      showToast('유효하지 않은 주소 정보 입니다');
       return;
     }
+
     setAdressError('');
-    toast.success('주소가 확인되었습니다.', {
-      position: 'bottom-center',
-      style: toastStyle,
-    });
     setStep(step + 1);
   };
 
@@ -108,62 +81,34 @@ export default function StepInputProfile() {
       '&.Mui-focused fieldset': { borderColor: '#FF5126' },
     },
   };
+
   return (
     <>
       <div className="flex-1 space-y-3">
-        <div className="text-white">
-          <h2>프로필 정보를 입력해주세요</h2>
-          <p>생년월일 · 성별 · 주소를 입력해주세요</p>
-        </div>
+        <FormSectionHeader
+          title="프로필 정보를 입력해 주세요"
+          description="생년월일 · 성별 · 주소를 입력해주세요"
+        />
+
         <div>
           <div className="mt-5">
             <SignUpInput
-              label="생년월일 (YYYYMMDD)"
               value={form.birth || ''}
               onChange={(v) => setForm({ birth: v })}
               error={birthError}
+              placeholder="생년월일 (YYYYMMDD)"
             />
-            {/* <TextField
-              fullWidth
-              label="생년월일 (YYYYMMDD)"
-              variant="outlined"
-              value={form.birth || ""}
-              onChange={(e) => setForm({ birth: e.target.value })}
-              sx={inputStyle}
-            />
-            {birthError && (
-              <p className="text-[#FF5126] text-sm mt-1 ">{birthError}</p>
-            )} */}
           </div>
         </div>
 
         <div>
           {isGenderSelect && (
             <SignUpSelect
-              label="gender"
               value={form.gender || ''}
               options={['남성', '여성']}
               onChange={(v) => setForm({ gender: v })}
             />
           )}
-          {/* {isGenderSelect && (
-            <FormControl sx={{ width: "100%", ...inputStyle }}>
-              <InputLabel id="demo-simple-select-helper-label">
-                gender
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-helper-label"
-                id="demo-simple-select-helper"
-                value={form.gender || ""}
-                label="gender"
-                onChange={handleChange}
-                sx={{ color: "white" }}
-              >
-                <MenuItem value={"남성"}>남성</MenuItem>
-                <MenuItem value={"여성"}>여성</MenuItem>
-              </Select>
-            </FormControl>
-          )} */}
         </div>
 
         {isAdressInput && (

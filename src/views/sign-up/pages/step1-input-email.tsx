@@ -6,6 +6,8 @@ import { useSignUpStore } from '@/stores/useSignUpStore';
 import { useState } from 'react';
 import SignUpInput from '../components/SignUpInput';
 import toast from 'react-hot-toast';
+import FormSectionHeader from '../components/FormSectionHeader';
+import { showToast } from '@/views/toast/showToast';
 
 export default function Step1InputEmail() {
   const [emailError, setEmailError] = useState('');
@@ -25,54 +27,35 @@ export default function Step1InputEmail() {
     }
 
     mutate(email, {
-      onSuccess: (data) => {
-        toast.success('인증 메일을 발송했습니다.', {
-          position: 'bottom-center',
-          style: {
-            width: '100%',
-            backgroundColor: '#333',
-            color: '#fff',
-            fontSize: '16px',
-            marginBottom: '80px',
-          },
-        });
+      onSuccess: () => {
         setIsEmailCodeInput(true);
         setEmailError('');
       },
-      onError: (error) => {
-        console.error('메일 발송 실패:', error);
-        toast.error('메일 발송 중 오류가 발생했습니다.');
+      onError: () => {
+        showToast('메일 발송 중 오류가 발생했습니다.');
       },
     });
   };
 
   const handleCompleteEmailCode = () => {
     if (!form.email || !form.emailCode) {
-      setCodeError('이메일 또는 인증번호가 누락되었습니다.');
+      setCodeError('메일 인증에 실패 했습니다');
+      showToast('메일 인증에 실패 했습니다');
       return;
     }
 
     verifyCodeMutate(
       { email: form.email, code: form.emailCode },
       {
-        onSuccess: (data) => {
-          toast.success('이메일 인증이 완료되었습니다.', {
-            position: 'bottom-center',
-            style: {
-              width: '100%',
-              backgroundColor: '#333',
-              color: '#fff',
-              fontSize: '16px',
-              marginBottom: '80px',
-            },
-          });
+        onSuccess: () => {
+          showToast('메일 인증에 성공 했습니다');
           setCodeError('');
           setTimeout(() => setStep(step + 1), 800);
         },
         onError: (error) => {
           console.error('이메일 코드 검증 실패:', error);
           setCodeError('인증번호가 올바르지 않습니다.');
-          toast.error('이메일 인증에 실패했습니다.');
+          showToast('이메일 인증에 실패했습니다.');
         },
       },
     );
@@ -81,16 +64,16 @@ export default function Step1InputEmail() {
   return (
     <>
       <div className="flex-1 space-y-3">
-        <div className="text-white">
-          <h2>이메일을 인증하세요</h2>
-          <p>메일을 입력하면 메일이 발송 돼요</p>
-        </div>
+        <FormSectionHeader
+          title="이메일을 인증해 주세요"
+          description="메일을 입력하면 메일이 발송 돼요"
+        />
         <div>
           <SignUpInput
-            label="email"
             value={form.email || ''}
             onChange={(v) => setForm({ email: v })}
             error={emailError}
+            placeholder="이메일을 입력해 주세요."
             enterSubmit={() => form.email && handlePostEmailCode()}
           />
         </div>
@@ -98,7 +81,6 @@ export default function Step1InputEmail() {
         <div className="mt-5">
           {isEmailCodeInput && (
             <SignUpInput
-              label="인증 번호 6자리를 입력해 주세요"
               value={form.emailCode || ''}
               onChange={(v) => setForm({ emailCode: v })}
               error={codeError}

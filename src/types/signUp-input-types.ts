@@ -1,31 +1,32 @@
 import { SelectProps, SxProps, Theme } from '@mui/material';
 
 export interface SignUpInputProps {
-  label: string;
   value: string;
   onChange: (value: string) => void;
   error?: string;
   type?: string;
+  placeholder?: string;
+
   enterSubmit?: () => void;
 }
 export interface PassWordInputProps {
-  label: string;
   value: string;
   onChange: (value: string) => void;
   error?: string;
+  placeholder?: string;
 }
 export interface SelectInputProps {
-  label: string;
   value: string;
   options: string[];
   onChange: (value: string) => void;
   error?: string;
+  placeholder?: string;
 }
 export interface SignUpMultiSelectProps {
-  label: string;
   value: string[];
   options: string[];
   max?: number;
+  placeholder?: string;
   onChange: (value: string[]) => void;
   MenuProps?: SelectProps['MenuProps'];
   inputStyle?: SxProps<Theme>;
