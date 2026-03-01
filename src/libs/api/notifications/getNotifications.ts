@@ -1,10 +1,15 @@
-export async function getNotifications() {
+import { NotificationsItem } from '@/stores/useNotificationsStore';
+
+export async function getNotifications(): Promise<NotificationsItem[]> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/notifications`, {
     method: 'GET',
     credentials: 'include',
   });
+
   if (!res.ok) throw new Error('알림 목록 조회 실패');
-  return (await res.json()) as unknown;
+
+  const raw: unknown = await res.json();
+  return raw as NotificationsItem[];
 }
 
 export async function getReadNotifications() {
@@ -22,8 +27,11 @@ export async function getUnreadCount() {
   if (!res.ok) throw new Error('안읽은 알림 수 조회 실패');
   return (await res.json()) as unknown;
 }
-export async function getUnreadNotifications() {
+export async function getUnreadNotifications(): Promise<NotificationsItem[]> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/notifications/unread`);
+
   if (!res.ok) throw new Error('안읽은 알림 조회 실패');
-  return (await res.json()) as unknown;
+
+  const raw: unknown = await res.json();
+  return raw as NotificationsItem[];
 }
