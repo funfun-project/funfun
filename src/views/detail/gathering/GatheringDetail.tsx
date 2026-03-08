@@ -5,10 +5,10 @@ import RecommendCardContainer from '@/common/RecommendCardContainer';
 import Tag from '@/common/Tag';
 import GatheringInfo from './components/GatheringInfo';
 import LeaderProfile from './components/LeaderProfile';
-import { cn } from '@/libs/utils/twMerge';
-import Image from 'next/image';
-import { useState, useLayoutEffect, useRef } from 'react';
 import MoreViewButton from '@/common/MoreViewButton';
+import Image from 'next/image';
+import { cn } from '@/libs/utils/twMerge';
+import { useState, useLayoutEffect, useRef } from 'react';
 
 const profileData = {
   name: '홍길동',
