@@ -1,9 +1,10 @@
 'use client';
 import { cn } from '@/libs/utils/twMerge';
-import Input from '@/common/Input';
 import { joinCategoryList } from '@/views/sign-up/data/categoryList';
-import type { CreateGatheringForm } from '../GatheringCreate';
+import type { CreateGatheringForm } from '@/libs/utils/createGathering';
 import type { CommitFieldFn, FieldType } from '@/libs/utils/createGathering';
+import TextInput from '@/common/input/TextInput';
+import SelectInput from '@/common/input/SelectInput';
 
 type Props = {
   form: CreateGatheringForm;
@@ -33,9 +34,9 @@ export default function Step1InputTitle({
           <label htmlFor="title" className="text-main mb-1.25 block">
             제목
           </label>
-          <Input
+          <TextInput
             id="title"
-            value={form.title}
+            value={form.title == null ? '' : String(form.title)}
             placeholder="제목을 작성해 주세요."
             error={errors.title ?? null}
             onChange={(v) => setField('title', v)}
@@ -47,15 +48,16 @@ export default function Step1InputTitle({
           <label htmlFor="category" className="text-main my-1.25 block">
             카테고리
           </label>
-          <Input
+          <SelectInput
             id="category"
-            mode="select"
             value={form.category}
             placeholder="카테고리를 선택해 주세요."
             error={errors.category ?? null}
             items={joinCategoryList}
-            onSelect={(v) => setField('category', v)}
-            onBlur={() => void commitField('category', form.category)}
+            onSelect={(v) => {
+              setField('category', v);
+              void commitField('category', v);
+            }}
           />
         </div>
       </div>

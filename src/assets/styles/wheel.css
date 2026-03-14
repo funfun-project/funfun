@@ -1,16 +1,9 @@
-/* 1) 하이라이트 래퍼 자체를 숨김 */
 .picker-no-highlight > div[style*='pointer-events:none'] {
   display: none !important;
 }
-
-/* 또는, 래퍼는 두고 내부 라인만 지움 */
 .picker-no-highlight > div[style*='pointer-events:none'] > div[style*='height:1px'] {
   display: none !important;
 }
-
-/* 혹시 transform:scaleY(0.5) 까지 들어간 라인만 타겟하고 싶다면 */
-.picker-no-highlight
-  > div[style*='pointer-events:none']
-  > div[style*='height:1px'][style*='scaleY(0.5)'] {
+.picker-no-highlight > div:last-child > div {
   display: none !important;
 }

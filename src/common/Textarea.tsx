@@ -39,7 +39,7 @@ export default function Textarea({
   return (
     <div
       className={cn(
-        'bg-bg-input relative flex w-full grow-1 flex-col rounded-[20px] border-1 border-[#4e4e4e] px-2.5 py-2.5',
+        'bg-bg-input relative flex w-full grow-1 flex-col rounded-[20px] border-2 border-[#4e4e4e] px-2.5 py-2.5',
         isFocused ? 'border-[#FF5126]' : '',
         className,
       )}

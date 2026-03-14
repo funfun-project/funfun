@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useReducer } from 'react';
+import { useCallback, useMemo, useReducer, useState } from 'react';
 import StepProgressBar from '@/common/StepProgressBar';
 import Step1 from './page/Step1-input-title';
 import Step2 from './page/Step2-input-date';
@@ -8,42 +8,15 @@ import Step3 from './page/Step3-input-info';
 import Step4 from './page/Step4-complete';
 import { cn } from '@/libs/utils/twMerge';
 import { getGeocode } from '@/libs/utils/naverMap';
-import type { CommitFieldFn, FieldType, ValidationArg } from '@/libs/utils/createGathering';
-import { validationInput } from '@/libs/utils/createGathering';
-
-export interface CreateGatheringForm {
-  title: string;
-  explain: string;
-  simpleExplain: string;
-  placeName: string;
-  groupDate: string;
-  address: string;
-  category: string;
-  joinCategory: string[];
-  maxPeople: number;
-  latitude: number;
-  longitude: number;
-  image: File | null;
-  hashTags: string[];
-  during: number;
-}
-
-const initialForm: CreateGatheringForm = {
-  title: '',
-  explain: '',
-  simpleExplain: '',
-  placeName: '',
-  groupDate: '',
-  address: '',
-  category: '',
-  joinCategory: [],
-  maxPeople: 2,
-  latitude: 0,
-  longitude: 0,
-  image: null,
-  hashTags: [],
-  during: 0,
-};
+import {
+  type CommitFieldFn,
+  type FieldType,
+  type ValidationArg,
+  type CreateGatheringForm,
+  initialForm,
+  validationInput,
+} from '@/libs/utils/createGathering';
+import DatetimePicker from '@/common/datetimePicker/DatetimePicker';
 
 type State = {
   step: number;
@@ -52,6 +25,7 @@ type State = {
 
   isAddressLoading: boolean;
   addressError: string | null;
+  addressSuccess: boolean;
 };
 
 const initialState: State = {
@@ -61,13 +35,14 @@ const initialState: State = {
 
   isAddressLoading: false,
   addressError: null,
+  addressSuccess: false,
 };
 
 type Action =
   | { type: 'SET_STEP'; step: number }
   | { type: 'SET_FORM'; patch: Partial<CreateGatheringForm> }
   | { type: 'SET_ERROR'; field: FieldType; message: string | null }
-  | { type: 'SET_ADDRESS_STATUS'; loading: boolean; error: string | null }
+  | { type: 'SET_ADDRESS_STATUS'; loading: boolean; error: string | null; success: boolean }
   | { type: 'RESET' };
 
 function reducer(state: State, action: Action): State {
@@ -86,7 +61,12 @@ function reducer(state: State, action: Action): State {
     }
 
     case 'SET_ADDRESS_STATUS':
-      return { ...state, isAddressLoading: action.loading, addressError: action.error };
+      return {
+        ...state,
+        isAddressLoading: action.loading,
+        addressError: action.error,
+        addressSuccess: action.success,
+      };
 
     case 'RESET':
       return initialState;
@@ -97,8 +77,9 @@ function reducer(state: State, action: Action): State {
 }
 
 export default function GatheringCreate() {
+  const [isPickerToggle, setIsPickerToggle] = useState(false);
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { step, form, errors, isAddressLoading, addressError } = state;
+  const { step, form, errors, isAddressLoading, addressError, addressSuccess } = state;
 
   const setStep = useCallback((next: number) => dispatch({ type: 'SET_STEP', step: next }), []);
   const nextStep = useCallback(() => setStep(step + 1), [setStep, step]);
@@ -118,29 +99,38 @@ export default function GatheringCreate() {
       const trimmed = address.trim();
 
       if (!trimmed) {
-        dispatch({ type: 'SET_ADDRESS_STATUS', loading: false, error: '주소를 입력해주세요.' });
+        dispatch({
+          type: 'SET_ADDRESS_STATUS',
+          loading: false,
+          error: '주소를 입력해주세요.',
+          success: false,
+        });
         dispatch({ type: 'SET_FORM', patch: { address: '', latitude: 0, longitude: 0 } });
         return false;
       }
 
-      dispatch({ type: 'SET_ADDRESS_STATUS', loading: true, error: null });
+      dispatch({ type: 'SET_ADDRESS_STATUS', loading: true, error: null, success: false });
       dispatch({ type: 'SET_FORM', patch: { address: trimmed } });
 
       try {
         const geo = await getGeocode(trimmed);
-        console.log(geo);
+        const roadAddress = geo.addresses[0]?.roadAddress;
+        const long = Number(geo.addresses[0]?.x);
+        const lat = Number(geo.addresses[0]?.y);
 
-        // if (!geo) {
-        //   dispatch({
-        //     type: 'SET_ADDRESS_STATUS',
-        //     loading: false,
-        //     error: '주소를 찾을 수 없어요. 다시 확인해주세요.',
-        //   });
-        //   dispatch({ type: 'SET_FORM', patch: { latitude: 0, longitude: 0 } });
-        //   return false;
-        // }
+        if (!geo) {
+          dispatch({
+            type: 'SET_ADDRESS_STATUS',
+            loading: false,
+            error: '주소를 찾을 수 없어요. 다시 확인해주세요.',
+            success: false,
+          });
+          dispatch({ type: 'SET_FORM', patch: { latitude: 0, longitude: 0 } });
+          return false;
+        }
 
-        // dispatch({ type: 'SET_FORM', patch: { latitude: geo.latitude, longitude: geo.longitude } });
+        dispatch({ type: 'SET_FORM', patch: { address: roadAddress } });
+        dispatch({ type: 'SET_FORM', patch: { latitude: lat, longitude: long } });
         return true;
       } catch (error) {
         console.log('실패');
@@ -151,22 +141,60 @@ export default function GatheringCreate() {
           type: 'SET_ADDRESS_STATUS',
           loading: false,
           error: '주소 확인 중 오류가 발생했어요.',
+          success: false,
         });
         dispatch({ type: 'SET_FORM', patch: { latitude: 0, longitude: 0 } });
         return false;
       } finally {
-        dispatch({ type: 'SET_ADDRESS_STATUS', loading: false, error: state.addressError });
+        dispatch({
+          type: 'SET_ADDRESS_STATUS',
+          loading: false,
+          error: state.addressError,
+          success: form.address !== '' ? true : false,
+        });
       }
     },
-    [state.addressError],
+    [state.addressError, form.address],
   );
+
+  // datepicker onClick
+  const pickerButtonClickHandler = (date: Date | null) => {
+    if (Array.isArray(date) && date.length === 0) return;
+
+    if (!date) {
+      dispatch({ type: 'SET_FORM', patch: { groupDate: null } });
+      void commitField('groupDate', null);
+      return;
+    }
+
+    dispatch({ type: 'SET_FORM', patch: { groupDate: date } });
+    void commitField('groupDate', date);
+  };
 
   const commitField: CommitFieldFn = useCallback(
     async (fieldType, value) => {
       const msg = validationInput({ type: fieldType, value } as ValidationArg);
       dispatch({ type: 'SET_ERROR', field: fieldType, message: msg });
 
-      if (msg) return false;
+      if (msg) {
+        if (fieldType === 'title') {
+          dispatch({ type: 'SET_FORM', patch: { title: null } });
+        }
+
+        if (fieldType === 'maxPeople') {
+          dispatch({ type: 'SET_FORM', patch: { maxPeople: null } });
+        }
+
+        if (fieldType === 'during') {
+          dispatch({ type: 'SET_FORM', patch: { during: null } });
+        }
+
+        if (fieldType === 'groupDate') {
+          dispatch({ type: 'SET_FORM', patch: { groupDate: null } });
+        }
+
+        return false;
+      }
 
       if (fieldType === 'address') {
         return await resolveAddress(value as string);
@@ -183,7 +211,7 @@ export default function GatheringCreate() {
   );
 
   return (
-    <div className="flex justify-center bg-black">
+    <div className="bg-bg-main relative h-dvh w-full">
       <div
         className={cn(
           'flex h-screen w-full flex-col bg-black pt-20',
@@ -215,6 +243,8 @@ export default function GatheringCreate() {
             prevStep={prevStep}
             isAddressLoading={isAddressLoading}
             addressError={addressError}
+            addressSuccess={addressSuccess}
+            setIsPickerOpen={setIsPickerToggle}
           />
         )}
 
@@ -231,6 +261,14 @@ export default function GatheringCreate() {
 
         {step === 4 && <Step4 />}
       </div>
+      {isPickerToggle && (
+        <DatetimePicker
+          type="single"
+          value={form.groupDate}
+          toggle={setIsPickerToggle}
+          onClick={pickerButtonClickHandler}
+        />
+      )}
     </div>
   );
 }

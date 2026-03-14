@@ -1,9 +1,11 @@
 'use client';
 
 import { cn } from '@/libs/utils/twMerge';
-import Input from '../../../../common/Input';
-import type { CreateGatheringForm } from '../GatheringCreate'; // 경로 맞춰줘
-import type { FieldType, CommitFieldFn } from '@/libs/utils/createGathering'; // CommitFieldFn 쓰면 더 깔끔
+import TextInput from '@/common/input/TextInput';
+import type { CreateGatheringForm } from '@/libs/utils/createGathering';
+import type { FieldType, CommitFieldFn } from '@/libs/utils/createGathering';
+import { Dispatch, SetStateAction } from 'react';
+import DateInput from '@/common/input/DateInput';
 
 type Props = {
   form: CreateGatheringForm;
@@ -15,9 +17,10 @@ type Props = {
   nextStep: () => void;
   prevStep?: () => void;
 
-  // ✅ 여기 추가 (에러 해결 포인트)
   isAddressLoading: boolean;
   addressError: string | null;
+  addressSuccess: boolean;
+  setIsPickerOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function Step2InputDate({
@@ -29,15 +32,17 @@ export default function Step2InputDate({
   prevStep,
   isAddressLoading,
   addressError,
+  addressSuccess,
+  setIsPickerOpen,
 }: Props) {
-  // Step2 게이트(필요에 맞게 수정 가능)
+  // Step2 게이트
   const canNext = Boolean(
     form.address.trim() &&
     form.groupDate &&
     Number(form.maxPeople) > 0 &&
     Number(form.during) > 0 &&
     !errors.address &&
-    !errors.date &&
+    !errors.groupDate &&
     !errors.maxPeople &&
     !errors.during &&
     !addressError &&
@@ -53,35 +58,32 @@ export default function Step2InputDate({
 
         {/* 주소 */}
         <div>
-          <label htmlFor="gathering-address" className="text-main mb-1.25 block">
-            모임 위치
+          <label htmlFor="gathering-date" className="text-main mb-1.25 block">
+            모임 날짜
           </label>
-          <Input
-            id="gathering-address"
-            value={form.address}
-            placeholder="모임 위치를 작성해 주세요."
-            // 주소 전용 에러: validation 에러 + geocode 에러 둘 다 표시하고 싶으면 우선순위 정하기
-            error={addressError ?? errors.address ?? null}
-            onChange={(v) => setField('address', v)}
-            onBlur={() => void commitField('address', form.address)}
+          <DateInput
+            id="gathering-date"
+            value={form.groupDate}
+            placeholder="모임 날짜를 선택해 주세요."
+            error={errors.groupDate ?? null}
+            onClick={() => setIsPickerOpen(true)}
           />
-          {isAddressLoading && (
-            <p className="text-text-support mt-1 text-sm">주소를 확인 중입니다...</p>
-          )}
         </div>
 
         {/* 날짜 */}
         <div className="mt-2.5">
-          <label htmlFor="gathering-date" className="text-main mb-1.25 block">
-            모임 날짜
+          <label htmlFor="gathering-address" className="text-main mb-1.25 block">
+            모임 위치
           </label>
-          <Input
-            id="gathering-date"
-            value={form.groupDate}
-            placeholder="모임 날짜를 선택해 주세요."
-            error={errors.date ?? null}
-            onChange={(v) => setField('groupDate', v)}
-            onBlur={() => void commitField('date', form.groupDate)}
+          <TextInput
+            id="gathering-address"
+            mode="address"
+            value={form.address}
+            placeholder="모임 위치를 작성해 주세요."
+            error={addressError ?? errors.address ?? null}
+            onChange={(v) => setField('address', v)}
+            onBlur={() => void commitField('address', form.address)}
+            addressSuccess={addressSuccess}
           />
         </div>
 
@@ -90,12 +92,12 @@ export default function Step2InputDate({
           <label htmlFor="gathering-maxPeople" className="text-main mb-1.25 block">
             모임 인원
           </label>
-          <Input
+          <TextInput
             id="gathering-maxPeople"
-            value={String(form.maxPeople ?? '')}
+            value={form.maxPeople == null ? '' : String(form.maxPeople)}
             placeholder="최대 인원을 입력해 주세요."
             error={errors.maxPeople ?? null}
-            onChange={(v) => setField('maxPeople', Number(v))}
+            onChange={(v) => setField('maxPeople', String(v))}
             onBlur={() => void commitField('maxPeople', form.maxPeople)}
           />
         </div>
@@ -105,12 +107,12 @@ export default function Step2InputDate({
           <label htmlFor="gathering-during" className="text-main mb-1.25 block">
             모임 시간
           </label>
-          <Input
+          <TextInput
             id="gathering-during"
-            value={String(form.during ?? '')}
-            placeholder="소요 시간을 입력해 주세요."
+            value={form.during == null ? '' : String(form.during)}
+            placeholder="모임 시간을 입력해 주세요."
             error={errors.during ?? null}
-            onChange={(v) => setField('during', Number(v))}
+            onChange={(v) => setField('during', String(v))}
             onBlur={() => void commitField('during', form.during)}
           />
         </div>
@@ -118,26 +120,21 @@ export default function Step2InputDate({
 
       {/* 버튼 */}
       <div className="flex gap-2">
-        {prevStep && (
-          <button
-            type="button"
-            className="bg-bg-button text-text-default mt-2.5 w-full rounded-[3px] py-3.5"
-            onClick={prevStep}
-          >
-            이전
-          </button>
-        )}
-
         <button
           type="button"
           className={cn(
-            'bg-bg-button text-text-disabled mt-2.5 w-full rounded-[3px] py-3.5',
+            'bg-main text-text-default mt-2.5 w-full rounded-[3px] py-3.5',
             canNext && 'bg-main text-text-default',
           )}
-          disabled={!canNext}
-          onClick={nextStep}
+          onClick={() => {
+            if (canNext) {
+              nextStep();
+              return;
+            }
+            if (prevStep) prevStep();
+          }}
         >
-          다음
+          {canNext ? '다음' : '이전'}
         </button>
       </div>
     </>

@@ -1,5 +1,6 @@
+'use client';
 import Map from '@/views/map/Map';
-// import Script from 'next/script';
+import Script from 'next/script';
 import type { Metadata } from 'next';
 
 //메타 데이터 사용하기
@@ -48,15 +49,7 @@ import type { Metadata } from 'next';
 export default function page() {
   return (
     <>
-      {/* <Script
-        id="naver-maps-sdk"
-        src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}&submodules=geocoder`}
-        strategy="afterInteractive"
-      /> */}
-      {/* <MapClient /> */}
       <Map />
-      {/* <DatetimePicker /> */}
-      {/* <LocationSelect /> */}
     </>
   );
 }

@@ -19,7 +19,7 @@ export default function AddImage({ mode = 'gathering', onClick, className }: Pro
         if (e.key === 'Enter' || e.key === ' ') onClick();
       }}
       className={cn(
-        'bg-bg-input flex h-full w-full cursor-pointer flex-col items-center justify-center gap-2.5 rounded-[20px] border-1 border-[#4e4e4e]',
+        'bg-bg-input flex h-full w-full cursor-pointer flex-col items-center justify-center gap-2.5 rounded-[20px] border-2 border-[#4e4e4e]',
         className,
       )}
     >

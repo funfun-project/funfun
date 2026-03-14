@@ -34,7 +34,6 @@ export default function SelectImage({ mode, value, onChange, className }: Props)
     return () => {
       URL.revokeObjectURL(nextUrl);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,11 +43,11 @@ export default function SelectImage({ mode, value, onChange, className }: Props)
     if (!file) return;
     if (!file.type.startsWith('image/')) return;
 
-    onChange(file); // ✅ lint 에러 없음
+    onChange(file);
   };
 
   const removeImage = () => {
-    onChange(null); // ✅ void 함수라 이벤트 핸들러로 OK
+    onChange(null);
   };
 
   return (
@@ -67,7 +66,7 @@ export default function SelectImage({ mode, value, onChange, className }: Props)
         <EditImage
           previewUrl={previewUrl}
           onChangeClick={openFileDialog}
-          onRemoveClick={removeImage} // ✅ Promise 아님
+          onRemoveClick={removeImage}
           className={className}
         />
       )}

@@ -18,6 +18,7 @@ export default function Calendar({ selectDate, setSelectDate }: CalendarProp) {
         locale="ko-KR"
         calendarType="gregory"
         formatDay={(_, date) => String(date.getDate())}
+        minDate={new Date()}
       />
     </>
   );
