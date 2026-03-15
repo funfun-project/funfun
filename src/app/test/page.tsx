@@ -1,10 +1,9 @@
-import GatheringCreate from '@/views/gathering/gathering-create/GatheringCreate';
-// import InquiryPost from '@/views/inquiry/inquiry-post/InquiryPost';
+import LoadingDots from '@/common/loadingDost/LoadingDots';
 
 export default function page() {
   return (
     <>
-      <GatheringCreate />
+      <LoadingDots />
     </>
   );
 }
