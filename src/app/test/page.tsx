@@ -1,9 +1,9 @@
-import LoadingDots from '@/common/loadingDost/LoadingDots';
+import Skeleton from '@/common/Skeleton';
 
 export default function page() {
   return (
     <>
-      <LoadingDots />
+      <Skeleton className="h-100 w-full" />
     </>
   );
 }
