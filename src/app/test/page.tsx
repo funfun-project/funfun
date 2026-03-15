@@ -1,9 +1,10 @@
-import Splash from '@/views/home/components/Splash';
+import EventDetail from '@/views/detail/event/EventDetail';
+// import GatheringDetail from '@/views/detail/gathering/GatheringDetail';
 
 export default function page() {
   return (
     <>
-      <Splash />
+      <EventDetail />
     </>
   );
 }

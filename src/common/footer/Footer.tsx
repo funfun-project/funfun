@@ -7,7 +7,7 @@ import { footerIcons } from './footer-icons/footer-icons';
 export default function Footer() {
   const pathname = usePathname();
 
-  const hiddenPaths = ['/signup', '/notifications', '/chatbot'];
+  const hiddenPaths = ['/signup', '/notifications', '/chatbot', '/test'];
 
   if (hiddenPaths.includes(pathname)) return null;
   return (
