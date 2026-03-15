@@ -34,7 +34,7 @@ export default function SelectImage({ mode, value, onChange, className }: Props)
     return () => {
       URL.revokeObjectURL(nextUrl);
     };
-  }, [value, previewUrl]);
+  }, [value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
