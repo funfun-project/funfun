@@ -7,8 +7,6 @@ import { useRouter } from 'next/navigation';
 
 export default function Step4Complete() {
   const router = useRouter();
-  // const [rotate, setRotate] = useState(false);
-  // const { form, reset } = useCreateGatheringStore();
 
   return (
     <>

@@ -1,10 +1,11 @@
 'use client';
 import SelectImage from '@/common/selectImage/SelectImage';
-import Input from '@/common/Input';
 import type { CreateGatheringForm } from '../InquiryPost';
 import type { FieldType, FieldValueMap } from '@/libs/utils/createGathering';
 import { cn } from '@/libs/utils/twMerge';
 import Textarea from '@/common/Textarea';
+import TextInput from '@/common/input/TextInput';
+import SelectInput from '@/common/input/SelectInput';
 
 type CommitFieldFn = <K extends FieldType>(fieldType: K, value: FieldValueMap[K]) => boolean;
 
@@ -18,17 +19,16 @@ type Props = {
 
 export default function InquiryPost({ form, errors, setField, commitField, canNext }: Props) {
   const handleImageChange = (file: File | null) => {
-    // ✅ 타입 가드: null이면 저장만(또는 에러로) 처리
     setField('image', file);
 
     if (!file) {
-      // 대표 이미지 필수라면 null일 때도 commit해서 에러 띄우는 게 UX 좋음
       commitField('image', null);
       return;
     }
 
     commitField('image', file);
   };
+
   return (
     <>
       <div className="flex h-full flex-col">
@@ -40,9 +40,9 @@ export default function InquiryPost({ form, errors, setField, commitField, canNe
             <label htmlFor="title" className="text-main mb-1.25 block">
               제목
             </label>
-            <Input
+            <TextInput
               id="title"
-              value={form.title}
+              value={form.title == null ? '' : String(form.title)}
               placeholder="제목을 작성해 주세요."
               error={errors.title ?? null}
               onChange={(v) => setField('title', v)}
@@ -53,15 +53,16 @@ export default function InquiryPost({ form, errors, setField, commitField, canNe
             <label htmlFor="category" className="text-main my-1.25 block">
               카테고리
             </label>
-            <Input
+            <SelectInput
               id="category"
-              mode="select"
               value={form.category}
               placeholder="카테고리를 선택해 주세요."
               error={errors.category ?? null}
               items={['문의', '신고']}
-              onSelect={(v) => setField('category', v)}
-              onBlur={() => void commitField('category', form.category)}
+              onSelect={(v) => {
+                setField('category', v);
+                void commitField('category', v);
+              }}
             />
           </div>
           <div>
