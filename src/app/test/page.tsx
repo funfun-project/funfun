@@ -1,9 +1,10 @@
-import Skeleton from '@/common/Skeleton';
+import EventDetail from '@/views/detail/event/EventDetail';
+// import GatheringDetail from '@/views/detail/gathering/GatheringDetail';
 
 export default function page() {
   return (
     <>
-      <Skeleton className="h-100 w-full" />
+      <EventDetail />
     </>
   );
 }
