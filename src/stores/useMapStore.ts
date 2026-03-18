@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { searchCoordinateToAddress } from '@/libs/utils/naverMap';
+import { searchCoordinateToAddress, waitForNaverMaps } from '@/libs/utils/naverMap';
 import { extractDistrict } from '@/libs/utils/locationSelect';
 
 type Coordinate = {
@@ -59,13 +59,10 @@ export const useMapStore = create<MapStore>((set) => ({
   setGatheringFilter: (filter) => set({ gatheringFilter: filter }),
   fetchAndSetAddress: async (lng, lat) => {
     try {
-      // 1. 좌표로 주소 문자열 가져오기 (예: 카카오/구글 API 호출)
       const addressString = await searchCoordinateToAddress(lng, lat);
 
-      // 2. 가져온 주소를 파라미터로 넣어 리턴값 받기 (가공 로직)
       const processedName = extractDistrict(addressString);
 
-      // 3. 최종적으로 스토어 상태 업데이트
       set({
         // coordinate: { longitude: lng, latitude: lat },
         placeName: processedName,

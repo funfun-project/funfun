@@ -7,6 +7,7 @@ import { Toaster } from 'react-hot-toast';
 import { MantineProvider } from '@mantine/core';
 import Header from '@/common/header/Header';
 import Footer from '@/common/footer/Footer';
+import Script from 'next/script';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -29,10 +30,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <body
         className={`${geistSans.variable} ${geistMono.variable} mx-auto max-w-[750px] antialiased`}
       >
+        <Script
+          id="naver-maps-sdk"
+          src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}&submodules=geocoder`}
+          strategy="afterInteractive"
+        />
         <QueryProvider>
           <MantineProvider>
             {/* <Header /> */}

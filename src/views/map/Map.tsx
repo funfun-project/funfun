@@ -43,6 +43,71 @@ const gatheringButtons: ButtonConfig[] = [
   { variant: 'filter', label: '자기개발' },
 ];
 
+const dummyContent: ContentItem[] = [
+  {
+    id: 1,
+    contentTitle: '오페라의 유령',
+    address: '서울 예술의전당 오페라극장',
+    poster: '/img/eventImg.png',
+    category: 'MUSICAL',
+    eventType: 'EVENT',
+    startDate: '2026-04-01',
+    endDate: '2026-06-30',
+  },
+  {
+    id: 2,
+    contentTitle: '백조의 호수',
+    address: '세종문화회관 대극장',
+    poster: '/img/eventImg.png',
+    category: 'CLASSIC',
+    eventType: 'EVENT',
+    startDate: '2026-05-10',
+    endDate: '2026-05-20',
+  },
+  {
+    id: 3,
+    contentTitle: '서울 마술 쇼',
+    address: '홍대 매직홀',
+    category: 'MAGIC',
+    eventType: 'EVENT',
+    startDate: '2026-07-01',
+    endDate: '2026-07-15',
+  },
+  {
+    id: 4,
+    contentTitle: '국립극장',
+    address: '서울 중구 장충단로',
+    poster: '/img/eventImg.png',
+    category: 'THEATER',
+    eventType: 'PLACE',
+    startDate: null,
+    endDate: null,
+  },
+  {
+    id: 5,
+    contentTitle: '예술의전당',
+    address: '서울 서초구 남부순환로',
+    category: 'CULTURE',
+    eventType: 'PLACE',
+    startDate: null,
+    endDate: null,
+  },
+  {
+    id: 6,
+    contentTitle: '잠실 종합운동장',
+    address: '서울 송파구 올림픽로',
+    poster: '/img/eventImg.png',
+    category: 'SPORTS',
+    eventType: 'PLACE',
+    startDate: null,
+    endDate: null,
+  },
+];
+
+const page = {
+  content: dummyContent,
+};
+
 export default function Map() {
   const [pageNo, setPageNo] = useState(0);
   const [locationSelector, setLocationSelector] = useState(false);
@@ -70,18 +135,18 @@ export default function Map() {
     void initAddress();
   }, [fetchAndSetAddress, coordinate]);
 
-  const {
-    data: page,
-    isLoading,
-    isError,
-    error,
-    isFetching,
-  } = useMapEventsQuery({
-    page: pageNo,
-    size: 20,
-    sortBy: 'endDate',
-    guname: placeName,
-  });
+  // const {
+  //   data: page,
+  //   isLoading,
+  //   isError,
+  //   error,
+  //   isFetching,
+  // } = useMapEventsQuery({
+  //   page: pageNo,
+  //   size: 20,
+  //   sortBy: 'endDate',
+  //   guname: placeName,
+  // });
 
   // const { eventsPage, groupsPage, isLoading, isFetching, error } = useMapQueries({
   //   pageNo,
@@ -180,7 +245,7 @@ export default function Map() {
         </div>
         <LocationSelect show={locationSelector} onClick={locationSelectorToggle} />
         <EventDatePicker showValue={eventSheetShow} />
-        <DatetimePicker />
+        <DatetimePicker type="double" />
       </main>
     </>
   );

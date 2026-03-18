@@ -31,23 +31,31 @@ export const waitForNaverMaps = (timeout = 5000) => {
   return naverReadyPromise;
 };
 
-export function getGeocode(address: string): Promise<naver.maps.Service.GeocodeResponse['v2']> {
+export async function getGeocode(
+  address: string,
+): Promise<naver.maps.Service.GeocodeResponse['v2']> {
+  await waitForNaverMaps();
+
   return new Promise((resolve, reject) => {
     if (!window.naver?.maps?.Service) {
       reject(new Error('Naver Maps API not loaded'));
       return;
     }
+
     naver.maps.Service.geocode({ query: address }, (status, response) => {
       if (status !== naver.maps.Service.Status.OK) {
-        reject(new Error(`getGeocode의 정보를 불러오는데 실패 했습니다.: ${status}`));
+        reject(new Error(`getGeocode 실패: ${status} / ${JSON.stringify(response)}`));
         return;
       }
+
       resolve(response.v2);
     });
   });
 }
 
-export function searchCoordinateToAddress(lng: number, lat: number): Promise<string> {
+export async function searchCoordinateToAddress(lng: number, lat: number): Promise<string> {
+  await waitForNaverMaps();
+
   return new Promise((resolve, reject) => {
     if (!window.naver?.maps?.Service) {
       reject(new Error('Naver Maps API not loaded'));
@@ -61,14 +69,12 @@ export function searchCoordinateToAddress(lng: number, lat: number): Promise<str
       },
       (status, response) => {
         if (status !== naver.maps.Service.Status.OK) {
-          reject(new Error('ReverseGeocode failed'));
+          reject(new Error(`reverseGeocode 실패: ${status} / ${JSON.stringify(response)}`));
           return;
         }
 
         const address = response.v2.address;
-        const result = address.roadAddress || address.jibunAddress;
-
-        resolve(result);
+        resolve(address.roadAddress || address.jibunAddress);
       },
     );
   });

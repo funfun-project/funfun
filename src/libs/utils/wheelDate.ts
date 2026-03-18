@@ -2,7 +2,7 @@
 const timeList: string[] = Array.from({ length: 48 }, (_, i) => {
   const h = String(Math.floor(i / 2)).padStart(2, '0');
   const m = i % 2 === 0 ? '00' : '30';
-  return `${h}:${m}`;
+  return `${h} : ${m}`;
 });
 
 //현재 시간을 timeList의 요소에 맞게 변경하는 함수
@@ -28,6 +28,18 @@ export function timeConversion(time: string): Date {
   const date = new Date();
   date.setHours(hour, minute, 0, 0);
   return date;
+}
+
+export function dateToString(date: Date | null): string {
+  if (!date) return '';
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const h = date.getHours();
+  const m = date.getMinutes();
+  console.log(typeof m);
+
+  return `${year}년 ${month}월 ${day}일 ${h}시 ${m < 30 ? '' : m + '분'}`;
 }
 
 export default timeList;
