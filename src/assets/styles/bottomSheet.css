@@ -1,0 +1,116 @@
+/* location selector 바텀 시트 */
+:root {
+  --sheet-radius: 16px;
+  --sheet-shadow: 0 -12px 32px rgba(0, 0, 0, 0.18);
+  --sheet-backdrop: rgba(12, 12, 12, 0.3);
+
+  --motion-duration: 260ms;
+  --motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-ease-in: cubic-bezier(0.32, 0, 0.67, 0);
+}
+
+/* 오버레이(배경) */
+.sheetContainer {
+  position: fixed;
+  inset: 0;
+  height: 100vh;
+  width: 100%;
+  z-index: 9999;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--sheet-backdrop);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--motion-duration) var(--motion-ease-out);
+  z-index: 1000;
+}
+
+.overlayOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 시트 컨테이너 */
+.sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  /* 고정 높이: 컴포넌트/페이지별로 override 가능 */
+  height: var(--sheet-height, 320px);
+
+  background: #fff;
+  border-top-left-radius: var(--sheet-radius);
+  border-top-right-radius: var(--sheet-radius);
+  box-shadow: var(--sheet-shadow);
+
+  transform: translate3d(0, 100%, 0);
+  will-change: transform;
+  z-index: 1001;
+
+  /* iOS safe area */
+  padding-bottom: env(safe-area-inset-bottom);
+
+  /* 열림/닫힘 애니메이션 */
+  animation: sheetOut var(--motion-duration) var(--motion-ease-in) forwards;
+}
+
+.sheetOpen {
+  animation: sheetIn var(--motion-duration) var(--motion-ease-out) forwards;
+}
+
+/* 헤더(핸들) */
+.handle {
+  width: 44px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.18);
+  margin: 10px auto 8px;
+}
+
+/* 본문 스크롤 */
+.content {
+  height: calc(100% - 28px);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 16px 16px;
+}
+
+/* sheet keyframes */
+@keyframes sheetIn {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes sheetOut {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+/* 접근성: 모션 최소화 */
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .sheet {
+    transition: none !important;
+    animation: none !important;
+  }
+  .sheet {
+    transform: translate3d(0, 100%, 0);
+  }
+  .sheetOpen {
+    transform: translate3d(0, 0, 0);
+  }
+}

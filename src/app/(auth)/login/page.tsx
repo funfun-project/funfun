@@ -1,3 +1,9 @@
-export default function LoginPage() {
-  return <div>Login Page</div>;
+import LoginPage from '@/views/login/Login';
+
+export default function Login() {
+  return (
+    <>
+      <LoginPage />
+    </>
+  );
 }

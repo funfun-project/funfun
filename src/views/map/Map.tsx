@@ -1,68 +1,261 @@
-import { Search } from 'lucide-react';
-import { LocateFixed } from 'lucide-react';
+'use client';
+
 import MapClient from '@/views/map/components/MapClient';
+import { useState, useEffect } from 'react';
+import { useMapStore } from '@/stores/useMapStore';
+import { useMapEventsQuery } from '@/libs/queries/map/useMapEventsQuery';
+import { useMapGroupsQuery } from '@/libs/queries/map/useMapGroupsQuery';
+import { useMapQueries } from '@/libs/queries/map/useMapQuerys';
+import { Search } from 'lucide-react';
+import { Button } from './components/Button';
+import LocationSelect from './components/locationSelect/LocationSelect';
+import ListBottomSheet from './components/listBottomSheet/ListBottomSheet';
+import EventDatePicker from './components/EventDatePicker';
+import '@/assets/styles/map.css';
+import DatetimePicker from '@/common/datetimePicker/DatetimePicker';
+
+type ButtonType = 'icon' | 'filter';
+type BindTarget = 'eventType' | 'location' | undefined;
+
+interface ButtonConfig {
+  variant: ButtonType;
+  icon?: React.ReactNode;
+  label?: string;
+  value?: string; // eventType용 값
+  bindTo?: BindTarget;
+  className?: string;
+}
+const buttons: ButtonConfig[] = [
+  { variant: 'icon', icon: <Search size={16} strokeWidth={3} /> },
+  { variant: 'icon', label: 'Ai' },
+  { variant: 'filter', label: '위치', bindTo: 'location' },
+  { variant: 'filter', label: '행사', value: '행사', bindTo: 'eventType' },
+  { variant: 'filter', label: '모임', value: '모임', bindTo: 'eventType' },
+];
+const gatheringButtons: ButtonConfig[] = [
+  //만약 filter를 url 파라미터로 보내야할 경우 value가 url에 들어갈 값
+  { variant: 'filter', label: '문화' },
+  { variant: 'filter', label: '운동' },
+  { variant: 'filter', label: '음식' },
+  { variant: 'filter', label: '게임' },
+  { variant: 'filter', label: '여행' },
+  { variant: 'filter', label: '예술' },
+  { variant: 'filter', label: '자기개발' },
+];
+
+const dummyContent: ContentItem[] = [
+  {
+    id: 1,
+    contentTitle: '오페라의 유령',
+    address: '서울 예술의전당 오페라극장',
+    poster: '/img/eventImg.png',
+    category: 'MUSICAL',
+    eventType: 'EVENT',
+    startDate: '2026-04-01',
+    endDate: '2026-06-30',
+  },
+  {
+    id: 2,
+    contentTitle: '백조의 호수',
+    address: '세종문화회관 대극장',
+    poster: '/img/eventImg.png',
+    category: 'CLASSIC',
+    eventType: 'EVENT',
+    startDate: '2026-05-10',
+    endDate: '2026-05-20',
+  },
+  {
+    id: 3,
+    contentTitle: '서울 마술 쇼',
+    address: '홍대 매직홀',
+    category: 'MAGIC',
+    eventType: 'EVENT',
+    startDate: '2026-07-01',
+    endDate: '2026-07-15',
+  },
+  {
+    id: 4,
+    contentTitle: '국립극장',
+    address: '서울 중구 장충단로',
+    poster: '/img/eventImg.png',
+    category: 'THEATER',
+    eventType: 'PLACE',
+    startDate: null,
+    endDate: null,
+  },
+  {
+    id: 5,
+    contentTitle: '예술의전당',
+    address: '서울 서초구 남부순환로',
+    category: 'CULTURE',
+    eventType: 'PLACE',
+    startDate: null,
+    endDate: null,
+  },
+  {
+    id: 6,
+    contentTitle: '잠실 종합운동장',
+    address: '서울 송파구 올림픽로',
+    poster: '/img/eventImg.png',
+    category: 'SPORTS',
+    eventType: 'PLACE',
+    startDate: null,
+    endDate: null,
+  },
+];
+
+const page = {
+  content: dummyContent,
+};
 
 export default function Map() {
+  const [pageNo, setPageNo] = useState(0);
+  const [locationSelector, setLocationSelector] = useState(false);
+  const [gatheringFilterShow, setGatheringFilterShow] = useState(false);
+  const [onPicker, setOnPicker] = useState(false);
+  const [sheet, setSheet] = useState(false);
+
+  const [eventSheetShow, setEventSheetShow] = useState(false);
+
+  const coordinate = useMapStore((state) => state.coordinate);
+  const eventType = useMapStore((state) => state.eventType);
+  const placeName = useMapStore((state) => state.placeName);
+  const gatheringFilter = useMapStore((state) => state.gatheringFilter);
+  const setEventType = useMapStore((state) => state.setEventType);
+  const setGatheringFilter = useMapStore((state) => state.setGatheringFilter);
+  const fetchAndSetAddress = useMapStore((state) => state.fetchAndSetAddress);
+
+  useEffect(() => {
+    const initAddress = async () => {
+      try {
+        await fetchAndSetAddress(coordinate.longitude, coordinate.latitude);
+      } catch (error) {
+        console.error('초기 주소 로드 실패:', error);
+      }
+    };
+    void initAddress();
+  }, [fetchAndSetAddress, coordinate]);
+
+  // const {
+  //   data: page,
+  //   isLoading,
+  //   isError,
+  //   error,
+  //   isFetching,
+  // } = useMapEventsQuery({
+  //   page: pageNo,
+  //   size: 20,
+  //   sortBy: 'endDate',
+  //   guname: placeName,
+  // });
+
+  // const { eventsPage, groupsPage, isLoading, isFetching, error } = useMapQueries({
+  //   pageNo,
+  //   placeName,
+  //   groups: {
+  //     category,
+  //     keyword,
+  //   },
+  // });
+
+  // const { data, isLoading, isError, error, isFetching } = useGroupsSearchQuery({
+  //   sortBy: 'distance',
+  //   page: pageNo,
+  //   size: 20,
+  //   // category: 'ART',
+  //   // keyword: '모임',
+  // });
+
+  const locationSelectorToggle = () => {
+    setLocationSelector((prev) => !prev);
+  };
+
+  const handleFilterClick = (btn: ButtonConfig) => {
+    if (btn.bindTo === 'location') {
+      locationSelectorToggle();
+      return;
+    }
+
+    if (btn.bindTo === 'eventType' && btn.value) {
+      setEventType(btn.value);
+      setGatheringFilterShow(btn.value === '모임');
+    }
+  };
+
+  // if (isLoading) return <div>스켈레톤(로딩중)…</div>;
+  // if (isError) return console.log('에러 발생');
+  // if (!page) return null;
+
   return (
     <>
-      <main className="bg-bg-white relative h-screen w-[375px] overflow-hidden">
+      <main className="bg-bg-white relative h-screen overflow-hidden">
         <div className="h-full w-full">
-          <div className="bg-bg-white relative h-[calc(100%-249px)]">
+          <section className="bg-bg-white relative h-[calc(100%-249px)]">
             {/* 지도 위 버튼 */}
-            <div className="absolute z-10 flex w-full justify-around px-[5px] pt-[10px]">
-              <button className="bg-bg-white flex h-[30px] w-[30px] items-center justify-center rounded-full shadow-[0_0_2px_rgba(0,0,0,0.4)]">
-                <Search size={16} strokeWidth={3} />
-              </button>
-              <button className="bg-bg-white text-body3 flex h-[30px] w-[30px] items-center justify-center rounded-full font-semibold shadow-[0_0_2px_rgba(0,0,0,0.4)]">
-                Ai
-              </button>
-              <button className="bg-bg-white text-body3 rounded-[20px] px-[17px] py-[5px] font-semibold shadow-[0_0_2px_rgba(0,0,0,0.4)]">
-                위치
-              </button>
-              <button className="bg-bg-white text-body3 rounded-[20px] px-[17px] py-[5px] font-semibold shadow-[0_0_2px_rgba(0,0,0,0.4)]">
-                장소
-              </button>
-              <button className="bg-bg-white text-body3 rounded-[20px] px-[17px] py-[5px] font-semibold shadow-[0_0_2px_rgba(0,0,0,0.4)]">
-                행사
-              </button>
-              <button className="bg-bg-white text-body3 rounded-[20px] px-[17px] py-[5px] font-semibold shadow-[0_0_2px_rgba(0,0,0,0.4)]">
-                모임
-              </button>
+            <div className="buttonParent absolute z-10 mt-2.5 flex flex-col gap-2.5 px-1.25 py-px md:px-3.5">
+              <div className="flex w-full gap-2.5">
+                {buttons.map((btn, idx) => {
+                  const isActive =
+                    btn.bindTo === 'location'
+                      ? Boolean(placeName)
+                      : btn.bindTo === 'eventType'
+                        ? eventType === btn.value
+                        : false;
+
+                  return (
+                    <Button
+                      key={idx}
+                      variant={btn.variant}
+                      icon={btn.icon}
+                      label={btn.label}
+                      isActive={isActive}
+                      onClick={btn.variant === 'filter' ? () => handleFilterClick(btn) : undefined}
+                    />
+                  );
+                })}
+              </div>
+              <div className="flex w-max gap-2.5">
+                {gatheringFilterShow &&
+                  gatheringButtons.map((btn) => {
+                    const isActive = gatheringFilter === btn.label;
+                    return (
+                      <Button
+                        key={btn.label}
+                        variant={btn.variant}
+                        label={btn.label}
+                        isActive={isActive}
+                        className="filterButton shrink-0 whitespace-nowrap"
+                        onClick={() => {
+                          const nextValue = gatheringFilter === btn.label ? null : btn.label;
+                          setGatheringFilter(nextValue as string | null);
+                        }}
+                      />
+                    );
+                  })}
+              </div>
             </div>
             {/* 지도 */}
             <div className="bg-bg-white h-full w-full">
-              <MapClient />
+              <MapClient data={page?.content ?? []} />
             </div>
-            {/* GPS 버튼 */}
-            <button className="bg-bg-white absolute right-[20px] bottom-[40px] flex h-[46px] w-[46px] items-center justify-center rounded-full shadow-[0_0_2px_rgba(0,0,0,0.4)]">
-              <LocateFixed size={32} strokeWidth={2} color="#ff5126" />
-            </button>
-          </div>
+          </section>
           {/* 보드 */}
-          <div className="bg-bg-main absolute bottom-[64px] left-0 z-50 min-h-[210px] w-full rounded-t-[20px] px-[15px] pt-[17px]">
-            <div className="bg-input-active absolute top-[17px] left-1/2 h-[4px] w-[40px] -translate-x-1/2 cursor-pointer rounded-[10px]"></div>
-
-            <div className="flex gap-[5px]">
-              <span className="text-text-default text-body4 bg-main rounded-[20px] px-[10px] py-[2px]">
-                행사
-              </span>
-              <span className="text-text-default text-body4 bg-main rounded-[20px] px-[10px] py-[2px]">
-                강남구
-              </span>
-            </div>
-            <div className="text-text-default text-body3 mt-[20px] mb-[30px] font-semibold">
-              결과 3개
-            </div>
-
-            <div className="bg-bg-input h-[74px] w-full"></div>
-          </div>
+          <ListBottomSheet sheetState={sheet} setSheet={setSheet} data={page?.content ?? []} />
           {/* 하단 나브바 */}
-          <nav className="bg-bg-nav absolute bottom-0 left-0 h-[64px] w-full"></nav>
+          <nav className="bg-bg-nav absolute bottom-0 left-0 h-16 w-full"></nav>
         </div>
-        <div className="h-full w-full">
-          <div></div>
-          <div></div>
-        </div>
+        {/* 바텀 시트 & 데이트 피커 */}
+        <LocationSelect show={locationSelector} onClick={locationSelectorToggle} />
+        <EventDatePicker showValue={eventSheetShow} />
+        {onPicker && (
+          <DatetimePicker
+            type="double"
+            toggle={setOnPicker}
+            onClick={(date: Date | null) => {
+              console.log(date);
+            }}
+          />
+        )}
       </main>
     </>
   );

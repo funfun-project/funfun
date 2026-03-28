@@ -2,6 +2,13 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import '../assets/styles/globals.css';
 
+import QueryProvider from '@/shared/components/query-provider';
+import { Toaster } from 'react-hot-toast';
+import { MantineProvider } from '@mantine/core';
+import Header from '@/common/header/Header';
+import Footer from '@/common/footer/Footer';
+import Script from 'next/script';
+
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -24,7 +31,28 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} mx-auto max-w-[750px] antialiased`}
+      >
+        <Script
+          id="naver-maps-sdk"
+          src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}&submodules=geocoder`}
+          strategy="afterInteractive"
+        />
+        <QueryProvider>
+          <MantineProvider>
+            {/* <Header /> */}
+            {children} <Footer />
+          </MantineProvider>
+        </QueryProvider>
+        <Toaster
+          position="bottom-center"
+          reverseOrder={false}
+          toastOptions={{
+            duration: 1200,
+          }}
+        />
+      </body>
     </html>
   );
 }

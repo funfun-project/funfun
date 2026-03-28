@@ -1,0 +1,39 @@
+/* dots 전체 위치 */
+.slick-list {
+  margin-bottom: 15px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.slick-dots {
+  position: static;
+}
+
+/* 각 점(li) 간격 */
+.slick-dots li {
+  width: 10px;
+  height: 10px;
+}
+
+/* 기본 점 */
+.slick-dots li button {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  background-color: #484848;
+  border-radius: 50%;
+}
+
+.slick-dots li button:before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  /* 비활성 색 */
+  /* background: rgba(250, 250, 250, 1); */
+  border-radius: 50%;
+  display: block;
+}
+
+/* 활성 점 */
+.slick-dots li.slick-active button:before {
+  background: #ff5126; /* 활성 색 */
+}
