@@ -112,6 +112,7 @@ export default function Map() {
   const [pageNo, setPageNo] = useState(0);
   const [locationSelector, setLocationSelector] = useState(false);
   const [gatheringFilterShow, setGatheringFilterShow] = useState(false);
+  const [onPicker, setOnPicker] = useState(false);
   const [sheet, setSheet] = useState(false);
 
   const [eventSheetShow, setEventSheetShow] = useState(false);
@@ -243,9 +244,18 @@ export default function Map() {
           {/* 하단 나브바 */}
           <nav className="bg-bg-nav absolute bottom-0 left-0 h-16 w-full"></nav>
         </div>
+        {/* 바텀 시트 & 데이트 피커 */}
         <LocationSelect show={locationSelector} onClick={locationSelectorToggle} />
         <EventDatePicker showValue={eventSheetShow} />
-        <DatetimePicker type="double" />
+        {onPicker && (
+          <DatetimePicker
+            type="double"
+            toggle={setOnPicker}
+            onClick={(date: Date | null) => {
+              console.log(date);
+            }}
+          />
+        )}
       </main>
     </>
   );

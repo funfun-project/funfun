@@ -1,10 +1,10 @@
-import EventDetail from '@/views/detail/event/EventDetail';
-// import GatheringDetail from '@/views/detail/gathering/GatheringDetail';
+// import DetailSkeleton from '@/common/skeleton/DetailSkeleton';
+import MapSkeletons from '@/views/map/components/MapSkeleton';
 
 export default function page() {
   return (
     <>
-      <EventDetail />
+      <MapSkeletons />
     </>
   );
 }
