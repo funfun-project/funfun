@@ -9,7 +9,6 @@
 }
 .react-calendar__tile {
   font-size: 20px;
-  /* 높이와 넓이의 비율을 맞춰주는 css */
   aspect-ratio: 1 / 1 !important;
 }
 .react-calendar__tile.react-calendar__month-view__days__day {
@@ -43,7 +42,15 @@
 .react-calendar__navigation__arrow.react-calendar__navigation__prev-button {
   font-size: 28px;
 }
-
+.react-calendar__tile:disabled {
+  background: transparent;
+  color: #5e5e5e !important;
+  cursor: default;
+}
+.react-calendar__navigation button:disabled {
+  background: transparent;
+  cursor: default;
+}
 /* 선택 됨 */
 .react-calendar__month-view__days__day--neighboringMonth.react-calendar__tile--active {
   color: rgba(246, 246, 246, 0.1);

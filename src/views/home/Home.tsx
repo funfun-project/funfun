@@ -4,6 +4,7 @@ import PopularClubList from './components/PopularClubList';
 import WriteFab from '@/common/WriteFab';
 import RecommendCardContainer from '@/common/RecommendCardContainer';
 import PlaceRecommendations from '@/common/placeRecommendations/PlaceRecommendations';
+import Tag from '@/common/Tag';
 
 export default function Home() {
   return (
@@ -12,14 +13,12 @@ export default function Home() {
         <section className="mt-[86px] mb-[30px] px-[15px] md:mb-12.5">
           <h1 className="text-body2 text-text-default md:text-h2 mb-[10px] md:mb-[15px]">title</h1>
           <p className="text-text-support text-body4 md:text-body2 mb-[20px]">장소</p>
-          <div className="text-text-default text-body4 md:text-body2 mb-5 inline-block rounded-full bg-[#313131] px-2.25 py-0.5 md:px-3">
-            태그
-          </div>
+          <Tag className="mb-5">태그</Tag>
           <div className="bg-bg-input h-[300px] w-full rounded-[15px]"></div>
         </section>
         <section className="mb-[40px] px-[15px]">
           <h1 className="text-h2 text-text-default mb-[20px] font-semibold md:mb-[30px]">
-            가장 인기있는 모임
+            현재 주목 받고 있는 모임
           </h1>
           <div className="flex flex-col gap-[15px] md:gap-[20px]">
             <PopularClubList />

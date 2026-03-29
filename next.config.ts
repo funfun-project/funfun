@@ -21,6 +21,16 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'http',
+        hostname: 'www.kopis.or.kr',
+        pathname: '/upload/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'tong.visitkorea.or.kr',
+        pathname: '/**',
+      },
     ],
   },
 };

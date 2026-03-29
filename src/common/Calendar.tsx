@@ -1,7 +1,7 @@
 'use client';
 import { Calendar as ReactCalendar } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import '../../../assets/styles/calendar.css';
+import '@/assets/styles/calendar.css';
 
 export default function Calendar({ selectDate, setSelectDate }: CalendarProp) {
   const handleChange = (selectedDate: SelectDate) => {
@@ -18,6 +18,7 @@ export default function Calendar({ selectDate, setSelectDate }: CalendarProp) {
         locale="ko-KR"
         calendarType="gregory"
         formatDay={(_, date) => String(date.getDate())}
+        minDate={new Date()}
       />
     </>
   );

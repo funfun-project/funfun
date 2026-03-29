@@ -1,5 +1,5 @@
 type LocationState = {
-  location: string;
+  location: string | null;
   setLocation: (selected: string) => void;
 };
 
