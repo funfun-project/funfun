@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import Spinner from '@/common/Spinner';
 import '@/assets/styles/splash.css';
 
 function useHydrated() {
@@ -23,11 +22,6 @@ export default function Splash() {
         <div className="splash-out relative aspect-90/67 w-45">
           <Image src="/img/logo.png" alt="funfun logo" fill className="object-cover" />
         </div>
-        {hydrated && (
-          <div className="absolute bottom-12.5 left-1/2 -translate-x-1/2">
-            <Spinner />
-          </div>
-        )}
       </main>
     </>
   );

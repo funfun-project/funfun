@@ -1,45 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import PopularClubList from './components/PopularClubList';
-import Splash from './components/Splash';
-import { cn } from '@/libs/utils/twMerge';
 import WriteFab from '@/common/WriteFab';
 import RecommendCardContainer from '@/common/RecommendCardContainer';
 import PlaceRecommendations from '@/common/placeRecommendations/PlaceRecommendations';
 
 export default function Home() {
-  const [showSplash, setShowSplash] = useState<null | boolean>(null);
-
-  // useEffect(() => {
-  //   const hasVisited = sessionStorage.getItem('hasVisited');
-
-  //   if (hasVisited) {
-  //     setShowSplash(false);
-  //   } else {
-  //     const timer = setTimeout(() => {
-  //       setShowSplash(false);
-  //       sessionStorage.setItem('hasVisited', 'true');
-  //     }, 1500);
-
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, []);
-
-  // splash 동작 확인
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSplash(false);
-    }, 1500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <>
-      {showSplash && <Splash />}
-      <main className={cn('relative max-w-187.5', showSplash ? 'hidden' : 'block')}>
+      <main className="relative max-w-187.5">
         <section className="mt-[86px] mb-[30px] px-[15px] md:mb-12.5">
           <h1 className="text-body2 text-text-default md:text-h2 mb-[10px] md:mb-[15px]">title</h1>
           <p className="text-text-support text-body4 md:text-body2 mb-[20px]">장소</p>
