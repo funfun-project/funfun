@@ -149,7 +149,7 @@ export default function ResetPassword() {
             setField={setField}
             commitField={commitField}
             nextStep={nextStep}
-            prevStep={prevStep}
+            canNext={canNextStep1}
           />
         )}
       </div>
