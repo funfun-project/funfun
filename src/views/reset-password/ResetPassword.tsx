@@ -4,6 +4,7 @@ import { useCallback, useMemo, useReducer } from 'react';
 import StepProgressBar from '@/common/StepProgressBar';
 import Step1 from '../../common/stepPage/Step-email-verification';
 import Step2 from './pages/Sterp2-password-verification';
+import Step3 from '@/common/stepPage/Step-complete';
 import { cn } from '@/libs/utils/twMerge';
 import {
   type CommitFieldFn,
@@ -156,6 +157,7 @@ export default function ResetPassword() {
             canNext={canNextStep2}
           />
         )}
+        {step === 3 && <Step3 />}
       </div>
     </div>
   );

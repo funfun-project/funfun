@@ -5,7 +5,7 @@ import StepProgressBar from '@/common/StepProgressBar';
 import Step1 from './pages/Step1-input-title';
 import Step2 from './pages/Step2-input-date';
 import Step3 from './pages/Step3-input-info';
-import Step4 from './pages/Step4-complete';
+import Step4 from '@/common/stepPage/Step-complete';
 import { cn } from '@/libs/utils/twMerge';
 import { getGeocode } from '@/libs/utils/naverMap';
 import {
