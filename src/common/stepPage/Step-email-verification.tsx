@@ -45,6 +45,7 @@ export default function StepEmailVerification({
               id="email"
               value={form.email == null ? '' : String(form.email)}
               placeholder="이메일을 입력해 주세요."
+              disabled={step}
               error={errors.email ?? null}
               onChange={(v) => setField('email', v)}
               onBlur={() => void commitField('email', form.email)}
@@ -54,8 +55,9 @@ export default function StepEmailVerification({
             <div className="mt-2.5">
               <TextInput
                 id="password"
+                className="inputAnimation"
                 value={form.emailVerification == null ? '' : String(form.emailVerification)}
-                placeholder="이메일을 입력해 주세요."
+                placeholder="인증번호 6자리를 입력해 주세요."
                 error={errors.emailVerification ?? null}
                 onChange={(v) => setField('emailVerification', v)}
                 onBlur={() => void commitField('emailVerification', form.emailVerification)}

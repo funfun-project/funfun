@@ -10,6 +10,7 @@ type Props = {
   className?: string;
   value: string;
   placeholder: string;
+  disabled?: boolean;
   error?: string | null;
   onFocus?: () => void;
   onChange?: (v: string) => void;
@@ -23,6 +24,7 @@ export default function TextInput({
   className,
   value,
   placeholder,
+  disabled,
   error = null,
   onChange,
   onFocus,
@@ -40,6 +42,7 @@ export default function TextInput({
         autoComplete="off"
         value={value}
         placeholder={error ?? placeholder}
+        disabled={disabled}
         onFocus={() => {
           setIsFocused(true);
           onFocus?.();

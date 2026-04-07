@@ -44,6 +44,7 @@ export default function Step2({ form, errors, setField, commitField, nextStep, c
           {step && (
             <div className="mt-2.5">
               <PasswordInput
+                className="inputAnimation"
                 value={form.passwordVerification == null ? '' : String(form.passwordVerification)}
                 placeholder="비밀번호를 확인해 주세요."
                 error={errors.passwordVerification ?? null}

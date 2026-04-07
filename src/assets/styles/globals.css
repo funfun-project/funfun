@@ -99,6 +99,23 @@ button[data-active='false'] {
   }
 }
 
+.inputAnimation {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  animation: input-pade-in 500ms linear forwards;
+}
+
+@keyframes input-pade-in {
+  0% {
+    transform: translateY(60%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 .scrollbar {
   scrollbar-gutter: stable;
   scroll-behavior: smooth;
