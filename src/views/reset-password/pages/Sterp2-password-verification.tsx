@@ -16,16 +16,19 @@ type Props = {
 export default function Step2({ form, errors, setField, commitField, nextStep, canNext }: Props) {
   const [step, setStep] = useState(false);
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    console.log('on submit');
+  };
 
   return (
     <>
       <div className="flex-1 space-y-3">
-        <div className="text-white">
-          <h1 className="text-h2">비밀번호를 변경해 주세요</h1>
+        <div className="mb-9 text-white">
+          <h1 className="text-h2 mb-[5px]">비밀번호를 변경해 주세요</h1>
+          <p className="text-body4 text-[#B0B0B0]">변경 할 비밀번호를 확인해 주세요</p>
         </div>
 
-        <form action="">
+        <form action={() => onSubmit()}>
           <div>
             <PasswordInput
               value={form.password == null ? '' : String(form.password)}
@@ -53,18 +56,16 @@ export default function Step2({ form, errors, setField, commitField, nextStep, c
       </div>
 
       <div>
-        {step && (
-          <button
-            className={cn(
-              'bg-bg-button text-text-disabled mt-2.5 w-full rounded-[3px] py-3.5',
-              canNext && 'bg-main text-text-default',
-            )}
-            disabled={!canNext}
-            onClick={nextStep}
-          >
-            비밀번호 변경
-          </button>
-        )}
+        <button
+          className={cn(
+            'bg-bg-button text-text-disabled mt-2.5 w-full rounded-[3px] py-3.5',
+            canNext && 'bg-main text-text-default',
+          )}
+          disabled={!canNext}
+          onClick={nextStep}
+        >
+          비밀번호 변경
+        </button>
       </div>
     </>
   );

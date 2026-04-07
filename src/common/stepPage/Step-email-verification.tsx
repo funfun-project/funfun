@@ -9,27 +9,37 @@ type Props = {
   errors: Partial<Record<FieldType, string>>;
   setField: <K extends keyof ResetPasswordForm>(field: K, value: ResetPasswordForm[K]) => void;
   commitField: CommitFieldFn;
-  nextStep: () => void;
-  canNext: boolean;
+  nextStep?: () => void;
+  canNext?: boolean;
 };
 
-export default function Step1({ form, errors, setField, commitField, nextStep, canNext }: Props) {
+export default function StepEmailVerification({
+  form,
+  errors,
+  setField,
+  commitField,
+  nextStep,
+  canNext,
+}: Props) {
   const [step, setStep] = useState(false);
   const [onEmailValid, setOnEmailValid] = useState(false);
 
   const canSendEmail = Boolean(form.email);
   const canVerifyEmail = Boolean(form.email && form.emailVerification);
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    console.log('on submit');
+  };
 
   return (
     <>
       <div className="flex-1 space-y-3">
-        <div className="text-white">
-          <h1 className="text-h2">모임을 설정해 주세요</h1>
+        <div className="mb-9 text-white">
+          <h1 className="text-h2 mb-[5px]">이메일 인증을 해주세요</h1>
+          <p className="text-body4 text-[#B0B0B0]">메일을 입력하면 메일이 발송 돼요</p>
         </div>
 
-        <form action="">
+        <form action={() => onSubmit()}>
           <div>
             <TextInput
               id="email"
@@ -73,7 +83,7 @@ export default function Step1({ form, errors, setField, commitField, nextStep, c
               'bg-bg-button text-text-disabled mt-2.5 w-full rounded-[3px] py-3.5',
               canSendEmail && 'bg-main text-text-default',
             )}
-            disabled={!canSendEmail}
+            disabled={!canSendEmail && canNext}
             onClick={() => {
               const ok = commitField('email', form.email);
               if (!ok) return;

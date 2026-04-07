@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo, useReducer } from 'react';
 import StepProgressBar from '@/common/StepProgressBar';
-import Step1 from './pages/Step1-email-verification';
+import Step1 from '../../common/stepPage/Step-email-verification';
 import Step2 from './pages/Sterp2-password-verification';
 import { cn } from '@/libs/utils/twMerge';
 import {
@@ -78,7 +78,6 @@ export default function ResetPassword() {
 
   const setStep = useCallback((next: number) => dispatch({ type: 'SET_STEP', step: next }), []);
   const nextStep = useCallback(() => setStep(step + 1), [setStep, step]);
-  const prevStep = useCallback(() => setStep(Math.max(1, step - 1)), [setStep, step]);
 
   const setField = useCallback(
     <K extends keyof ResetPasswordForm>(field: K, value: ResetPasswordForm[K]) => {
@@ -119,6 +118,11 @@ export default function ResetPassword() {
     [form.email, form.emailVerification],
   );
 
+  const canNextStep2 = useMemo(
+    () => Boolean(form.password && form.passwordVerification),
+    [form.password, form.passwordVerification],
+  );
+
   return (
     <div className="bg-bg-main relative h-dvh w-full">
       <div
@@ -149,7 +153,7 @@ export default function ResetPassword() {
             setField={setField}
             commitField={commitField}
             nextStep={nextStep}
-            canNext={canNextStep1}
+            canNext={canNextStep2}
           />
         )}
       </div>

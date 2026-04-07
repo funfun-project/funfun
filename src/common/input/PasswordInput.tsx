@@ -58,21 +58,21 @@ export default function PasswordInput({
       <span className="absolute top-2.75 right-2.5">
         {passwordView ? (
           <button
-            onClick={(e) => {
-              setPasswordView(false);
-              e.preventDefault();
-            }}
+            type="button"
+            onMouseDown={(e) => e.preventDefault()}
+            onPointerDown={(e) => e.preventDefault()}
+            onClick={() => setPasswordView(false)}
           >
-            <EyeOff size={22} color={'#5E5E5E'} />
+            <EyeOff size={22} color="#5E5E5E" />
           </button>
         ) : (
           <button
-            onClick={(e) => {
-              setPasswordView(true);
-              e.preventDefault();
-            }}
+            type="button"
+            onMouseDown={(e) => e.preventDefault()}
+            onPointerDown={(e) => e.preventDefault()}
+            onClick={() => setPasswordView(true)}
           >
-            <Eye size={22} color={'#5E5E5E'} />
+            <Eye size={22} color="#5E5E5E" />
           </button>
         )}
       </span>
