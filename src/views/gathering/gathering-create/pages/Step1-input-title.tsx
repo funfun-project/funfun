@@ -1,8 +1,7 @@
 'use client';
 import { cn } from '@/libs/utils/twMerge';
 import { joinCategoryList } from '@/views/sign-up/data/categoryList';
-import type { CreateGatheringForm } from '@/libs/utils/createGathering';
-import type { CommitFieldFn, FieldType } from '@/libs/utils/createGathering';
+import type { CreateGatheringForm, CommitFieldFn, FieldType } from '@/libs/utils/createGathering';
 import TextInput from '@/common/input/TextInput';
 import SelectInput from '@/common/input/SelectInput';
 
