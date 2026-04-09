@@ -2,6 +2,7 @@
 import { cn } from '@/libs/utils/twMerge';
 import type { SignUpForm, CommitFieldFn, FieldType } from '@/libs/utils/signUp';
 import TextInput from '@/common/input/TextInput';
+import SelectInput from '@/common/input/select/SelectInput';
 import { useState } from 'react';
 
 type Props = {
@@ -9,10 +10,22 @@ type Props = {
   errors: Partial<Record<FieldType, string>>;
   setField: <K extends keyof SignUpForm>(field: K, value: SignUpForm[K]) => void;
   commitField: CommitFieldFn;
-  nextStep?: () => void; // 전체 퍼널의 다음 단계로 이동 (컴포넌트 교체용)
+  nextStep?: () => void;
+  isAddressLoading: boolean;
+  addressError: string | null;
+  addressSuccess: boolean;
 };
 
-export default function Step3Category({ form, errors, setField, commitField, nextStep }: Props) {
+export default function Step3Category({
+  form,
+  errors,
+  setField,
+  commitField,
+  nextStep,
+  isAddressLoading,
+  addressError,
+  addressSuccess,
+}: Props) {
   // 1: 이메일 입력, 2: 인증번호, 3: 비밀번호 설정, 4: 비밀번호 확인
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -24,29 +37,36 @@ export default function Step3Category({ form, errors, setField, commitField, nex
       desc: string;
       buttonText: string;
       field: FieldType;
-      value: string | null | string[];
+      value: string | null;
     }
   > = {
     1: {
-      title: '이메일 인증',
-      desc: '메일을 입력하면 인증번호가 발송돼요.',
-      buttonText: '인증 메일 발송',
-      field: 'nickname',
-      value: form.nickname,
+      title: '생일 설정',
+      desc: '생년월일 8자를 입력해 주세요.',
+      buttonText: '다음',
+      field: 'birthday',
+      value: form.birthday,
     },
     2: {
-      title: '새 비밀번호 설정',
-      desc: '사용할 비밀번호를 입력해주세요.',
+      title: '성별 설정',
+      desc: '성별을 골라주세요.',
       buttonText: '다음',
-      field: 'password',
-      value: form.password,
+      field: 'gender',
+      value: form.gender,
     },
     3: {
-      title: '새 비밀번호 설정',
-      desc: '사용할 비밀번호를 입력해주세요.',
+      title: '주소 설정',
+      desc: '주소를 입력해주세요.',
       buttonText: '다음',
-      field: 'passwordVerification', // SignUpForm에 해당 필드가 있다고 가정
-      value: form.passwordVerification,
+      field: 'address',
+      value: form.address,
+    },
+    4: {
+      title: '주소 설정',
+      desc: '주소를 입력해주세요.',
+      buttonText: '완료',
+      field: 'birthday',
+      value: form.birthday,
     },
   };
 
@@ -56,18 +76,17 @@ export default function Step3Category({ form, errors, setField, commitField, nex
   const handleNext = async () => {
     // 현재 단계의 필드 검증
     const isValid = await commitField(config!.field, config!.value);
+    console.log(currentStep);
 
     if (isValid) {
       if (currentStep < 4) {
         setCurrentStep((prev) => prev + 1);
       } else {
-        // 모든 로컬 단계 완료 시 부모 퍼널의 다음 단계로
         nextStep?.();
       }
     }
   };
 
-  // 버튼 활성화 여부 (현재 단계의 값이 비어있지 않은지 확인)
   const isButtonDisabled = !config?.value || String(config?.value).trim() === '';
 
   return (
@@ -81,53 +100,40 @@ export default function Step3Category({ form, errors, setField, commitField, nex
 
         {/* 입력 섹션 */}
         <div className="space-y-4">
-          {/* Step 1: 이메일 (2단계부터는 비활성화된 상태로 계속 노출) */}
           <TextInput
-            id="email"
-            value={String(form.email ?? '')}
-            placeholder="이메일을 입력해 주세요."
-            // disabled={currentStep > 1}
-            error={errors.email ?? null}
-            onChange={(v) => setField('email', v)}
+            value={String(form.birthday ?? '')}
+            placeholder="YYYYMMDD 형식으로 생년월일 8자를 입력해 주세요."
+            disabled={currentStep > 1}
+            error={errors.birthday ?? null}
+            onChange={(v) => setField('birthday', v)}
           />
 
           {/* Step 2: 인증번호 */}
           {currentStep >= 2 && (
-            <TextInput
-              id="emailVerification"
+            <SelectInput
               className="inputAnimation"
-              value={String(form.emailVerification ?? '')}
-              placeholder="인증번호 6자리를 입력해 주세요."
-              //   disabled={currentStep > 2}
-              error={errors.emailVerification ?? null}
-              onChange={(v) => setField('emailVerification', v)}
+              value={form.gender}
+              placeholder="성별을 선택해 주세요."
+              error={errors.gender ?? null}
+              items={['남성', '여성']}
+              onSelect={(v) => {
+                setField('gender', v);
+                void commitField('gender', v);
+              }}
             />
           )}
 
           {/* Step 3: 비밀번호 */}
           {currentStep >= 3 && (
             <TextInput
-              id="password"
-              //   type="password"
+              mode="address"
               className="inputAnimation"
-              value={String(form.password ?? '')}
-              placeholder="새 비밀번호를 입력해 주세요."
-              //   disabled={currentStep > 3}
-              error={errors.password ?? null}
-              onChange={(v) => setField('password', v)}
-            />
-          )}
-
-          {/* Step 4: 비밀번호 확인 */}
-          {currentStep >= 4 && (
-            <TextInput
-              id="passwordVerification"
-              //   type="password"
-              className="inputAnimation"
-              value={String(form.passwordVerification ?? '')}
-              placeholder="비밀번호를 다시 입력해 주세요."
-              error={errors.passwordVerification ?? null}
-              onChange={(v) => setField('passwordVerification', v)}
+              value={form.address}
+              placeholder="주소를 작성해 주세요."
+              error={addressError ?? errors.address ?? null}
+              onChange={(v) => setField('address', v)}
+              onBlur={() => void commitField('address', form.address)}
+              addressSuccess={addressSuccess}
             />
           )}
         </div>
@@ -137,7 +143,7 @@ export default function Step3Category({ form, errors, setField, commitField, nex
       <div className="mt-auto">
         <button
           type="button"
-          onClick={void handleNext}
+          onClick={() => void handleNext()}
           disabled={isButtonDisabled}
           className={cn(
             'bg-bg-button text-text-disabled w-full rounded-[3px] py-3.5 transition-all',

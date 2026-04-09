@@ -1,6 +1,6 @@
-export const joinCategoryList = ['문화', '운동', '푸드', '게임', '여행', '예술', '자기 개발'];
+export const gatheringCategoryList = ['문화', '운동', '푸드', '게임', '여행', '예술', '자기 개발'];
 
-export const wantCategoryList = [
+export const eventCategoryList = [
   '연극',
   '무용',
   '복합',

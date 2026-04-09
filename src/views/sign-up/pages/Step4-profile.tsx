@@ -2,6 +2,8 @@
 import { cn } from '@/libs/utils/twMerge';
 import type { SignUpForm, CommitFieldFn, FieldType } from '@/libs/utils/signUp';
 import TextInput from '@/common/input/TextInput';
+import SelectInput from '@/common/input/select/MultuSelectInput';
+import { gatheringCategoryList, eventCategoryList } from '../data/categoryList';
 import { useState } from 'react';
 
 type Props = {
@@ -24,29 +26,29 @@ export default function Step4Profile({ form, errors, setField, commitField, next
       desc: string;
       buttonText: string;
       field: FieldType;
-      value: string | null | string[];
+      value: string | null;
     }
   > = {
     1: {
-      title: '이메일 인증',
-      desc: '메일을 입력하면 인증번호가 발송돼요.',
-      buttonText: '인증 메일 발송',
-      field: 'nickname',
-      value: form.nickname,
+      title: '모임 카테고리 설정',
+      desc: '선호하는 모임 종류를 선택해 주세요.',
+      buttonText: '다음',
+      field: 'gatheringCategory',
+      value: form.gatheringCategory,
     },
     2: {
-      title: '새 비밀번호 설정',
-      desc: '사용할 비밀번호를 입력해주세요.',
+      title: '행사 카테고리 설정',
+      desc: '선호하는 행사 종류를 선택해 주세요.',
       buttonText: '다음',
-      field: 'password',
-      value: form.password,
+      field: 'eventCategory',
+      value: form.eventCategory,
     },
     3: {
-      title: '새 비밀번호 설정',
-      desc: '사용할 비밀번호를 입력해주세요.',
-      buttonText: '다음',
-      field: 'passwordVerification', // SignUpForm에 해당 필드가 있다고 가정
-      value: form.passwordVerification,
+      title: '행사 카테고리 설정',
+      desc: '선호하는 행사 종류를 선택해 주세요.',
+      buttonText: '회원 가입 완료',
+      field: 'eventCategory',
+      value: form.eventCategory,
     },
   };
 
@@ -58,7 +60,7 @@ export default function Step4Profile({ form, errors, setField, commitField, next
     const isValid = await commitField(config!.field, config!.value);
 
     if (isValid) {
-      if (currentStep < 4) {
+      if (currentStep < 3) {
         setCurrentStep((prev) => prev + 1);
       } else {
         // 모든 로컬 단계 완료 시 부모 퍼널의 다음 단계로
@@ -82,52 +84,28 @@ export default function Step4Profile({ form, errors, setField, commitField, next
         {/* 입력 섹션 */}
         <div className="space-y-4">
           {/* Step 1: 이메일 (2단계부터는 비활성화된 상태로 계속 노출) */}
-          <TextInput
-            id="email"
-            value={String(form.email ?? '')}
-            placeholder="이메일을 입력해 주세요."
-            // disabled={currentStep > 1}
-            error={errors.email ?? null}
-            onChange={(v) => setField('email', v)}
+          <SelectInput
+            value={String(form.gatheringCategory ?? '')}
+            placeholder="1~3 가지의 카테고리를 선택해 주세요."
+            error={errors.gatheringCategory ?? null}
+            items={gatheringCategoryList}
+            onSelect={(v) => {
+              setField('gatheringCategory', v);
+              void commitField('gatheringCategory', v);
+            }}
           />
 
           {/* Step 2: 인증번호 */}
           {currentStep >= 2 && (
-            <TextInput
-              id="emailVerification"
-              className="inputAnimation"
-              value={String(form.emailVerification ?? '')}
-              placeholder="인증번호 6자리를 입력해 주세요."
-              //   disabled={currentStep > 2}
-              error={errors.emailVerification ?? null}
-              onChange={(v) => setField('emailVerification', v)}
-            />
-          )}
-
-          {/* Step 3: 비밀번호 */}
-          {currentStep >= 3 && (
-            <TextInput
-              id="password"
-              //   type="password"
-              className="inputAnimation"
-              value={String(form.password ?? '')}
-              placeholder="새 비밀번호를 입력해 주세요."
-              //   disabled={currentStep > 3}
-              error={errors.password ?? null}
-              onChange={(v) => setField('password', v)}
-            />
-          )}
-
-          {/* Step 4: 비밀번호 확인 */}
-          {currentStep >= 4 && (
-            <TextInput
-              id="passwordVerification"
-              //   type="password"
-              className="inputAnimation"
-              value={String(form.passwordVerification ?? '')}
-              placeholder="비밀번호를 다시 입력해 주세요."
-              error={errors.passwordVerification ?? null}
-              onChange={(v) => setField('passwordVerification', v)}
+            <SelectInput
+              value={String(form.eventCategory ?? '')}
+              placeholder="1~3 가지의 카테고리를 선택해 주세요."
+              error={errors.eventCategory ?? null}
+              items={eventCategoryList}
+              onSelect={(v) => {
+                setField('eventCategory', v);
+                void commitField('eventCategory', v);
+              }}
             />
           )}
         </div>
@@ -137,7 +115,7 @@ export default function Step4Profile({ form, errors, setField, commitField, next
       <div className="mt-auto">
         <button
           type="button"
-          onClick={void handleNext}
+          onClick={() => void handleNext()}
           disabled={isButtonDisabled}
           className={cn(
             'bg-bg-button text-text-disabled w-full rounded-[3px] py-3.5 transition-all',

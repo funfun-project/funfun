@@ -2,10 +2,10 @@
 
 import { useCallback, useMemo, useReducer, useState } from 'react';
 import StepProgressBar from '@/common/StepProgressBar';
-import Step1 from './page/Step1-input-title';
-import Step2 from './page/Step2-input-date';
-import Step3 from './page/Step3-input-info';
-import Step4 from './page/Step4-complete';
+import Step1 from './pages/Step1-input-title';
+import Step2 from './pages/Step2-input-date';
+import Step3 from './pages/Step3-input-info';
+import Step4 from '@/common/stepPage/Step-complete';
 import { cn } from '@/libs/utils/twMerge';
 import { getGeocode } from '@/libs/utils/naverMap';
 import {

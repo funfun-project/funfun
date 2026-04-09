@@ -24,28 +24,35 @@ export default function Step2AuthSetting({ form, errors, setField, commitField, 
       desc: string;
       buttonText: string;
       field: FieldType;
-      value: string | null | string[];
+      value: string | null;
     }
   > = {
     1: {
-      title: '이메일 인증',
-      desc: '메일을 입력하면 인증번호가 발송돼요.',
-      buttonText: '인증 메일 발송',
+      title: '닉네임 설정',
+      desc: '사용하실 닉네임을 설정해 주세요.',
+      buttonText: '중복 확인',
       field: 'nickname',
       value: form.nickname,
     },
     2: {
-      title: '새 비밀번호 설정',
+      title: '비밀번호 설정',
       desc: '사용할 비밀번호를 입력해주세요.',
       buttonText: '다음',
       field: 'password',
       value: form.password,
     },
     3: {
-      title: '새 비밀번호 설정',
-      desc: '사용할 비밀번호를 입력해주세요.',
+      title: '비밀번호 확인',
+      desc: '비밀번호를 확인해 주세요.',
       buttonText: '다음',
       field: 'passwordVerification', // SignUpForm에 해당 필드가 있다고 가정
+      value: form.passwordVerification,
+    },
+    4: {
+      title: '비밀번호 확인',
+      desc: '비밀번호를 확인해 주세요.',
+      buttonText: '완료',
+      field: 'passwordVerification',
       value: form.passwordVerification,
     },
   };
@@ -54,14 +61,13 @@ export default function Step2AuthSetting({ form, errors, setField, commitField, 
 
   // 다음 버튼 핸들러
   const handleNext = async () => {
-    // 현재 단계의 필드 검증
     const isValid = await commitField(config!.field, config!.value);
 
     if (isValid) {
       if (currentStep < 4) {
         setCurrentStep((prev) => prev + 1);
       } else {
-        // 모든 로컬 단계 완료 시 부모 퍼널의 다음 단계로
+        console.log('동작');
         nextStep?.();
       }
     }
@@ -83,12 +89,11 @@ export default function Step2AuthSetting({ form, errors, setField, commitField, 
         <div className="space-y-4">
           {/* Step 1: 이메일 (2단계부터는 비활성화된 상태로 계속 노출) */}
           <TextInput
-            id="email"
-            value={String(form.email ?? '')}
-            placeholder="이메일을 입력해 주세요."
-            // disabled={currentStep > 1}
-            error={errors.email ?? null}
-            onChange={(v) => setField('email', v)}
+            value={String(form.nickname ?? '')}
+            placeholder="닉네임을 입력해 주세요."
+            disabled={currentStep > 1}
+            error={errors.nickname ?? null}
+            onChange={(v) => setField('nickname', v)}
           />
 
           {/* Step 2: 인증번호 */}
@@ -96,30 +101,16 @@ export default function Step2AuthSetting({ form, errors, setField, commitField, 
             <TextInput
               id="emailVerification"
               className="inputAnimation"
-              value={String(form.emailVerification ?? '')}
-              placeholder="인증번호 6자리를 입력해 주세요."
-              //   disabled={currentStep > 2}
-              error={errors.emailVerification ?? null}
-              onChange={(v) => setField('emailVerification', v)}
-            />
-          )}
-
-          {/* Step 3: 비밀번호 */}
-          {currentStep >= 3 && (
-            <TextInput
-              id="password"
-              //   type="password"
-              className="inputAnimation"
               value={String(form.password ?? '')}
-              placeholder="새 비밀번호를 입력해 주세요."
-              //   disabled={currentStep > 3}
+              placeholder="16자 이내의 영소문자, 숫자, 특수문자를 사용해 주세요."
+              disabled={currentStep > 2}
               error={errors.password ?? null}
               onChange={(v) => setField('password', v)}
             />
           )}
 
           {/* Step 4: 비밀번호 확인 */}
-          {currentStep >= 4 && (
+          {currentStep >= 3 && (
             <TextInput
               id="passwordVerification"
               //   type="password"
@@ -137,7 +128,7 @@ export default function Step2AuthSetting({ form, errors, setField, commitField, 
       <div className="mt-auto">
         <button
           type="button"
-          onClick={void handleNext}
+          onClick={() => void handleNext()}
           disabled={isButtonDisabled}
           className={cn(
             'bg-bg-button text-text-disabled w-full rounded-[3px] py-3.5 transition-all',

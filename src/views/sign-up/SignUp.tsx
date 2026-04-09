@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useReducer, useState } from 'react';
 import StepProgressBar from '@/common/StepProgressBar';
+import Step1 from './pages/Step1-email';
 import Step2 from './pages/Step2-auth-setting';
 import Step3 from './pages/Step3-category';
 import Step4 from './pages/Step4-profile';
@@ -27,7 +28,7 @@ type State = {
 };
 
 const initialState: State = {
-  step: 2,
+  step: 4,
   form: initialForm,
   errors: {},
 
@@ -74,7 +75,7 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-export default function GatheringCreate() {
+export default function SignUp() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { step, form, errors, isAddressLoading, addressError, addressSuccess } = state;
 
@@ -196,16 +197,16 @@ export default function GatheringCreate() {
           <StepProgressBar step={step} total={4} activeColor="#FF5126" inactiveColor="#3A3A3A" />
         </div>
 
-        {/* {step === 1 && (
+        {step === 1 && (
           <Step1
             form={form}
             errors={errors}
             setField={setField}
             commitField={commitField}
             nextStep={nextStep}
-            canNext={canNextStep1}
+            canNext={canNextStep}
           />
-        )} */}
+        )}
 
         {step === 2 && (
           <Step2
@@ -223,9 +224,19 @@ export default function GatheringCreate() {
             errors={errors}
             setField={setField}
             commitField={commitField}
-            // isAddressLoading={isAddressLoading}
-            // addressError={addressError}
-            // addressSuccess={addressSuccess}
+            isAddressLoading={isAddressLoading}
+            addressError={addressError}
+            addressSuccess={addressSuccess}
+            nextStep={nextStep}
+          />
+        )}
+
+        {step === 4 && (
+          <Step4
+            form={form}
+            errors={errors}
+            setField={setField}
+            commitField={commitField}
             nextStep={nextStep}
           />
         )}

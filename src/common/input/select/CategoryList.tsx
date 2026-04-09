@@ -1,6 +1,7 @@
 'use client';
 
 import { cn } from '@/libs/utils/twMerge';
+import ListItem from './ListItem';
 
 type Props = {
   items: string[] | undefined;
@@ -17,17 +18,7 @@ export default function CategoryList({ items, className, onSelect }: Props) {
       )}
     >
       {items?.map((item) => (
-        <li
-          key={item}
-          className="text-text-disabled hover:text-text-active text-body3 cursor-pointer"
-          onMouseDown={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            onSelect(item);
-          }}
-        >
-          {item}
-        </li>
+        <ListItem key={item} item={item} onSelect={onSelect} />
       ))}
     </ul>
   );

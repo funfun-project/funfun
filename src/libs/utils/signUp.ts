@@ -1,3 +1,5 @@
+import { CommonAuthForm } from './commonAuth';
+
 export type FieldType =
   | 'email'
   | 'emailVerification'
@@ -12,17 +14,14 @@ export type FieldType =
   | 'latitude'
   | 'longitude';
 
-export interface SignUpForm {
-  email: string | null;
-  emailVerification: string | null;
+export interface SignUpForm extends CommonAuthForm {
   nickname: string | null;
-  password: string | null;
   passwordVerification: string | null;
-  birthday: number | null;
-  gender: string | null;
-  address: string | null;
-  gatheringCategory: string[] | null;
-  eventCategory: string[] | null;
+  birthday: string | null;
+  gender: string;
+  address: string;
+  gatheringCategory: string | null;
+  eventCategory: string | null;
   latitude: number | null;
   longitude: number | null;
 }
@@ -34,10 +33,10 @@ export const initialForm: SignUpForm = {
   password: null,
   passwordVerification: null,
   birthday: null,
-  gender: null,
-  address: null,
-  gatheringCategory: [],
-  eventCategory: [],
+  gender: '',
+  address: '',
+  gatheringCategory: '',
+  eventCategory: '',
   latitude: null,
   longitude: null,
 };
