@@ -2,47 +2,39 @@
 
 import React, { useState, useRef } from 'react';
 import { getInputClassName } from './inputStyle';
-import { CircleCheck } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 
 type Props = {
-  id?: string;
-  mode?: 'address';
   className?: string;
   value: string;
   placeholder: string;
-  disabled?: boolean;
   error?: string | null;
   onFocus?: () => void;
   onChange?: (v: string) => void;
   onBlur?: () => void;
-  addressSuccess?: boolean;
 };
 
-export default function TextInput({
-  id,
-  mode,
+export default function PasswordInput({
   className,
   value,
   placeholder,
-  disabled,
   error = null,
   onChange,
   onFocus,
   onBlur,
-  addressSuccess,
 }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [isFocused, setIsFocused] = useState(false);
+  const [passwordView, setPasswordView] = useState(false);
 
   return (
     <div className="relative">
       <input
-        id={id}
+        type={passwordView ? 'text' : 'password'}
         ref={inputRef}
         autoComplete="off"
         value={value}
         placeholder={error ?? placeholder}
-        disabled={disabled}
         onFocus={() => {
           setIsFocused(true);
           onFocus?.();
@@ -63,11 +55,27 @@ export default function TextInput({
           className,
         })}
       />
-      {mode === 'address' && (
-        <span className="absolute top-2.75 right-2.5">
-          <CircleCheck size={22} color={addressSuccess ? 'rgba(255,81,38,.7)' : '#5E5E5E'} />
-        </span>
-      )}
+      <span className="absolute top-2.75 right-2.5">
+        {passwordView ? (
+          <button
+            type="button"
+            onMouseDown={(e) => e.preventDefault()}
+            onPointerDown={(e) => e.preventDefault()}
+            onClick={() => setPasswordView(false)}
+          >
+            <EyeOff size={22} color="#5E5E5E" />
+          </button>
+        ) : (
+          <button
+            type="button"
+            onMouseDown={(e) => e.preventDefault()}
+            onPointerDown={(e) => e.preventDefault()}
+            onClick={() => setPasswordView(true)}
+          >
+            <Eye size={22} color="#5E5E5E" />
+          </button>
+        )}
+      </span>
     </div>
   );
 }

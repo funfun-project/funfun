@@ -1,11 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-// import { useCreateGatheringStore } from '@/stores/useCreateGatheringStore';
 import { useRouter } from 'next/navigation';
-// import { useState } from 'react';
 
-export default function Step4Complete() {
+export default function StepComplete() {
   const router = useRouter();
 
   return (
