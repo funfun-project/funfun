@@ -57,8 +57,15 @@ export function validationInput(arg: ValidationArg): string | null {
       return arg.value ? null : '이메일 입력해 주세요.';
     case 'emailVerification':
       return arg.value ? null : '숫자 6자리를 입력해 주세요';
-    case 'nickname':
-      return arg.value ? null : '이메일 입력해 주세요.';
+    case 'nickname': {
+      const value = arg.value?.trim();
+      const regex = /^[a-z가-힣0-9]{1,8}$/;
+
+      if (!value) return '닉네임을 입력해 주세요.';
+      if (!regex.test(value)) return '소문자·한글·숫자로만 구성된 8자 이내로 입력해 주세요';
+
+      return null;
+    }
     case 'password':
       return arg.value ? null : '비밀번호를 입력해 주세요';
     case 'passwordVerification':

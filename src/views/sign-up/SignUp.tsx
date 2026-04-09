@@ -184,7 +184,7 @@ export default function GatheringCreate() {
     [resolveAddress],
   );
 
-  const canNextStep1 = useMemo(
+  const canNextStep = useMemo(
     () => Boolean(form.email && form.emailVerification),
     [form.email, form.emailVerification],
   );
