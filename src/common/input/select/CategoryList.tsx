@@ -4,12 +4,13 @@ import { cn } from '@/libs/utils/twMerge';
 import ListItem from './ListItem';
 
 type Props = {
-  items: string[] | undefined;
+  items: string[];
   className?: string;
   onSelect: (item: string) => void;
+  selected?: string[];
 };
 
-export default function CategoryList({ items, className, onSelect }: Props) {
+export default function CategoryList({ items, className, onSelect, selected }: Props) {
   return (
     <ul
       className={cn(
@@ -18,7 +19,7 @@ export default function CategoryList({ items, className, onSelect }: Props) {
       )}
     >
       {items?.map((item) => (
-        <ListItem key={item} item={item} onSelect={onSelect} />
+        <ListItem key={item} item={item} onSelect={onSelect} selected={selected} />
       ))}
     </ul>
   );

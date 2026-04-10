@@ -2,6 +2,7 @@
 import { cn } from '@/libs/utils/twMerge';
 import type { SignUpForm, CommitFieldFn, FieldType } from '@/libs/utils/signUp';
 import TextInput from '@/common/input/TextInput';
+import PasswordInput from '@/common/input/PasswordInput';
 import { useState } from 'react';
 
 type Props = {
@@ -98,8 +99,7 @@ export default function Step2AuthSetting({ form, errors, setField, commitField, 
 
           {/* Step 2: 인증번호 */}
           {currentStep >= 2 && (
-            <TextInput
-              id="emailVerification"
+            <PasswordInput
               className="inputAnimation"
               value={String(form.password ?? '')}
               placeholder="16자 이내의 영소문자, 숫자, 특수문자를 사용해 주세요."
@@ -111,12 +111,11 @@ export default function Step2AuthSetting({ form, errors, setField, commitField, 
 
           {/* Step 4: 비밀번호 확인 */}
           {currentStep >= 3 && (
-            <TextInput
-              id="passwordVerification"
-              //   type="password"
+            <PasswordInput
               className="inputAnimation"
               value={String(form.passwordVerification ?? '')}
-              placeholder="비밀번호를 다시 입력해 주세요."
+              placeholder="비밀번호를 확인해 주세요."
+              disabled={currentStep > 3}
               error={errors.passwordVerification ?? null}
               onChange={(v) => setField('passwordVerification', v)}
             />

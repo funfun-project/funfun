@@ -1,8 +1,7 @@
 'use client';
 import { cn } from '@/libs/utils/twMerge';
 import type { SignUpForm, CommitFieldFn, FieldType } from '@/libs/utils/signUp';
-import TextInput from '@/common/input/TextInput';
-import SelectInput from '@/common/input/select/MultuSelectInput';
+import MultuSelectInput from '@/common/input/select/MultuSelectInput';
 import { gatheringCategoryList, eventCategoryList } from '../data/categoryList';
 import { useState } from 'react';
 
@@ -84,7 +83,7 @@ export default function Step4Profile({ form, errors, setField, commitField, next
         {/* 입력 섹션 */}
         <div className="space-y-4">
           {/* Step 1: 이메일 (2단계부터는 비활성화된 상태로 계속 노출) */}
-          <SelectInput
+          <MultuSelectInput
             value={String(form.gatheringCategory ?? '')}
             placeholder="1~3 가지의 카테고리를 선택해 주세요."
             error={errors.gatheringCategory ?? null}
@@ -97,7 +96,7 @@ export default function Step4Profile({ form, errors, setField, commitField, next
 
           {/* Step 2: 인증번호 */}
           {currentStep >= 2 && (
-            <SelectInput
+            <MultuSelectInput
               value={String(form.eventCategory ?? '')}
               placeholder="1~3 가지의 카테고리를 선택해 주세요."
               error={errors.eventCategory ?? null}

@@ -28,94 +28,67 @@ export default function SelectInput({
   onBlur,
 }: Props) {
   const rootRef = useRef<HTMLDivElement | null>(null);
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const ignoreNextToggleRef = useRef(false);
-
   const [isOpen, setIsOpen] = useState(false);
   const [valueList, setValueList] = useState<string[]>([]);
 
+  // 외부 클릭 시 닫기 및 값 업데이트 로직
   useEffect(() => {
-    const handlePointerDown = (e: MouseEvent | TouchEvent) => {
-      const target = e.target as Node | null;
-      if (!target) return;
-
-      if (rootRef.current && !rootRef.current.contains(target)) {
-        setIsOpen(false);
-        onBlur?.();
+    const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
+        if (isOpen) {
+          setIsOpen(false);
+          // 닫힐 때 현재 선택된 리스트를 부모에게 전달
+          onSelect?.(valueList.join(' • '));
+          onBlur?.();
+        }
       }
     };
-
-    document.addEventListener('mousedown', handlePointerDown);
-    document.addEventListener('touchstart', handlePointerDown);
-
-    return () => {
-      document.removeEventListener('mousedown', handlePointerDown);
-      document.removeEventListener('touchstart', handlePointerDown);
-    };
-  }, [onBlur]);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setIsOpen(false);
-        onBlur?.();
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [onBlur]);
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, [isOpen, valueList, onSelect, onBlur]);
 
   const selectToggle = () => {
-    if (ignoreNextToggleRef.current) return;
-
     setIsOpen((prev) => {
       const next = !prev;
-
-      if (next) {
-        queueMicrotask(() => inputRef.current?.focus());
-      } else {
+      // 닫는 동작일 때 부모에게 최종 값 전달
+      if (!next) {
+        onSelect?.(valueList.join(' • '));
         onBlur?.();
       }
-
       return next;
     });
   };
 
   const handleSelect = (item: string) => {
-    ignoreNextToggleRef.current = true;
-
     const isRemoving = valueList.includes(item);
-    const nextList = isRemoving
-      ? valueList.filter((prevItem) => prevItem !== item)
-      : [...valueList, item];
+    let nextList: string[];
 
-    // 2. 상태를 업데이트합니다.
+    if (isRemoving) {
+      nextList = valueList.filter((prevItem) => prevItem !== item);
+    } else {
+      if (valueList.length >= 3) return;
+      nextList = [...valueList, item];
+    }
+
     setValueList(nextList);
 
-    // 3. '이미 계산된' nextList의 길이를 체크합니다.
+    // 3개가 선택되면 자동으로 닫고 값 업데이트
     if (nextList.length === 3) {
       setIsOpen(false);
+      onSelect?.(nextList.join(' • '));
       onBlur?.();
-
-      const value = nextList.join(' • ');
-      onSelect?.(value);
     }
-    requestAnimationFrame(() => {
-      ignoreNextToggleRef.current = false;
-    });
   };
 
   return (
     <div ref={rootRef} className={cn('relative', className)}>
       <input
         id={id}
-        ref={inputRef}
         className={getInputClassName({
+          // 핵심: 리스트가 열려있을 때만 isActive를 true로 줌.
+          // error가 있으면 함수 내부 로직에 의해 border-[#FF5126]이 우선 적용됨.
           isActive: isOpen,
-          error,
+          error: error, // 에러가 있으면 보더가 생기고, 없으면 사라짐
           clickable: true,
         })}
         autoComplete="off"
@@ -123,15 +96,11 @@ export default function SelectInput({
         placeholder={error ?? placeholder}
         readOnly
         onClick={selectToggle}
-        onBlur={() => {
-          onSelect?.(value);
-          selectToggle();
-        }}
+        // focus 시 브라우저 기본 보더가 생기는 걸 방지 (outline-none은 이미 함수에 있음)
       />
 
       <button
         type="button"
-        onMouseDown={(e) => e.preventDefault()}
         onClick={selectToggle}
         className={cn(
           'absolute top-2.5 right-2.5 transition-transform',
@@ -141,7 +110,7 @@ export default function SelectInput({
         <ChevronDown size={24} color="#5E5E5E" />
       </button>
 
-      {isOpen && <CategoryList items={items} onSelect={handleSelect} />}
+      {isOpen && <CategoryList items={items} onSelect={handleSelect} selected={valueList} />}
     </div>
   );
 }

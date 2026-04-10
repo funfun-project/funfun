@@ -8,6 +8,7 @@ type Props = {
   className?: string;
   value: string;
   placeholder: string;
+  disabled?: boolean;
   error?: string | null;
   onFocus?: () => void;
   onChange?: (v: string) => void;
@@ -18,6 +19,7 @@ export default function PasswordInput({
   className,
   value,
   placeholder,
+  disabled,
   error = null,
   onChange,
   onFocus,
@@ -33,6 +35,7 @@ export default function PasswordInput({
         type={passwordView ? 'text' : 'password'}
         ref={inputRef}
         autoComplete="off"
+        disabled={disabled}
         value={value}
         placeholder={error ?? placeholder}
         onFocus={() => {

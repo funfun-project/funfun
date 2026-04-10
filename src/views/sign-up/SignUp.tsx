@@ -28,7 +28,7 @@ type State = {
 };
 
 const initialState: State = {
-  step: 4,
+  step: 1,
   form: initialForm,
   errors: {},
 
@@ -193,7 +193,7 @@ export default function SignUp() {
   return (
     <div className="bg-bg-main relative h-dvh w-full">
       <div className="flex h-screen w-full flex-col bg-black px-4 pt-20 pb-8">
-        <div className={cn(step === 3 ? 'px-4' : 'px-0')}>
+        <div>
           <StepProgressBar step={step} total={4} activeColor="#FF5126" inactiveColor="#3A3A3A" />
         </div>
 
