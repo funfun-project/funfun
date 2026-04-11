@@ -1,5 +1,5 @@
 .progressAction {
-  animation: stepAction 0.3s ease-in;
+  animation: stepAction 0.7s ease-in forwards;
 }
 
 @keyframes stepAction {
