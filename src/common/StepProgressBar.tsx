@@ -1,5 +1,8 @@
 'use client';
 
+import { cn } from '@/libs/utils/twMerge';
+import '@/assets/styles/progressbar.css';
+
 interface StepProgressBarProps {
   step: number;
   total: number;
@@ -22,12 +25,15 @@ export default function StepProgressBar({
         return (
           <div
             key={current}
-            className="flex-1 py-1"
+            // className="flex-1 py-1"
+            className="flex-1"
             style={{
               backgroundColor: isActive ? activeColor : inactiveColor,
               transition: '0.3s',
             }}
-          ></div>
+          >
+            <div className={cn('bg-main h-full w-0', isActive ? 'progressAction' : '')}></div>
+          </div>
         );
       })}
     </div>
