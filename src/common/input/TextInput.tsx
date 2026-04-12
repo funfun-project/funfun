@@ -6,7 +6,7 @@ import { CircleCheck } from 'lucide-react';
 
 type Props = {
   id?: string;
-  mode?: 'address';
+  mode?: 'address' | 'nickname';
   className?: string;
   value: string;
   placeholder: string;
@@ -16,6 +16,7 @@ type Props = {
   onChange?: (v: string) => void;
   onBlur?: () => void;
   addressSuccess?: boolean;
+  nicknameSuccess?: boolean;
 };
 
 export default function TextInput({
@@ -30,6 +31,7 @@ export default function TextInput({
   onFocus,
   onBlur,
   addressSuccess,
+  nicknameSuccess,
 }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [isFocused, setIsFocused] = useState(false);
@@ -63,11 +65,15 @@ export default function TextInput({
           className,
         })}
       />
-      {mode === 'address' && (
-        <span className="absolute top-2.75 right-2.5">
-          <CircleCheck size={22} color={addressSuccess ? 'rgba(255,81,38,.7)' : '#5E5E5E'} />
-        </span>
-      )}
+      {mode === 'address' ||
+        (mode === 'nickname' && (
+          <span className="absolute top-2.75 right-2.5">
+            <CircleCheck
+              size={22}
+              color={addressSuccess || nicknameSuccess ? 'rgba(255,81,38,.7)' : '#5E5E5E'}
+            />
+          </span>
+        ))}
     </div>
   );
 }

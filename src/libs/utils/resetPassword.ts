@@ -1,11 +1,9 @@
+import { CommonAuthForm } from './commonAuth';
 export type FieldType = 'email' | 'emailVerification' | 'password' | 'passwordVerification';
 
-export type ResetPasswordForm = {
-  email: string | null;
-  emailVerification: string | null;
-  password: string | null;
+export interface ResetPasswordForm extends CommonAuthForm {
   passwordVerification: string | null;
-};
+}
 
 export const initialForm: ResetPasswordForm = {
   email: '',

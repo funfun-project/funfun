@@ -1,9 +1,9 @@
-import SignUpContainer from '@/views/sign-up/SignUpContainer';
+import SignUp from '@/views/sign-up/SignUp';
 
-export default function SignUp() {
+export default function page() {
   return (
     <>
-      <SignUpContainer />
+      <SignUp />
     </>
   );
 }

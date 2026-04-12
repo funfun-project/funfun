@@ -1,0 +1,12 @@
+.progressAction {
+  animation: stepAction 0.7s ease-in forwards;
+}
+
+@keyframes stepAction {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}

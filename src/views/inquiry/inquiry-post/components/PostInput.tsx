@@ -5,7 +5,7 @@ import type { FieldType, FieldValueMap } from '@/libs/utils/createGathering';
 import { cn } from '@/libs/utils/twMerge';
 import Textarea from '@/common/Textarea';
 import TextInput from '@/common/input/TextInput';
-import SelectInput from '@/common/input/SelectInput';
+import SelectInput from '@/common/input/select/SelectInput';
 
 type CommitFieldFn = <K extends FieldType>(fieldType: K, value: FieldValueMap[K]) => boolean;
 

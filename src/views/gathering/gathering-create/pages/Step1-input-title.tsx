@@ -1,9 +1,9 @@
 'use client';
 import { cn } from '@/libs/utils/twMerge';
-import { joinCategoryList } from '@/views/sign-up/data/categoryList';
+import { gatheringCategoryList } from '@/views/sign-up/data/categoryList';
 import type { CreateGatheringForm, CommitFieldFn, FieldType } from '@/libs/utils/createGathering';
 import TextInput from '@/common/input/TextInput';
-import SelectInput from '@/common/input/SelectInput';
+import SelectInput from '@/common/input/select/SelectInput';
 
 type Props = {
   form: CreateGatheringForm;
@@ -52,7 +52,7 @@ export default function Step1InputTitle({
             value={form.category}
             placeholder="카테고리를 선택해 주세요."
             error={errors.category ?? null}
-            items={joinCategoryList}
+            items={gatheringCategoryList}
             onSelect={(v) => {
               setField('category', v);
               void commitField('category', v);

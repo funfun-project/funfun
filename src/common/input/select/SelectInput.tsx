@@ -3,8 +3,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/libs/utils/twMerge';
-import CategoryList from '../CategoryList';
-import { getInputClassName } from './inputStyle';
+import CategoryList from './CategoryList';
+import { getInputClassName } from '../inputStyle';
 
 type Props = {
   id?: string;
