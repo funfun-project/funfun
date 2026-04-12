@@ -25,6 +25,9 @@ type State = {
   isAddressLoading: boolean;
   addressError: string | null;
   addressSuccess: boolean;
+  isNicknameLoading: boolean;
+  nicknameError: string | null;
+  nicknameSuccess: boolean;
 };
 
 const initialState: State = {
@@ -35,6 +38,9 @@ const initialState: State = {
   isAddressLoading: false,
   addressError: null,
   addressSuccess: false,
+  isNicknameLoading: false,
+  nicknameError: null,
+  nicknameSuccess: false,
 };
 
 type Action =
@@ -42,6 +48,7 @@ type Action =
   | { type: 'SET_FORM'; patch: Partial<SignUpForm> }
   | { type: 'SET_ERROR'; field: FieldType; message: string | null }
   | { type: 'SET_ADDRESS_STATUS'; loading: boolean; error: string | null; success: boolean }
+  | { type: 'SET_NICKNAME_STATUS'; loading: boolean; error: string | null; success: boolean }
   | { type: 'RESET' };
 
 function reducer(state: State, action: Action): State {
@@ -67,6 +74,14 @@ function reducer(state: State, action: Action): State {
         addressSuccess: action.success,
       };
 
+    case 'SET_NICKNAME_STATUS':
+      return {
+        ...state,
+        isNicknameLoading: action.loading,
+        nicknameError: action.error,
+        nicknameSuccess: action.success,
+      };
+
     case 'RESET':
       return initialState;
 
@@ -77,7 +92,17 @@ function reducer(state: State, action: Action): State {
 
 export default function SignUp() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { step, form, errors, isAddressLoading, addressError, addressSuccess } = state;
+  const {
+    step,
+    form,
+    errors,
+    isAddressLoading,
+    addressError,
+    addressSuccess,
+    isNicknameLoading,
+    nicknameError,
+    nicknameSuccess,
+  } = state;
 
   const setStep = useCallback((next: number) => dispatch({ type: 'SET_STEP', step: next }), []);
   const nextStep = useCallback(() => setStep(step + 1), [setStep, step]);
@@ -151,6 +176,30 @@ export default function SignUp() {
     [state.addressError, form.address],
   );
 
+  const resolveNickname = useCallback(
+    (nickname: string): boolean => {
+      const trimmed = nickname.trim();
+
+      if (!trimmed) {
+        dispatch({
+          type: 'SET_NICKNAME_STATUS',
+          loading: false,
+          error: '주소를 입력해주세요.',
+          success: false,
+        });
+        dispatch({ type: 'SET_FORM', patch: { nickname: '' } });
+        return false;
+      }
+
+      dispatch({ type: 'SET_NICKNAME_STATUS', loading: false, error: null, success: true });
+      dispatch({ type: 'SET_FORM', patch: { nickname: trimmed } });
+
+      console.log(trimmed !== '', state.nicknameSuccess);
+      return trimmed !== '';
+    },
+    [form.nickname],
+  );
+
   const commitField: CommitFieldFn = useCallback(
     async (fieldType, value) => {
       const msg = validationInput({ type: fieldType, value } as ValidationArg);
@@ -180,9 +229,13 @@ export default function SignUp() {
         return await resolveAddress(value as string);
       }
 
+      if (fieldType === 'nickname') {
+        return resolveNickname(value as string);
+      }
+
       return true;
     },
-    [resolveAddress],
+    [resolveAddress, resolveNickname],
   );
 
   const canNextStep = useMemo(
@@ -215,6 +268,9 @@ export default function SignUp() {
             setField={setField}
             commitField={commitField}
             nextStep={nextStep}
+            isNicknameLoading={isNicknameLoading}
+            nicknameError={nicknameError}
+            nicknameSuccess={nicknameSuccess}
           />
         )}
 

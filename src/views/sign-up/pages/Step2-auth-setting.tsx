@@ -10,10 +10,22 @@ type Props = {
   errors: Partial<Record<FieldType, string>>;
   setField: <K extends keyof SignUpForm>(field: K, value: SignUpForm[K]) => void;
   commitField: CommitFieldFn;
+  isNicknameLoading: boolean;
+  nicknameError: string | null;
+  nicknameSuccess: boolean;
   nextStep?: () => void; // 전체 퍼널의 다음 단계로 이동 (컴포넌트 교체용)
 };
 
-export default function Step2AuthSetting({ form, errors, setField, commitField, nextStep }: Props) {
+export default function Step2AuthSetting({
+  form,
+  errors,
+  setField,
+  commitField,
+  nextStep,
+  isNicknameLoading,
+  nicknameError,
+  nicknameSuccess,
+}: Props) {
   // 1: 이메일 입력, 2: 인증번호, 3: 비밀번호 설정, 4: 비밀번호 확인
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -91,10 +103,12 @@ export default function Step2AuthSetting({ form, errors, setField, commitField, 
           {/* Step 1: 이메일 (2단계부터는 비활성화된 상태로 계속 노출) */}
           <TextInput
             value={String(form.nickname ?? '')}
+            mode="nickname"
             placeholder="닉네임을 입력해 주세요."
             disabled={currentStep > 1}
             error={errors.nickname ?? null}
             onChange={(v) => setField('nickname', v)}
+            nicknameSuccess={nicknameSuccess}
           />
 
           {/* Step 2: 인증번호 */}

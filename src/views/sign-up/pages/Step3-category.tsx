@@ -108,7 +108,6 @@ export default function Step3Category({
             onChange={(v) => setField('birthday', v)}
           />
 
-          {/* Step 2: 인증번호 */}
           {currentStep >= 2 && (
             <SelectInput
               className="inputAnimation"
@@ -123,7 +122,6 @@ export default function Step3Category({
             />
           )}
 
-          {/* Step 3: 비밀번호 */}
           {currentStep >= 3 && (
             <TextInput
               mode="address"
