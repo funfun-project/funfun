@@ -1,51 +1,47 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import PopularClubList from './components/PopularClubList';
-import Splash from './components/Splash';
-import { cn } from '@/libs/utils/twMerge';
 import WriteFab from '@/common/WriteFab';
 import RecommendCardContainer from '@/common/RecommendCardContainer';
 import PlaceRecommendations from '@/common/placeRecommendations/PlaceRecommendations';
 import Tag from '@/common/Tag';
+import Image from 'next/image';
 
 export default function Home() {
-  const [showSplash, setShowSplash] = useState<null | boolean>(null);
-
-  // useEffect(() => {
-  //   const hasVisited = sessionStorage.getItem('hasVisited');
-
-  //   if (hasVisited) {
-  //     setShowSplash(false);
-  //   } else {
-  //     const timer = setTimeout(() => {
-  //       setShowSplash(false);
-  //       sessionStorage.setItem('hasVisited', 'true');
-  //     }, 1500);
-
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, []);
-
-  // splash 동작 확인
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSplash(false);
-    }, 1500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <>
-      {showSplash && <Splash />}
-      <main className={cn('relative max-w-187.5', showSplash ? 'hidden' : 'block')}>
+      <main className="relative max-w-187.5">
         <section className="mt-[86px] mb-[30px] px-[15px] md:mb-12.5">
-          <h1 className="text-body2 text-text-default md:text-h2 mb-[10px] md:mb-[15px]">title</h1>
-          <p className="text-text-support text-body4 md:text-body2 mb-[20px]">장소</p>
-          <Tag className="mb-5">태그</Tag>
-          <div className="bg-bg-input h-[300px] w-full rounded-[15px]"></div>
+          <h1 className="text-body1 text-text-default md:text-h2 mb-[10px] md:mb-[15px]">
+            미국 현대 리얼리즘 화가의 예술 여정
+          </h1>
+          <p className="text-text-support text-body3 md:text-body2 mb-[20px]">
+            서울 타워 펠리스 3층 세미나관
+          </p>
+          <Tag className="text-text-default mb-5">공연</Tag>
+          <div className="bg-bg-input relative h-[300px] w-full overflow-hidden rounded-[15px]">
+            <Image
+              src="/img/eventImg.png"
+              alt="배경 블러"
+              fill
+              className="scale-110 object-cover"
+            />
+            <div className="z-10 h-full bg-[rgba(0,0,0,.4)] backdrop-blur-[8px]" />
+
+            <div className="absolute inset-0 z-20 flex h-full items-center justify-center p-4">
+              <div className="relative z-20 flex h-full items-center justify-center py-4">
+                <Image
+                  src="/img/eventImg.png"
+                  alt="포스터"
+                  width={500}
+                  height={750}
+                  priority
+                  style={{ height: '100%', width: 'auto' }}
+                  className="object-contain drop-shadow-2xl"
+                />
+              </div>
+            </div>
+          </div>
         </section>
         <section className="mb-[40px] px-[15px]">
           <h1 className="text-h2 text-text-default mb-[20px] font-semibold md:mb-[30px]">
