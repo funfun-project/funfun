@@ -156,7 +156,7 @@ export default function StepInputProfile() {
                 id="demo-simple-select-helper"
                 value={form.gender || ""}
                 label="gender"
-                onChange={handleChange}
+                onChange={handleChange}nnpm 
                 sx={{ color: "white" }}
               >
                 <MenuItem value={"남성"}>남성</MenuItem>

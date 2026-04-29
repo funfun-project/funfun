@@ -8,7 +8,7 @@ export default function HeaderDetail({ title }: { title: string }) {
 
   return (
     <div className="flex w-full items-center justify-between">
-      <button type="button" onClick={() => router.back()} className="cursor-pointer">
+      <button type="button" onClick={() => router.push('/')} className="cursor-pointer">
         <IoIosArrowBack size={24} color="white" />
       </button>
       <h2 className="text-lg font-medium text-white">{title}</h2>
